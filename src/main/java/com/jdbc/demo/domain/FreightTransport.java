@@ -8,10 +8,7 @@ import java.util.Date;
  */
 public class FreightTransport {
 
-    private static int idCounter = 0;
-
     private int id;
-    private int clientId;
     private int loadAddressId;
     private int unloadAddressId;
     private int distance;
@@ -21,15 +18,16 @@ public class FreightTransport {
     private Date paymentDate;
     private Boolean finished;
     private String notes;
+    private Client client;
 
     public FreightTransport(){
 
     }
 
-    public FreightTransport(int clientId, int loadAddressId, int unloadAddressId, int distance, BigDecimal value, Date loadDate, Date unloadDate, Date paymentDate, Boolean finished, String notes) {
+    public FreightTransport(Client client, int loadAddressId, int unloadAddressId, int distance, BigDecimal value, Date loadDate, Date unloadDate, Date paymentDate, Boolean finished, String notes) {
         super();
-        this.id = idCounter;
-        this.clientId = clientId;
+        this.id = id;
+        this.client = client;
         this.loadAddressId = loadAddressId;
         this.unloadAddressId = unloadAddressId;
         this.distance = distance;
@@ -39,8 +37,6 @@ public class FreightTransport {
         this.paymentDate = paymentDate;
         this.finished = finished;
         this.notes = notes;
-
-        ++idCounter;
     }
 
     public int getId() {
@@ -51,12 +47,12 @@ public class FreightTransport {
         this.id = id;
     }
 
-    public int getClientId() {
-        return clientId;
+    public Client getClient() {
+        return client;
     }
 
-    public void setClientId(int clientId) {
-        this.clientId = clientId;
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     public int getLoadAddressId() {

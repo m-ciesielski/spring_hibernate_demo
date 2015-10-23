@@ -5,32 +5,28 @@ package com.jdbc.demo.domain;
  */
 public class Client {
 
-    private static int idCounter = 0;
-
     private int id;
-    private int addressId;
     private String name;
     private String NIP;
     private String bankAccountIBAN;
     private String bankAccountNRB;
     private Boolean deleted;
+    private Address address;
 
     public Client() {
 
     }
 
-    public Client(int addressId, String name, String NIP, String bankAccountIBAN,
+    public Client(int id, Address address, String name, String NIP, String bankAccountIBAN,
                   String bankAccountNRB, Boolean deleted) {
         super();
-        this.id = idCounter;
-        this.addressId = addressId;
+        this.id = id;
+        this.address = address;
         this.name = name;
         this.NIP = NIP;
         this.bankAccountIBAN = bankAccountIBAN;
         this.bankAccountNRB = bankAccountNRB;
         this.deleted = deleted;
-
-        ++idCounter;
     }
 
     public int getId() {
@@ -41,12 +37,12 @@ public class Client {
         this.id = id;
     }
 
-    public int getAddressId() {
-        return addressId;
+    public Address getAddress() {
+        return address;
     }
 
-    public void setAddressId(int addressId) {
-        this.addressId = addressId;
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     public String getName() {

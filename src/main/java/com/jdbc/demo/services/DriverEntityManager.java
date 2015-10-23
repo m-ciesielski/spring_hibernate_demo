@@ -8,7 +8,7 @@ import java.util.ArrayList;
 /**
  * Created by Mateusz on 22-Oct-15.
  */
-public class DriverEntityManager implements DriverDAO {
+public class DriverEntityManager extends EntityManager implements DriverDAO {
 
     public ArrayList<Driver> drivers;
 
@@ -22,7 +22,10 @@ public class DriverEntityManager implements DriverDAO {
 
     public Driver add(Driver driver){
         drivers.add(driver);
-        return driver;
+        if (drivers.contains(driver))
+            return driver;
+        else
+            return null;
     }
 
     public Driver get(String firstName, String lastName) {
@@ -47,5 +50,9 @@ public class DriverEntityManager implements DriverDAO {
 
     public void update(Driver driver){
         //TODO
+    }
+
+    public void clear() {
+        drivers.clear();
     }
 }

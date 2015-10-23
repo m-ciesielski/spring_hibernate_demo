@@ -5,7 +5,6 @@ package com.jdbc.demo.domain;
  */
 public class Address {
 
-    private static int idCounter = 0;
 
     private int id;
     private String town;
@@ -17,15 +16,13 @@ public class Address {
 
     }
 
-    public Address(String town, String street, String code, String houseNumber) {
+    public Address(int id, String town, String street, String code, String houseNumber) {
         super();
-        this.id = idCounter;
+        this.id = id;
         this.town = town;
         this.street = street;
         this.code = code;
         this.houseNumber = houseNumber;
-
-        ++idCounter;
     }
 
     public int getId() {

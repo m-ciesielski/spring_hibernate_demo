@@ -7,7 +7,6 @@ import java.math.BigDecimal;
  */
 public class Driver {
 
-    private static int idCounter = 0;
 
     private int id;
     private String firstName;
@@ -22,10 +21,10 @@ public class Driver {
 
     }
 
-    public Driver(String firstName, String lastName, String PESEL, BigDecimal salary,
+    public Driver(int id, String firstName, String lastName, String PESEL, BigDecimal salary,
                   BigDecimal salaryBonus, Boolean available, Boolean deleted) {
         super();
-        this.id = idCounter;
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.PESEL = PESEL;
@@ -33,8 +32,6 @@ public class Driver {
         this.salaryBonus = salaryBonus;
         this.available = available;
         this.deleted = deleted;
-
-        ++idCounter;
     }
 
     public int getId() {

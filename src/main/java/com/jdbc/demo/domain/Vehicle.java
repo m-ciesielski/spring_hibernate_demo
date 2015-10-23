@@ -5,8 +5,6 @@ import java.util.Date;
 
 public class Vehicle {
 
-    private static int idCounter=0;
-
     private int id;
     private int horsepower;
     private int engine;
@@ -22,10 +20,10 @@ public class Vehicle {
 
     }
 
-    public Vehicle(String type, int engine, Date production_date, String VIN, String brand, int horsepower,
+    public Vehicle(int id, String type, int engine, Date production_date, String VIN, String brand, int horsepower,
                    Date carReviewDate, Date carReviewExpirationDate, Boolean available) {
         super();
-        this.id = idCounter;
+        this.id = id;
         this.engine = engine;
         this.horsepower = horsepower;
         this.type = type;
@@ -35,8 +33,6 @@ public class Vehicle {
         this.carReviewDate = carReviewDate;
         this.carReviewExpirationDate = carReviewExpirationDate;
         this.available = available;
-
-        ++idCounter;
     }
 
     public int getId() {

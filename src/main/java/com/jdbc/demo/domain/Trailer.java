@@ -7,8 +7,6 @@ import java.util.Date;
  */
 public class Trailer {
 
-    private static int idCounter = 0;
-
     private int id;
     private String brand;
     private String type;
@@ -22,10 +20,10 @@ public class Trailer {
 
     }
 
-    public Trailer(String brand, String type, double loadCapacity, Date productionDate,
+    public Trailer(int id, String brand, String type, double loadCapacity, Date productionDate,
                    Date carReviewDate, Date getCarReviewExpirationDate, Boolean available) {
         super();
-        this.id = idCounter;
+        this.id = id;
         this.brand = brand;
         this.type = type;
         this.loadCapacity = loadCapacity;
@@ -33,8 +31,6 @@ public class Trailer {
         this.carReviewDate = carReviewDate;
         this.getCarReviewExpirationDate = getCarReviewExpirationDate;
         this.available = available;
-
-        ++idCounter;
     }
 
     public int getId() {
