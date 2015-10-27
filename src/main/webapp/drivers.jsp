@@ -16,7 +16,7 @@ import="com.jdbc.demo.domain.Driver"
   <%
        for (Driver driver: driverEM.getAll() ){
             out.println("<tr><td>" + driver.getId() + "</td>" + "<td>" + driver.getFirstName() + "</td>"+
-                        "<td>" + driver.getLastName() + "</td>" + "</tr>");
+                        "<td>" + driver.getLastName() + "<button type=\"submit\" method=\"post\">Click Me!</button>" + "</td>" + "</tr>");
        }
   %>
   </table>
@@ -26,6 +26,6 @@ import="com.jdbc.demo.domain.Driver"
       Imie:</td><td><input type="text" name="first-name" required/></td></tr>
       Nazwisko:</td><td><input type="text" name="last-name" required/></td></tr>
        </td><td><input type="submit" value="Submit"></td></tr>
-      </form>
+  </form>
 </body>
 </html>
