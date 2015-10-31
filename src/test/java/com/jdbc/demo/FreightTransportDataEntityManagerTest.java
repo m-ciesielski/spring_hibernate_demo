@@ -30,8 +30,8 @@ public class FreightTransportDataEntityManagerTest{
         freightTransportData.setVehicle(vehicle);
         freightTransportData.setTrailer(trailer);
         freightTransportData.setFreightTransport(freightTransport);
+        freightTransportDataEntityManager.add(freightTransportData);
 
         Assert.assertTrue(freightTransportDataEntityManager.getAll().contains(freightTransportData));
-        Assert.assertEquals(freightTransportDataEntityManager.getAll().size(), 1);
     }
 }

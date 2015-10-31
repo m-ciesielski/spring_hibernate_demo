@@ -1,6 +1,7 @@
 package com.jdbc.demo.domain;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 
 /**
  * Created by Mateusz on 23-Oct-15.
@@ -15,13 +16,14 @@ public class FreightTransportData {
     private long distance;
     private long usedFuel;
     private String notes;
+    private ArrayList<Cargo> shipment;
 
     public FreightTransportData(){
 
     }
 
-    public FreightTransportData(FreightTransport freightTransport, Driver driver, Vehicle vehicle,
-                                Trailer trailer, BigDecimal cost, long distance, long usedFuel, String notes) {
+    public FreightTransportData(FreightTransport freightTransport, Driver driver, Vehicle vehicle, Trailer trailer,
+                                BigDecimal cost, long distance, long usedFuel, String notes, ArrayList<Cargo> shipment) {
         this.freightTransport = freightTransport;
         this.driver = driver;
         this.vehicle = vehicle;
@@ -30,6 +32,7 @@ public class FreightTransportData {
         this.distance = distance;
         this.usedFuel = usedFuel;
         this.notes = notes;
+        this.shipment = shipment;
     }
 
     public FreightTransport getFreightTransport() {
@@ -94,5 +97,13 @@ public class FreightTransportData {
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    public ArrayList<Cargo> getShipment() {
+        return shipment;
+    }
+
+    public void setShipment(ArrayList<Cargo> shipment) {
+        this.shipment = shipment;
     }
 }

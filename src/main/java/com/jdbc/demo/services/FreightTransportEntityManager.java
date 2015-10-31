@@ -8,7 +8,7 @@ import java.util.ArrayList;
 /**
  * Created by Mateusz on 23-Oct-15.
  */
-public class FreightTransportEntityManager implements FreightTransportDAO{
+public class FreightTransportEntityManager extends EntityManager implements FreightTransportDAO{
 
     private ArrayList<FreightTransport> freightTransports;
 
