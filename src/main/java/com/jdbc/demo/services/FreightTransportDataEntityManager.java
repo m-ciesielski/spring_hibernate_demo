@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by Mateusz on 23-Oct-15.
  */
-public class FreightTransportDataEntityManager implements FreighTransportDataDAO {
+public class FreightTransportDataEntityManager extends EntityManager implements FreighTransportDataDAO {
 
     private ArrayList<FreightTransportData> freightTransportDatas;
 

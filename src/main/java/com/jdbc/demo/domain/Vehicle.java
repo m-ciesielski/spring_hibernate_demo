@@ -8,6 +8,7 @@ public class Vehicle {
     private int id;
     private int horsepower;
     private int engine;
+    private int mileage;
     private String type;
     private String brand;
     private String VIN;
@@ -20,12 +21,13 @@ public class Vehicle {
 
     }
 
-    public Vehicle(int id, String type, int engine, Date production_date, String VIN, String brand, int horsepower,
+    public Vehicle(int id, String type, int engine,int mileage, Date production_date, String VIN, String brand, int horsepower,
                    Date carReviewDate, Date carReviewExpirationDate, Boolean available) {
         super();
         this.id = id;
         this.engine = engine;
         this.horsepower = horsepower;
+        this.mileage = mileage;
         this.type = type;
         this.brand = brand;
         this.VIN = VIN;
@@ -113,5 +115,13 @@ public class Vehicle {
 
     public void setAvailable(Boolean available) {
         this.available = available;
+    }
+
+    public int getMileage() {
+        return mileage;
+    }
+
+    public void setMileage(int mileage) {
+        this.mileage = mileage;
     }
 }
