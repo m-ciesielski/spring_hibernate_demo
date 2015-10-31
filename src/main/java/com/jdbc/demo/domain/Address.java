@@ -11,18 +11,47 @@ public class Address {
     private String street;
     private String code;
     private String houseNumber;
+    private String country;
 
     public Address(){
 
     }
 
-    public Address(int id, String town, String street, String code, String houseNumber) {
+    public Address(int id, String town, String street, String code, String houseNumber, String country) {
         super();
         this.id = id;
         this.town = town;
         this.street = street;
         this.code = code;
         this.houseNumber = houseNumber;
+        this.country = country;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Address address = (Address) o;
+
+        if (id != address.id) return false;
+        if (!town.equals(address.town)) return false;
+        if (!street.equals(address.street)) return false;
+        if (!code.equals(address.code)) return false;
+        if (!houseNumber.equals(address.houseNumber)) return false;
+        return country.equals(address.country);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + town.hashCode();
+        result = 31 * result + street.hashCode();
+        result = 31 * result + code.hashCode();
+        result = 31 * result + houseNumber.hashCode();
+        result = 31 * result + country.hashCode();
+        return result;
     }
 
     public int getId() {
@@ -54,7 +83,7 @@ public class Address {
     }
 
     public void setCode(String code) {
-        this.code = code;
+        this.code = code.trim();
     }
 
     public String getHouseNumber() {
@@ -63,5 +92,13 @@ public class Address {
 
     public void setHouseNumber(String houseNumber) {
         this.houseNumber = houseNumber;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 }
