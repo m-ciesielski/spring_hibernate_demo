@@ -2,9 +2,11 @@ package com.jdbc.demo.services;
 
 import com.jdbc.demo.DriverDAO;
 import com.jdbc.demo.domain.Driver;
+import com.jdbc.demo.domain.FreightTransport;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Mateusz on 22-Oct-15.
@@ -17,6 +19,7 @@ public class DriverEntityManager extends EntityManager implements DriverDAO {
     private PreparedStatement clearStatement;
     private PreparedStatement getStatement;
     private PreparedStatement getAllStatement;
+    private PreparedStatement getTransportsStatement;
 
     private AddressEntityManager addressEntityManager;
 
@@ -45,6 +48,7 @@ public class DriverEntityManager extends EntityManager implements DriverDAO {
             clearStatement = connection.prepareStatement("Delete FROM Driver");
             getAllStatement = connection.prepareStatement("SELECT * FROM Driver");
             getStatement = connection.prepareStatement("SELECT * FROM Driver WHERE id_Driver = ?");
+            getTransportsStatement = connection.prepareStatement("SELECT * FROM FreightTransportDrivers WHERE id_Driver = ?");
             updateStatement = connection.prepareStatement("UPDATE Driver SET id_Address = ?, first_name = ?," +
                     " last_name = ? pesel = ?, salary = ?, salary_bonus = ?, available = ?, deleted = ? WHERE id_Driver = ?");
         } catch (SQLException sqlE) {
@@ -106,10 +110,6 @@ public class DriverEntityManager extends EntityManager implements DriverDAO {
         return driver;
     }
 
-    public Driver get(String firstName, String lastName) {
-        return null;
-    }
-
     public Driver get(int id) {
 
         Driver driver = new Driver();
@@ -135,10 +135,10 @@ public class DriverEntityManager extends EntityManager implements DriverDAO {
         return driver;
     }
 
-    public void delete(Driver driver) {
+    public void delete(int id) {
 
         try {
-            deleteStatement.setInt(1, driver.getId());
+            deleteStatement.setInt(1, id);
             deleteStatement.executeUpdate();
         } catch (SQLException sqlE) {
             sqlE.printStackTrace();
@@ -164,12 +164,23 @@ public class DriverEntityManager extends EntityManager implements DriverDAO {
         }
     }
 
-    public void clear() {
-        try {
-            clearStatement.executeUpdate();
+    public List<FreightTransport> getTransports(int id) {
+
+        ArrayList<FreightTransport> transports = new ArrayList<FreightTransport>();
+
+        try{
+            getTransportsStatement.setInt(1, id);
+
+            ResultSet rs = getTransportsStatement.executeQuery();
+            rs.next();
+
+
         }
-        catch (SQLException sqlE){
-            sqlE.printStackTrace();
+        catch (SQLException e){
+            e.printStackTrace();
+            transports = null;
         }
+
+        return transports;
     }
 }

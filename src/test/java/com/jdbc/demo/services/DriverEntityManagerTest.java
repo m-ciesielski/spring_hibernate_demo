@@ -1,9 +1,7 @@
-package com.jdbc.demo;
+package com.jdbc.demo.services;
 
 import com.jdbc.demo.domain.Address;
 import com.jdbc.demo.domain.Driver;
-import com.jdbc.demo.services.AddressEntityManager;
-import com.jdbc.demo.services.DriverEntityManager;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -41,12 +39,11 @@ public class DriverEntityManagerTest {
     @After
     public void tearDown() throws Exception {
         for (Driver testDriver: testDrivers){
-            driverEntityManager.delete(testDriver);
+            driverEntityManager.delete(testDriver.getId());
         }
         for (Address testAddress: testAddresses){
             addressEntityManager.delete(testAddress);
         }
-
     }
 
     @Test
@@ -108,7 +105,7 @@ public class DriverEntityManagerTest {
         testDrivers.add(driver1);
 
         driverEntityManager.add(driver1);
-        driverEntityManager.delete(driver1);
+        driverEntityManager.delete(driver1.getId());
         Assert.assertFalse(driverEntityManager.getAll().contains(driver1));
     }
 

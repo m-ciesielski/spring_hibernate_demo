@@ -15,7 +15,6 @@ public class VehicleEntityManager extends EntityManager implements VehicleDAO {
     private PreparedStatement updateStatement;
     private PreparedStatement createStatement;
     private PreparedStatement deleteStatement;
-    private PreparedStatement clearStatement;
     private PreparedStatement getStatement;
     private PreparedStatement getAllStatement;
 
@@ -40,7 +39,6 @@ public class VehicleEntityManager extends EntityManager implements VehicleDAO {
             createStatement = connection.prepareStatement("INSERT INTO Vehicle(brand, model, mileage," +
                     " engine, production_date, VIN, horsepower) VALUES (?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             deleteStatement = connection.prepareStatement("Delete FROM Vehicle WHERE id_Vehicle = ?");
-            clearStatement = connection.prepareStatement("Delete FROM Vehicle");
             getAllStatement = connection.prepareStatement("SELECT * FROM Vehicle");
             getStatement = connection.prepareStatement("SELECT * FROM Vehicle WHERE id_Vehicle = ?");
             updateStatement = connection.prepareStatement("UPDATE Vehicle SET brand = ?, model = ?," +

@@ -1,7 +1,8 @@
 package com.jdbc.demo.domain;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.sql.Date;
+import java.util.List;
 
 /**
  * Created by Mateusz on 22-Oct-15.
@@ -9,8 +10,8 @@ import java.util.Date;
 public class FreightTransport {
 
     private int id;
-    private int loadAddressId;
-    private int unloadAddressId;
+    private Address loadAddress;
+    private Address unloadAddress;
     private int distance;
     private BigDecimal value;
     private Date loadDate;
@@ -19,24 +20,11 @@ public class FreightTransport {
     private Boolean finished;
     private String notes;
     private Client client;
+    private List<Vehicle> vehicles;
+    private List<Driver> drivers;
 
     public FreightTransport(){
 
-    }
-
-    public FreightTransport(Client client, int loadAddressId, int unloadAddressId, int distance, BigDecimal value, Date loadDate, Date unloadDate, Date paymentDate, Boolean finished, String notes) {
-        super();
-        this.id = id;
-        this.client = client;
-        this.loadAddressId = loadAddressId;
-        this.unloadAddressId = unloadAddressId;
-        this.distance = distance;
-        this.value = value;
-        this.loadDate = loadDate;
-        this.unloadDate = unloadDate;
-        this.paymentDate = paymentDate;
-        this.finished = finished;
-        this.notes = notes;
     }
 
     public int getId() {
@@ -55,20 +43,36 @@ public class FreightTransport {
         this.client = client;
     }
 
-    public int getLoadAddressId() {
-        return loadAddressId;
+    public Address getLoadAddress() {
+        return loadAddress;
     }
 
-    public void setLoadAddressId(int loadAddressId) {
-        this.loadAddressId = loadAddressId;
+    public void setLoadAddress(Address loadAddress) {
+        this.loadAddress = loadAddress;
     }
 
-    public int getUnloadAddressId() {
-        return unloadAddressId;
+    public Address getUnloadAddress() {
+        return unloadAddress;
     }
 
-    public void setUnloadAddressId(int unloadAddressId) {
-        this.unloadAddressId = unloadAddressId;
+    public void setUnloadAddress(Address unloadAddress) {
+        this.unloadAddress = unloadAddress;
+    }
+
+    public List<Vehicle> getVehicles() {
+        return vehicles;
+    }
+
+    public void setVehicles(List<Vehicle> vehicles) {
+        this.vehicles = vehicles;
+    }
+
+    public List<Driver> getDrivers() {
+        return drivers;
+    }
+
+    public void setDrivers(List<Driver> drivers) {
+        this.drivers = drivers;
     }
 
     public int getDistance() {

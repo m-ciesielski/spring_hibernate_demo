@@ -1,6 +1,7 @@
 package com.jdbc.demo.domain;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 
 /**
  * Created by Mateusz on 22-Oct-15.
@@ -17,6 +18,7 @@ public class Driver {
     private BigDecimal salaryBonus;
     private Boolean available;
     private Boolean deleted;
+    private ArrayList<FreightTransport> transports;
 
     public Driver(){
 
@@ -139,5 +141,13 @@ public class Driver {
 
     public void setDeleted(Boolean deleted) {
         this.deleted = deleted;
+    }
+
+    public ArrayList<FreightTransport> getTransports() {
+        return transports;
+    }
+
+    public void setTransports(ArrayList<FreightTransport> transports) {
+        this.transports = transports;
     }
 }

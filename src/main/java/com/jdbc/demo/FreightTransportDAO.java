@@ -1,6 +1,8 @@
 package com.jdbc.demo;
 
+import com.jdbc.demo.domain.Driver;
 import com.jdbc.demo.domain.FreightTransport;
+import com.jdbc.demo.domain.Vehicle;
 
 import java.util.List;
 
@@ -11,8 +13,8 @@ public interface FreightTransportDAO {
     List<FreightTransport> getAll();
     FreightTransport add(FreightTransport freightTransport);
     void update(FreightTransport freightTransport);
-    void delete(FreightTransport freightTransport);
+    void delete(int id);
     FreightTransport get(int id);
-    //FreightTransport getLatestStarted();
-    //FreightTransport getLatestFinished();
+    List<Driver> getDrivers(int id);
+    List<Vehicle> getVehicles(int id);
 }

@@ -8,25 +8,48 @@ public class Client {
     private int id;
     private String name;
     private String NIP;
-    private String bankAccountIBAN;
-    private String bankAccountNRB;
-    private Boolean deleted;
+    private String bankAccountNumber;
     private Address address;
 
     public Client() {
 
     }
 
-    public Client(int id, Address address, String name, String NIP, String bankAccountIBAN,
-                  String bankAccountNRB, Boolean deleted) {
-        super();
-        this.id = id;
-        this.address = address;
-        this.name = name;
-        this.NIP = NIP;
-        this.bankAccountIBAN = bankAccountIBAN;
-        this.bankAccountNRB = bankAccountNRB;
-        this.deleted = deleted;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Client client = (Client) o;
+
+        if (id != client.id) return false;
+        if (!name.equals(client.name)) return false;
+        if (NIP != null ? !NIP.equals(client.NIP) : client.NIP != null) return false;
+        if (bankAccountNumber != null ? !bankAccountNumber.equals(client.bankAccountNumber) : client.bankAccountNumber != null)
+            return false;
+        return address.equals(client.address);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + name.hashCode();
+        result = 31 * result + (NIP != null ? NIP.hashCode() : 0);
+        result = 31 * result + (bankAccountNumber != null ? bankAccountNumber.hashCode() : 0);
+        result = 31 * result + address.hashCode();
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Client{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", NIP='" + NIP + '\'' +
+                ", bankAccountNumber='" + bankAccountNumber + '\'' +
+                ", address=" + address +
+                '}';
     }
 
     public int getId() {
@@ -61,27 +84,11 @@ public class Client {
         this.NIP = NIP;
     }
 
-    public String getBankAccountIBAN() {
-        return bankAccountIBAN;
+    public String getBankAccountNumber() {
+        return bankAccountNumber;
     }
 
-    public void setBankAccountIBAN(String bankAccountIBAN) {
-        this.bankAccountIBAN = bankAccountIBAN;
-    }
-
-    public String getBankAccountNRB() {
-        return bankAccountNRB;
-    }
-
-    public void setBankAccountNRB(String bankAccountNRB) {
-        this.bankAccountNRB = bankAccountNRB;
-    }
-
-    public Boolean getDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        this.deleted = deleted;
+    public void setBankAccountNumber(String bankAccountNumber) {
+        this.bankAccountNumber = bankAccountNumber;
     }
 }
