@@ -120,7 +120,7 @@ public class AddressEntityManager extends EntityManager implements AddressDAO {
             LOGGER.error(String.format("SQL Exception has been thrown while fetching Address %s ", address), sqlE);
             address = null;
         }
-
+        LOGGER.info(String.format("Query for Address with id: %d. returned: %s",id ,address));
         return address;
     }
 
