@@ -2,7 +2,6 @@ package com.jdbc.demo.web;
 
 import com.jdbc.demo.domain.Driver;
 import com.jdbc.demo.services.DriverEntityManager;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,33 +27,36 @@ public class DriverServlet extends HttpServlet {
 
         response.setContentType("text/html");
 
-        boolean delete = false;
-        if (request.getParameter("delete") != null && request.getParameter("delete").equals("true"))
-            delete=true;
+        boolean delete = true;
+        if (request.getParameter("delete") == null)
+            delete = false;
 
         try {
 
-            int id = Integer.parseInt(request.getParameter("id"));
-            DriverEntityManager driverEntityManager = (DriverEntityManager) getServletContext().getAttribute("driverEM");
+            DriverEntityManager driverEntityManager = new DriverEntityManager();
+            //AddressEntityManager addressEntityManager = (AddressEntityManager) getServletContext().getAttribute("addresses");
 
-            if (delete){
+
+            if (delete) {
+                int id = Integer.parseInt(request.getParameter("id").trim());
+                LOGGER.info("Deleting driver:" + driverEntityManager.get(id));
                 driverEntityManager.delete(id);
-            }
-            else{
+            } else {
                 Driver driver = new Driver();
-                driver.setId(id);
                 driver.setFirstName(request.getParameter("first-name"));
                 driver.setLastName(request.getParameter("last-name"));
+                driver.setPESEL(request.getParameter("pesel"));
+                driver.setAddress(driverEntityManager.addressEntityManager.get(Integer.parseInt(request.getParameter("address-id").trim())));
+                LOGGER.info("Adding driver:" + driver.toString());
                 driverEntityManager.add(driver);
             }
 
         } catch (Exception e) {
-            if(delete)
-                response.sendError(500, "Internal Server Error: Adding Driver failed.\n" + Arrays.toString(e.getStackTrace()));
+            if (delete)
+                response.sendError(500, String.format("Internal Server Error: Deleting Driver failed. Exception: %s \n Cause: %s \n Stacktrace: %s", e.getMessage(),e.getCause(), Arrays.toString(e.getStackTrace())));
             else
-                response.sendError(500, "Internal Server Error: Cannot get driver with id: " + request.getParameter("id") + "\n"
-                        + Arrays.toString(e.getStackTrace()));
-            return;
+                response.sendError(500, String.format("Internal Server Error: Adding Driver  failed. Exception: %s \n Cause: %s \n Stacktrace: %s",e.getMessage(), e.getCause(), Arrays.toString(e.getStackTrace())));
+            LOGGER.error(Arrays.toString(e.getStackTrace()));
         }
 
         response.setStatus(200);
@@ -74,20 +76,23 @@ public class DriverServlet extends HttpServlet {
             getAll = true;
 
         try {
-            DriverEntityManager driverEntityManager = (DriverEntityManager) getServletContext().getAttribute("driverEM");
-            if(getAll){
-                for(Driver driver: driverEntityManager.getAll())
-                    response.getWriter().write(driver.toString()+'\n');
-            }
-            else{
+            DriverEntityManager driverEntityManager = (DriverEntityManager) getServletContext().getAttribute("drivers");
+            if (getAll) {
+                for (Driver driver : driverEntityManager.getAll())
+                    response.getWriter().write(driver.toString() + '\n');
+            } else {
                 int id = Integer.parseInt(request.getParameter("id"));
                 Driver driver = driverEntityManager.get(id);
                 response.getWriter().write(driver.toString());
             }
 
         } catch (Exception e) {
-            response.sendError(500, "Internal Server Error: Cannot get driver with id: " + request.getParameter("id") + "\n"
-                    + Arrays.toString(e.getStackTrace()));
+            if (!getAll)
+                response.sendError(500, "Internal Server Error: Cannot get driver with id: " + request.getParameter("id") + "\n"
+                        + Arrays.toString(e.getStackTrace()));
+            else
+                response.sendError(500, "Internal Server Error: Cannot get drivers list\n"
+                        + Arrays.toString(e.getStackTrace()));
             return;
         }
 
