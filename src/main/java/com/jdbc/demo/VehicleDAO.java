@@ -11,7 +11,6 @@ public interface VehicleDAO {
     List<Vehicle> getAll();
     Vehicle add(Vehicle vehicle);
     Vehicle get(int id);
-    Vehicle get(String VIN);
-    Vehicle update(Vehicle vehicle);
+    void update(Vehicle vehicle);
     void delete(Vehicle vehicle);
 }

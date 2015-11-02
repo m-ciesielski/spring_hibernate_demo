@@ -1,7 +1,7 @@
 package com.jdbc.demo.domain;
 
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Vehicle {
 
@@ -35,6 +35,45 @@ public class Vehicle {
         this.carReviewDate = carReviewDate;
         this.carReviewExpirationDate = carReviewExpirationDate;
         this.available = available;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Vehicle vehicle = (Vehicle) o;
+
+        if (id != vehicle.id) return false;
+        if (horsepower != vehicle.horsepower) return false;
+        if (engine != vehicle.engine) return false;
+        if (mileage != vehicle.mileage) return false;
+        if (!type.equals(vehicle.type)) return false;
+        if (!brand.equals(vehicle.brand)) return false;
+        if (!VIN.equals(vehicle.VIN)) return false;
+        //if (!productionDate.equals(vehicle.productionDate)) return false;
+        if (carReviewDate != null ? !carReviewDate.equals(vehicle.carReviewDate) : vehicle.carReviewDate != null)
+            return false;
+        if (carReviewExpirationDate != null ? !carReviewExpirationDate.equals(vehicle.carReviewExpirationDate) : vehicle.carReviewExpirationDate != null)
+            return false;
+        return !(available != null ? !available.equals(vehicle.available) : vehicle.available != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + horsepower;
+        result = 31 * result + engine;
+        result = 31 * result + mileage;
+        result = 31 * result + type.hashCode();
+        result = 31 * result + brand.hashCode();
+        result = 31 * result + VIN.hashCode();
+        result = 31 * result + productionDate.hashCode();
+        result = 31 * result + (carReviewDate != null ? carReviewDate.hashCode() : 0);
+        result = 31 * result + (carReviewExpirationDate != null ? carReviewExpirationDate.hashCode() : 0);
+        result = 31 * result + (available != null ? available.hashCode() : 0);
+        return result;
     }
 
     public int getId() {
