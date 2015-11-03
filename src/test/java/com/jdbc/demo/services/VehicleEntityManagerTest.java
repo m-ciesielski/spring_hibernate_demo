@@ -14,12 +14,28 @@ import java.util.ArrayList;
  */
 public class VehicleEntityManagerTest {
 
-    private VehicleEntityManager vehicleEntityManager;
+    private VehicleEntityManager vehicleEntityManager= new VehicleEntityManager();
     private ArrayList<Vehicle> testVehicles = new ArrayList<Vehicle>();
 
     @Before
     public void setUp() throws Exception {
-        vehicleEntityManager = new VehicleEntityManager();
+        Vehicle vehicle1 = new Vehicle();
+        vehicle1.setBrand("Scania");
+        vehicle1.setEngine(16);
+        vehicle1.setHorsepower(300);
+        vehicle1.setType("ZX-83");
+        vehicle1.setVIN("1M8GDM9A_KP042777");
+        vehicle1.setProductionDate(new Date(System.currentTimeMillis()));
+        testVehicles.add(vehicle1);
+
+        Vehicle vehicle2 = new Vehicle();
+        vehicle2.setBrand("Scania");
+        vehicle2.setEngine(16);
+        vehicle2.setHorsepower(300);
+        vehicle2.setType("ZX-83");
+        vehicle2.setVIN("1M8GDM9A_KE042777");
+        vehicle2.setProductionDate(new Date(System.currentTimeMillis()));
+        testVehicles.add(vehicle2);
     }
 
     @After
@@ -32,25 +48,8 @@ public class VehicleEntityManagerTest {
 
     @Test
     public void getAllTest() throws Exception {
-        Vehicle vehicle1 = new Vehicle();
-        vehicle1.setBrand("Scania");
-        vehicle1.setEngine(16);
-        vehicle1.setHorsepower(300);
-        vehicle1.setType("ZX-83");
-        vehicle1.setVIN("1M8GDM9A_KP042777");
-        vehicle1.setProductionDate(new Date(System.currentTimeMillis()));
-        vehicleEntityManager.add(vehicle1);
-        testVehicles.add(vehicle1);
-
-        Vehicle vehicle2 = new Vehicle();
-        vehicle2.setBrand("Scania");
-        vehicle2.setEngine(16);
-        vehicle2.setHorsepower(300);
-        vehicle2.setType("ZX-83");
-        vehicle2.setVIN("1M8GDM9A_KE042777");
-        vehicle2.setProductionDate(new Date(System.currentTimeMillis()));
-        vehicleEntityManager.add(vehicle2);
-        testVehicles.add(vehicle2);
+        Vehicle vehicle1 = vehicleEntityManager.add(testVehicles.get(0));
+        Vehicle vehicle2 = vehicleEntityManager.add(testVehicles.get(1));
 
         Assert.assertTrue(vehicleEntityManager.getAll().contains(vehicle1));
         Assert.assertTrue(vehicleEntityManager.getAll().contains(vehicle2));
@@ -58,53 +57,45 @@ public class VehicleEntityManagerTest {
 
     @Test
     public void deleteTest() throws Exception {
-        Vehicle vehicle1 = new Vehicle();
-        vehicle1.setBrand("Scania");
-        vehicle1.setEngine(16);
-        vehicle1.setHorsepower(300);
-        vehicle1.setType("ZX-83");
-        vehicle1.setVIN("1M8GDM9A_KP042777");
-        vehicle1.setProductionDate(new Date(System.currentTimeMillis()));
-        vehicleEntityManager.add(vehicle1);
-        testVehicles.add(vehicle1);
+        Vehicle vehicle1 = vehicleEntityManager.add(testVehicles.get(0));
 
         Assert.assertTrue(vehicleEntityManager.getAll().contains(vehicle1));
 
-        vehicleEntityManager.delete(vehicle1);
+        vehicleEntityManager.delete(testVehicles.get(0));
 
         Assert.assertFalse(vehicleEntityManager.getAll().contains(vehicle1));
     }
 
     @Test
     public void addTest() throws Exception {
-        Vehicle vehicle1 = new Vehicle();
-        vehicle1.setBrand("Scania");
-        vehicle1.setEngine(16);
-        vehicle1.setHorsepower(300);
-        vehicle1.setType("ZX-83");
-        vehicle1.setVIN("1M8GDM9A_KP042777");
-        vehicle1.setProductionDate(new Date(System.currentTimeMillis()));
-        vehicleEntityManager.add(vehicle1);
-        testVehicles.add(vehicle1);
-        Assert.assertTrue(vehicleEntityManager.getAll().contains(vehicle1));
+
+        Vehicle vehicle = vehicleEntityManager.add(testVehicles.get(0));
+        Assert.assertTrue(vehicleEntityManager.getAll().contains(vehicle));
     }
 
     @Test
     public void getByIdTest() throws Exception {
-        Vehicle vehicle1 = new Vehicle();
-        vehicle1.setBrand("Scania");
-        vehicle1.setEngine(16);
-        vehicle1.setHorsepower(300);
-        vehicle1.setType("ZX-83");
-        vehicle1.setVIN("1M8GDM9A_KP042777");
-        vehicle1.setProductionDate(new Date(System.currentTimeMillis()));
-        vehicleEntityManager.add(vehicle1);
-        testVehicles.add(vehicle1);
+
+        Vehicle vehicle = vehicleEntityManager.add(testVehicles.get(0));
+
+        Assert.assertTrue(vehicleEntityManager.getAll().contains(vehicle));
+
+        Vehicle foundVehicle = vehicleEntityManager.get(vehicle.getId());
+
+        Assert.assertEquals(vehicle, foundVehicle);
+    }
+
+    @Test
+    public void testUpdate() throws Exception {
+        Vehicle vehicle1 = vehicleEntityManager.add(testVehicles.get(0));
 
         Assert.assertTrue(vehicleEntityManager.getAll().contains(vehicle1));
 
-        Vehicle foundVehicle1 = vehicleEntityManager.get(vehicle1.getId());
+        vehicle1.setBrand("QWERTY");
+        vehicleEntityManager.update(vehicle1);
+        Vehicle updatedVehicle1 = vehicleEntityManager.get(vehicle1.getId());
 
-        Assert.assertEquals(vehicle1, foundVehicle1);
+        Assert.assertEquals(vehicle1, updatedVehicle1);
+
     }
 }

@@ -54,6 +54,18 @@ public class Address {
         return result;
     }
 
+    @Override
+    public String toString() {
+        return "Address{" +
+                "id=" + id +
+                ", town='" + town + '\'' +
+                ", street='" + street + '\'' +
+                ", code='" + code + '\'' +
+                ", houseNumber='" + houseNumber + '\'' +
+                ", country='" + country + '\'' +
+                '}';
+    }
+
     public int getId() {
         return id;
     }

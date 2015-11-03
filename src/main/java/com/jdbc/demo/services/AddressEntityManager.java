@@ -42,8 +42,8 @@ public class AddressEntityManager extends EntityManager implements AddressDAO {
             clearStatement = connection.prepareStatement("Delete FROM Address");
             getAllStatement = connection.prepareStatement("SELECT * FROM Address");
             getStatement = connection.prepareStatement("SELECT * FROM Address WHERE id_Address = ?");
-            updateStatement = connection.prepareStatement("UPDATE Address SET id_Address = ?, house_number = ?," +
-                    " street = ? code = ?, country = ? WHERE id_Address = ?");
+            updateStatement = connection.prepareStatement("UPDATE Address SET house_number = ?," +
+                    " street = ?, town = ?, code = ?, country = ? WHERE id_Address = ?");
         } catch (SQLException sqlE) {
             sqlE.printStackTrace();
         }
@@ -68,6 +68,7 @@ public class AddressEntityManager extends EntityManager implements AddressDAO {
             }
         } catch (SQLException sqlE) {
             sqlE.printStackTrace();
+            addresses = null;
         }
 
         return addresses;
@@ -112,16 +113,16 @@ public class AddressEntityManager extends EntityManager implements AddressDAO {
             address.setTown(rs.getString("town"));
         } catch (SQLException sqlE) {
             sqlE.printStackTrace();
-            return null;
+            address = null;
         }
 
         return address;
     }
 
-    public void delete(Address address) {
+    public void delete(int id) {
 
         try {
-            deleteStatement.setInt(1, address.getId());
+            deleteStatement.setInt(1, id);
             deleteStatement.executeUpdate();
         } catch (SQLException sqlE) {
             sqlE.printStackTrace();
@@ -130,15 +131,14 @@ public class AddressEntityManager extends EntityManager implements AddressDAO {
 
     public void update(Address address) {
         try {
-            updateStatement.setInt(1, address.getId());
-            updateStatement.setString(2, address.getHouseNumber());
-            updateStatement.setString(3, address.getStreet());
+            updateStatement.setString(1, address.getHouseNumber());
+            updateStatement.setString(2, address.getStreet());
+            updateStatement.setString(3, address.getTown());
             updateStatement.setString(4, address.getCode());
-            updateStatement.setString(5, address.getTown());
-            updateStatement.setString(6, address.getCountry());
+            updateStatement.setString(5, address.getCountry());
 
 
-            updateStatement.setInt(7, address.getId());
+            updateStatement.setInt(6, address.getId());
             updateStatement.executeUpdate();
         } catch (SQLException sqlE) {
             sqlE.printStackTrace();

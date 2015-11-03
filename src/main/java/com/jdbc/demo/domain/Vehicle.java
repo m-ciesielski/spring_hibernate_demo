@@ -13,28 +13,10 @@ public class Vehicle {
     private String brand;
     private String VIN;
     private Date productionDate;
-    private Date carReviewDate;
-    private Date carReviewExpirationDate;
     private Boolean available;
 
     public Vehicle() {
 
-    }
-
-    public Vehicle(int id, String type, int engine,int mileage, Date production_date, String VIN, String brand, int horsepower,
-                   Date carReviewDate, Date carReviewExpirationDate, Boolean available) {
-        super();
-        this.id = id;
-        this.engine = engine;
-        this.horsepower = horsepower;
-        this.mileage = mileage;
-        this.type = type;
-        this.brand = brand;
-        this.VIN = VIN;
-        this.productionDate = production_date;
-        this.carReviewDate = carReviewDate;
-        this.carReviewExpirationDate = carReviewExpirationDate;
-        this.available = available;
     }
 
     @Override
@@ -52,10 +34,6 @@ public class Vehicle {
         if (!brand.equals(vehicle.brand)) return false;
         if (!VIN.equals(vehicle.VIN)) return false;
         //if (!productionDate.equals(vehicle.productionDate)) return false;
-        if (carReviewDate != null ? !carReviewDate.equals(vehicle.carReviewDate) : vehicle.carReviewDate != null)
-            return false;
-        if (carReviewExpirationDate != null ? !carReviewExpirationDate.equals(vehicle.carReviewExpirationDate) : vehicle.carReviewExpirationDate != null)
-            return false;
         return !(available != null ? !available.equals(vehicle.available) : vehicle.available != null);
 
     }
@@ -70,10 +48,23 @@ public class Vehicle {
         result = 31 * result + brand.hashCode();
         result = 31 * result + VIN.hashCode();
         result = 31 * result + productionDate.hashCode();
-        result = 31 * result + (carReviewDate != null ? carReviewDate.hashCode() : 0);
-        result = 31 * result + (carReviewExpirationDate != null ? carReviewExpirationDate.hashCode() : 0);
         result = 31 * result + (available != null ? available.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Vehicle{" +
+                "id=" + id +
+                ", horsepower=" + horsepower +
+                ", engine=" + engine +
+                ", mileage=" + mileage +
+                ", type='" + type + '\'' +
+                ", brand='" + brand + '\'' +
+                ", VIN='" + VIN + '\'' +
+                ", productionDate=" + productionDate +
+                ", available=" + available +
+                '}';
     }
 
     public int getId() {
@@ -130,22 +121,6 @@ public class Vehicle {
 
     public void setProductionDate(Date productionDate) {
         this.productionDate = productionDate;
-    }
-
-    public Date getCarReviewDate() {
-        return carReviewDate;
-    }
-
-    public void setCarReviewDate(Date carReviewDate) {
-        this.carReviewDate = carReviewDate;
-    }
-
-    public Date getCarReviewExpirationDate() {
-        return carReviewExpirationDate;
-    }
-
-    public void setCarReviewExpirationDate(Date carReviewExpirationDate) {
-        this.carReviewExpirationDate = carReviewExpirationDate;
     }
 
     public Boolean getAvailable() {

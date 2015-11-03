@@ -86,6 +86,7 @@ public class FreightTransportEntityManager extends EntityManager implements Frei
             }
         } catch (SQLException sqlE) {
             sqlE.printStackTrace();
+            freightTransports = null;
         }
 
         return freightTransports;

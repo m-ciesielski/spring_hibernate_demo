@@ -30,6 +30,20 @@ public class ClientEntityManagerTest {
         testAddress1.setStreet("Krzywa");
         addressEntityManager.add(testAddress1);
         testAddresses.add(testAddress1);
+
+        Client client1 = new Client();
+        client1.setName("ABC SA");
+        client1.setAddress(testAddresses.get(0));
+        client1.setNIP("1234567890");
+        client1.setBankAccountNumber("14532534634632");
+        testClients.add(client1);
+
+        Client client2 = new Client();
+        client2.setName("XYZ sp. z. o o.");
+        client2.setAddress(testAddresses.get(0));
+        client2.setNIP("1234567490");
+        client2.setBankAccountNumber("145325312334632");
+        testClients.add(client2);
     }
 
     @After
@@ -38,29 +52,18 @@ public class ClientEntityManagerTest {
             clientEntityManager.delete(testClient.getId());
         }
         for (Address testAddress : testAddresses) {
-            addressEntityManager.delete(testAddress);
+            addressEntityManager.delete(testAddress.getId());
         }
     }
 
     @Test
     public void testGetAll() throws Exception {
 
-        Client client1 = new Client();
-        client1.setName("ABC SA");
-        client1.setAddress(testAddresses.get(0));
-        client1.setNIP("1234567890");
-        client1.setBankAccountNumber("14532534634632");
-        clientEntityManager.add(client1);
-        testClients.add(client1);
+        Client client1 = clientEntityManager.add(testClients.get(0));
+        Client client2 = clientEntityManager.add(testClients.get(1));
 
-        Client client2 = new Client();
-        client2.setName("XYZ sp. z. o o.");
-        client2.setAddress(testAddresses.get(0));
-        client2.setNIP("1234567490");
-        client2.setBankAccountNumber("145325312334632");
-        clientEntityManager.add(client2);
-        testClients.add(client2);
 
+        Assert.assertTrue(clientEntityManager.getAll().size()>=2);
         Assert.assertTrue(clientEntityManager.getAll().contains(client1));
         Assert.assertTrue(clientEntityManager.getAll().contains(client2));
 
@@ -68,29 +71,14 @@ public class ClientEntityManagerTest {
 
     @Test
     public void testAdd() throws Exception {
-        Client client1 = new Client();
-        client1.setName("ABC SA");
-        client1.setAddress(testAddresses.get(0));
-        client1.setNIP("1234567890");
-        client1.setBankAccountNumber("14532534634632");
-        clientEntityManager.add(client1);
-        testClients.add(client1);
-
-        ArrayList<Client> all = (ArrayList<Client>) clientEntityManager.getAll();
-
+        Client client1 = clientEntityManager.add(testClients.get(0));
 
         Assert.assertTrue(clientEntityManager.getAll().contains(client1));
     }
 
     @Test
     public void testGetById() throws Exception {
-        Client client1 = new Client();
-        client1.setName("ABC SA");
-        client1.setAddress(testAddresses.get(0));
-        client1.setNIP("1234567890");
-        client1.setBankAccountNumber("14532534634632");
-        clientEntityManager.add(client1);
-        testClients.add(client1);
+        Client client1 = clientEntityManager.add(testClients.get(0));
 
         Client foundClient1 = clientEntityManager.get(client1.getId());
 
@@ -99,13 +87,7 @@ public class ClientEntityManagerTest {
 
     @Test
     public void testGetByName() throws Exception {
-        Client client1 = new Client();
-        client1.setName("ABC SA");
-        client1.setAddress(testAddresses.get(0));
-        client1.setNIP("1234567890");
-        client1.setBankAccountNumber("14532534634632");
-        clientEntityManager.add(client1);
-        testClients.add(client1);
+        Client client1 = clientEntityManager.add(testClients.get(0));;
 
         Client foundClient1 = clientEntityManager.get(client1.getName());
 
@@ -114,13 +96,7 @@ public class ClientEntityManagerTest {
 
     @Test
     public void testUpdate() throws Exception {
-        Client client1 = new Client();
-        client1.setName("ABC SA");
-        client1.setAddress(testAddresses.get(0));
-        client1.setNIP("1234567890");
-        client1.setBankAccountNumber("14532534634632");
-        clientEntityManager.add(client1);
-        testClients.add(client1);
+        Client client1 = clientEntityManager.add(testClients.get(0));
 
         client1.setName("DEF SA");
         clientEntityManager.update(client1);
@@ -132,13 +108,7 @@ public class ClientEntityManagerTest {
 
     @Test
     public void testDelete() throws Exception {
-        Client client1 = new Client();
-        client1.setName("ABC SA");
-        client1.setAddress(testAddresses.get(0));
-        client1.setNIP("1234567890");
-        client1.setBankAccountNumber("14532534634632");
-        clientEntityManager.add(client1);
-        testClients.add(client1);
+        Client client1 = clientEntityManager.add(testClients.get(0));
 
         Assert.assertTrue(clientEntityManager.getAll().contains(client1));
 

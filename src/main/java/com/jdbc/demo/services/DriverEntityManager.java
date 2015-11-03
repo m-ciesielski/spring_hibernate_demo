@@ -50,7 +50,7 @@ public class DriverEntityManager extends EntityManager implements DriverDAO {
             getStatement = connection.prepareStatement("SELECT * FROM Driver WHERE id_Driver = ?");
             getTransportsStatement = connection.prepareStatement("SELECT * FROM FreightTransportDrivers WHERE id_Driver = ?");
             updateStatement = connection.prepareStatement("UPDATE Driver SET id_Address = ?, first_name = ?," +
-                    " last_name = ? pesel = ?, salary = ?, salary_bonus = ?, available = ?, deleted = ? WHERE id_Driver = ?");
+                    " last_name = ?, pesel = ?, salary = ?, salary_bonus = ?, available = ?, deleted = ? WHERE id_Driver = ?");
         } catch (SQLException sqlE) {
             sqlE.printStackTrace();
         }
@@ -78,6 +78,7 @@ public class DriverEntityManager extends EntityManager implements DriverDAO {
             }
         } catch (SQLException sqlE) {
             sqlE.printStackTrace();
+            drivers = null;
         }
 
         return drivers;
@@ -129,7 +130,7 @@ public class DriverEntityManager extends EntityManager implements DriverDAO {
             driver.setDeleted(rs.getBoolean("deleted"));
         } catch (SQLException sqlE) {
             sqlE.printStackTrace();
-            return null;
+            driver = null;
         }
 
         return driver;

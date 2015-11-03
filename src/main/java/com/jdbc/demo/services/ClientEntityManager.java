@@ -73,6 +73,7 @@ public class ClientEntityManager extends EntityManager implements ClientDAO {
             }
         } catch (SQLException sqlE) {
             sqlE.printStackTrace();
+            clients = null;
         }
 
         return clients;

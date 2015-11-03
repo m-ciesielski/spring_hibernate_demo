@@ -34,35 +34,6 @@ public class DriverEntityManagerTest {
         testAddress1.setStreet("Krzywa");
         addressEntityManager.add(testAddress1);
         testAddresses.add(testAddress1);
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        for (Driver testDriver: testDrivers){
-            driverEntityManager.delete(testDriver.getId());
-        }
-        for (Address testAddress: testAddresses){
-            addressEntityManager.delete(testAddress);
-        }
-    }
-
-    @Test
-    public void addTest  () throws Exception {
-        Driver driver = new Driver();
-        driver.setAddress(testAddresses.get(0));
-        driver.setFirstName("Jerzy");
-        driver.setLastName("Banan");
-        driver.setAvailable(true);
-        driver.setDeleted(false);
-        driver.setPESEL("75100345678");
-        driverEntityManager.add(driver);
-        testDrivers.add(driver);
-
-        Assert.assertTrue(driverEntityManager.getAll().contains(driver));
-    }
-
-    @Test
-    public void getAllTest  () throws Exception {
 
         Driver driver1 = new Driver();
         driver1.setAddress(testAddresses.get(0));
@@ -71,8 +42,6 @@ public class DriverEntityManagerTest {
         driver1.setPESEL("12345678910");
         driver1.setAvailable(true);
         driver1.setDeleted(false);
-
-        driverEntityManager.add(driver1);
         testDrivers.add(driver1);
 
         Driver driver2 = new Driver();
@@ -83,11 +52,30 @@ public class DriverEntityManagerTest {
         driver2.setPESEL("12345678911");
         driver2.setAvailable(true);
         driver2.setDeleted(false);
-
-        driverEntityManager.add(driver2);
         testDrivers.add(driver2);
+    }
 
-        ArrayList<Driver> all = driverEntityManager.getAll();
+    @After
+    public void tearDown() throws Exception {
+        for (Driver testDriver: testDrivers){
+            driverEntityManager.delete(testDriver.getId());
+        }
+        for (Address testAddress: testAddresses){
+            addressEntityManager.delete(testAddress.getId());
+        }
+    }
+
+    @Test
+    public void addTest  () throws Exception {
+        Driver driver = driverEntityManager.add(testDrivers.get(0));
+
+        Assert.assertTrue(driverEntityManager.getAll().contains(driver));
+    }
+
+    @Test
+    public void getAllTest  () throws Exception {
+        Driver driver1 = driverEntityManager.add(testDrivers.get(0));
+        Driver driver2 = driverEntityManager.add(testDrivers.get(1));
 
         Assert.assertTrue(driverEntityManager.getAll().contains(driver1));
         Assert.assertTrue(driverEntityManager.getAll().contains(driver2));
@@ -95,34 +83,31 @@ public class DriverEntityManagerTest {
 
     @Test
     public void deleteTest  () throws Exception {
-        Driver driver1 = new Driver();
-        driver1.setAddress(testAddresses.get(0));
-        driver1.setFirstName("Jerzy");
-        driver1.setLastName("Banan");
-        driver1.setPESEL("84020506011");
-        driver1.setAvailable(true);
-        driver1.setDeleted(false);
-        testDrivers.add(driver1);
-
-        driverEntityManager.add(driver1);
+        Driver driver1 = driverEntityManager.add(testDrivers.get(0));
         driverEntityManager.delete(driver1.getId());
         Assert.assertFalse(driverEntityManager.getAll().contains(driver1));
     }
 
     @Test
     public void getByIdTest  () throws Exception {
-        Driver driver1 = new Driver();
-        driver1.setAddress(testAddresses.get(0));
-        driver1.setFirstName("Jerzy");
-        driver1.setLastName("Banan");
-        driver1.setAvailable(true);
-        driver1.setPESEL("84030506011");
-        driver1.setDeleted(false);
-        driverEntityManager.add(driver1);
-        testDrivers.add(driver1);
+        Driver driver1 = driverEntityManager.add(testDrivers.get(0));
 
         Driver foundDriver1 = driverEntityManager.get(driver1.getId());
         Assert.assertEquals(driver1, foundDriver1);
     }
 
+    @Test
+    public void testUpdate() throws Exception {
+        Driver driver1 = driverEntityManager.add(testDrivers.get(0));
+
+        Assert.assertTrue(driverEntityManager.getAll().contains(driver1));
+
+        driver1.setFirstName("Stefan");
+        driverEntityManager.update(driver1);
+
+        Driver updatedDriver = driverEntityManager.get(driver1.getId());
+
+        Assert.assertEquals(driver1, updatedDriver);
+
+    }
 }

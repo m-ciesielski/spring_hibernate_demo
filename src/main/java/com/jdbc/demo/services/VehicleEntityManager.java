@@ -42,7 +42,7 @@ public class VehicleEntityManager extends EntityManager implements VehicleDAO {
             getAllStatement = connection.prepareStatement("SELECT * FROM Vehicle");
             getStatement = connection.prepareStatement("SELECT * FROM Vehicle WHERE id_Vehicle = ?");
             updateStatement = connection.prepareStatement("UPDATE Vehicle SET brand = ?, model = ?," +
-                    " mileage = ? engine = ?, production_date = ?, VIN = ?, horsepower = ? WHERE id_Vehicle = ?");
+                    " mileage = ?, engine = ?, production_date = ?, VIN = ?, horsepower = ? WHERE id_Vehicle = ?");
         } catch (SQLException sqlE) {
             sqlE.printStackTrace();
         }
@@ -69,6 +69,7 @@ public class VehicleEntityManager extends EntityManager implements VehicleDAO {
             }
         } catch (SQLException sqlE) {
             sqlE.printStackTrace();
+            vehicles = null;
         }
 
         return vehicles;
@@ -85,6 +86,8 @@ public class VehicleEntityManager extends EntityManager implements VehicleDAO {
             updateStatement.setInt(7, vehicle.getHorsepower());
 
             updateStatement.setInt(8, vehicle.getId());
+
+            updateStatement.executeUpdate();
         }
         catch (SQLException e){
             e.printStackTrace();
@@ -111,6 +114,7 @@ public class VehicleEntityManager extends EntityManager implements VehicleDAO {
 
         } catch (SQLException sqlE) {
             sqlE.printStackTrace();
+            vehicle = null;
         }
 
         return vehicle;
@@ -136,7 +140,7 @@ public class VehicleEntityManager extends EntityManager implements VehicleDAO {
 
         } catch (SQLException sqlE) {
             sqlE.printStackTrace();
-            return null;
+            vehicle = null;
         }
 
         return vehicle;

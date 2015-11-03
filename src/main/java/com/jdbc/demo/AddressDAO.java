@@ -12,5 +12,5 @@ public interface AddressDAO {
     Address add(Address address);
     Address get(int id);
     void update(Address address);
-    void delete(Address address);
+    void delete(int id);
 }
