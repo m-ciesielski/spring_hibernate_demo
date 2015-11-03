@@ -25,6 +25,10 @@ public class FreightTransportEntityManager extends EntityManager implements Frei
     private PreparedStatement getAllStatement;
     private PreparedStatement getDriversStatement;
     private PreparedStatement getVehiclesStatement;
+    private PreparedStatement addDriversStatement;
+    private PreparedStatement addVehiclesStatement;
+    private PreparedStatement deleteDriversStatement;
+    private PreparedStatement deleteVehiclesStatement;
 
     public FreightTransportEntityManager() {
 
@@ -51,14 +55,18 @@ public class FreightTransportEntityManager extends EntityManager implements Frei
                 throw new SQLException("Table FreightTransport not found in database");
 
             createStatement = connection.prepareStatement("INSERT INTO FreightTransport(id_load_Address, id_unload_Address, id_Client," +
-                    " distance, load_date, unload_date, finished) VALUES (?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+                    " value, distance, load_date, unload_date, finished) VALUES (?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             deleteStatement = connection.prepareStatement("Delete FROM FreightTransport WHERE id_FreightTransport = ?");
             getAllStatement = connection.prepareStatement("SELECT * FROM FreightTransport");
             getStatement = connection.prepareStatement("SELECT * FROM FreightTransport WHERE id_FreightTransport = ?");
             getDriversStatement = connection.prepareStatement("SELECT id_Driver FROM FreightTransportDrivers WHERE id_FreightTransport = ?");
             getVehiclesStatement = connection.prepareStatement("SELECT id_Vehicle FROM FreightTransportVehicles WHERE id_FreightTransport = ?");
             updateStatement = connection.prepareStatement("UPDATE FreightTransport SET id_load_Address = ?, id_unload_Address = ?," +
-                    " id_Client = ? distance = ?, load_date = ?, unload_date = ?, finished = ? WHERE id_FreightTransport = ?");
+                    " id_Client = ?, value = ?, distance = ?, load_date = ?, unload_date = ?, finished = ? WHERE id_FreightTransport = ?");
+            addDriversStatement = connection.prepareStatement("INSERT INTO FreightTransportDrivers(id_FreightTransport, id_Driver) VALUES (?,?)");
+            addVehiclesStatement = connection.prepareStatement("INSERT INTO FreightTransportVehicles(id_FreightTransport, id_Vehicle) VALUES (?,?)");
+            deleteVehiclesStatement = connection.prepareStatement("DELETE FROM FreightTransportVehicles WHERE id_FreightTransport = ?");
+            deleteDriversStatement = connection.prepareStatement("DELETE FROM FreightTransportDrivers WHERE id_FreightTransport = ?");
         } catch (SQLException sqlE) {
             sqlE.printStackTrace();
         }
@@ -75,12 +83,14 @@ public class FreightTransportEntityManager extends EntityManager implements Frei
                 freightTransport.setId(rs.getInt("id_FreightTransport"));
                 freightTransport.setClient(clientEntityManager.get(rs.getInt("id_Client")));
                 freightTransport.setLoadAddress(addressEntityManager.get(rs.getInt("id_load_Address")));
-                freightTransport.setUnloadAddress(addressEntityManager.get(rs.getInt("id_load_Address")));
+                freightTransport.setUnloadAddress(addressEntityManager.get(rs.getInt("id_unload_Address")));
                 freightTransport.setDistance(rs.getInt("distance"));
                 freightTransport.setValue(rs.getBigDecimal("value"));
                 freightTransport.setLoadDate(rs.getDate("load_date"));
                 freightTransport.setUnloadDate(rs.getDate("unload_date"));
                 freightTransport.setFinished(rs.getBoolean("finished"));
+                freightTransport.setDrivers(getDrivers(rs.getInt("id_FreightTransport")));
+                freightTransport.setVehicles(getVehicles(rs.getInt("id_FreightTransport")));
 
                 freightTransports.add(freightTransport);
             }
@@ -99,10 +109,11 @@ public class FreightTransportEntityManager extends EntityManager implements Frei
             createStatement.setInt(1, freightTransport.getLoadAddress().getId());
             createStatement.setInt(2, freightTransport.getUnloadAddress().getId());
             createStatement.setInt(3, freightTransport.getClient().getId());
-            createStatement.setInt(4, freightTransport.getDistance());
-            createStatement.setDate(5, freightTransport.getLoadDate());
-            createStatement.setDate(6, freightTransport.getUnloadDate());
-            createStatement.setBoolean(7, freightTransport.getFinished());
+            createStatement.setBigDecimal(4, freightTransport.getValue());
+            createStatement.setInt(5, freightTransport.getDistance());
+            createStatement.setDate(6, freightTransport.getLoadDate());
+            createStatement.setDate(7, freightTransport.getUnloadDate());
+            createStatement.setBoolean(8, freightTransport.getFinished());
 
             createStatement.executeUpdate();
 
@@ -111,8 +122,23 @@ public class FreightTransportEntityManager extends EntityManager implements Frei
 
             freightTransport.setId(generatedKeys.getInt(1));
 
+            //Add FreightTransportDrivers and FreightTransportVehicles keys
+            for (Vehicle vehicle: freightTransport.getVehicles()){
+                addVehiclesStatement.setInt(1, freightTransport.getId());
+                addVehiclesStatement.setInt(2, vehicle.getId());
+
+                addVehiclesStatement.executeUpdate();
+            }
+            for (Driver driver: freightTransport.getDrivers()){
+                addDriversStatement.setInt(1, freightTransport.getId());
+                addDriversStatement.setInt(2, driver.getId());
+
+                addDriversStatement.executeUpdate();
+            }
+
         } catch (SQLException sqlE) {
             sqlE.printStackTrace();
+            System.out.println("Client id:"+freightTransport.getClient().getId());
             return null;
         }
 
@@ -125,19 +151,15 @@ public class FreightTransportEntityManager extends EntityManager implements Frei
             updateStatement.setInt(1, freightTransport.getLoadAddress().getId());
             updateStatement.setInt(2, freightTransport.getUnloadAddress().getId());
             updateStatement.setInt(3, freightTransport.getClient().getId());
-            updateStatement.setInt(4, freightTransport.getDistance());
-            updateStatement.setDate(5, freightTransport.getLoadDate());
-            updateStatement.setDate(6, freightTransport.getUnloadDate());
-            updateStatement.setBoolean(7, freightTransport.getFinished());
+            updateStatement.setBigDecimal(4, freightTransport.getValue());
+            updateStatement.setInt(5, freightTransport.getDistance());
+            updateStatement.setDate(6, freightTransport.getLoadDate());
+            updateStatement.setDate(7, freightTransport.getUnloadDate());
+            updateStatement.setBoolean(8, freightTransport.getFinished());
 
-            updateStatement.setInt(8, freightTransport.getId());
+            updateStatement.setInt(9, freightTransport.getId());
 
             updateStatement.executeUpdate();
-
-            ResultSet generatedKeys = updateStatement.getGeneratedKeys();
-            generatedKeys.next();
-
-            freightTransport.setId(generatedKeys.getInt(1));
 
         } catch (SQLException sqlE) {
             sqlE.printStackTrace();
@@ -147,8 +169,16 @@ public class FreightTransportEntityManager extends EntityManager implements Frei
 
     public void delete(int id) {
         try {
+
+            deleteDriversStatement.setInt(1, id);
+            deleteDriversStatement.executeUpdate();
+
+            deleteVehiclesStatement.setInt(1, id);
+            deleteVehiclesStatement.executeUpdate();
+
             deleteStatement.setInt(1, id);
             deleteStatement.executeUpdate();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -166,12 +196,14 @@ public class FreightTransportEntityManager extends EntityManager implements Frei
             freightTransport.setId(rs.getInt("id_FreightTransport"));
             freightTransport.setClient(clientEntityManager.get(rs.getInt("id_Client")));
             freightTransport.setLoadAddress(addressEntityManager.get(rs.getInt("id_load_Address")));
-            freightTransport.setUnloadAddress(addressEntityManager.get(rs.getInt("id_load_Address")));
+            freightTransport.setUnloadAddress(addressEntityManager.get(rs.getInt("id_unload_Address")));
             freightTransport.setDistance(rs.getInt("distance"));
             freightTransport.setValue(rs.getBigDecimal("value"));
             freightTransport.setLoadDate(rs.getDate("load_date"));
             freightTransport.setUnloadDate(rs.getDate("unload_date"));
             freightTransport.setFinished(rs.getBoolean("finished"));
+            freightTransport.setDrivers(getDrivers(rs.getInt("id_FreightTransport")));
+            freightTransport.setVehicles(getVehicles(rs.getInt("id_FreightTransport")));
 
         } catch (SQLException sqlE) {
             sqlE.printStackTrace();

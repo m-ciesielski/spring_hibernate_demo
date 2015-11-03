@@ -27,6 +27,65 @@ public class FreightTransport {
 
     }
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        FreightTransport that = (FreightTransport) o;
+
+        if (id != that.id) return false;
+        if (distance != that.distance) return false;
+        if (!loadAddress.equals(that.loadAddress)) return false;
+        if (!unloadAddress.equals(that.unloadAddress)) return false;
+        if (!value.equals(that.value)) return false;
+        if (loadDate != null ? !loadDate.equals(that.loadDate) : that.loadDate != null) return false;
+        if (unloadDate != null ? !unloadDate.equals(that.unloadDate) : that.unloadDate != null) return false;
+        if (paymentDate != null ? !paymentDate.equals(that.paymentDate) : that.paymentDate != null) return false;
+        if (finished != null ? !finished.equals(that.finished) : that.finished != null) return false;
+        if (notes != null ? !notes.equals(that.notes) : that.notes != null) return false;
+        if (!client.equals(that.client)) return false;
+        if (!(vehicles.size() == that.vehicles.size() && that.vehicles.containsAll(vehicles))) return false;
+        return (drivers.size() == that.drivers.size() && that.drivers.containsAll(drivers));
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + loadAddress.hashCode();
+        result = 31 * result + unloadAddress.hashCode();
+        result = 31 * result + distance;
+        result = 31 * result + value.hashCode();
+        result = 31 * result + (loadDate != null ? loadDate.hashCode() : 0);
+        result = 31 * result + (unloadDate != null ? unloadDate.hashCode() : 0);
+        result = 31 * result + (paymentDate != null ? paymentDate.hashCode() : 0);
+        result = 31 * result + (finished != null ? finished.hashCode() : 0);
+        result = 31 * result + (notes != null ? notes.hashCode() : 0);
+        result = 31 * result + client.hashCode();
+        result = 31 * result + (vehicles != null ? vehicles.hashCode() : 0);
+        result = 31 * result + (drivers != null ? drivers.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "FreightTransport{" +
+                "id=" + id +
+                ", loadAddress=" + loadAddress +
+                ", unloadAddress=" + unloadAddress +
+                ", distance=" + distance +
+                ", value=" + value +
+                ", loadDate=" + loadDate +
+                ", unloadDate=" + unloadDate +
+                ", paymentDate=" + paymentDate +
+                ", finished=" + finished +
+                ", notes='" + notes + '\'' +
+                ", client=" + client +
+                '}';
+    }
+
     public int getId() {
         return id;
     }

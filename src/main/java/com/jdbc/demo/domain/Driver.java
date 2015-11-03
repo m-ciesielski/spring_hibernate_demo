@@ -71,6 +71,21 @@ public class Driver {
         return result;
     }
 
+    @Override
+    public String toString() {
+        return "Driver{" +
+                "id=" + id +
+                ", address=" + address +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", PESEL='" + PESEL + '\'' +
+                ", salary=" + salary +
+                ", salaryBonus=" + salaryBonus +
+                ", available=" + available +
+                ", deleted=" + deleted +
+                '}';
+    }
+
     public int getId() {
         return id;
     }
