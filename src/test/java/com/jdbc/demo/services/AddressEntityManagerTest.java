@@ -5,6 +5,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import utils.TestModelsFactory;
 
 import java.util.ArrayList;
 
@@ -18,13 +19,7 @@ public class AddressEntityManagerTest {
 
     @Before
     public void setUp() throws Exception {
-        Address testAddress1 = new Address();
-        testAddress1.setTown("Radom");
-        testAddress1.setCode("54-543");
-        testAddress1.setCountry("Polska");
-        testAddress1.setHouseNumber("87/4");
-        testAddress1.setStreet("Dolna");
-        testAddresses.add(testAddress1);
+        testAddresses.add(TestModelsFactory.createTestAddress1());
 
         Address testAddress2 = new Address();
         testAddress2.setTown("Sosnowiec");
@@ -32,7 +27,7 @@ public class AddressEntityManagerTest {
         testAddress2.setCountry("Polska");
         testAddress2.setHouseNumber("3/4");
         testAddress2.setStreet("Agrarna");
-        testAddresses.add(testAddress2);
+        testAddresses.add(TestModelsFactory.createTestAddress2());
     }
 
     @After

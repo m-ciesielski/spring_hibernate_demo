@@ -6,6 +6,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import utils.TestModelsFactory;
 
 import java.util.ArrayList;
 
@@ -21,29 +22,9 @@ public class ClientEntityManagerTest {
 
     @Before
     public void setUp() throws Exception {
-
-        Address testAddress1 = new Address();
-        testAddress1.setTown("Gniezno");
-        testAddress1.setCode("56-763");
-        testAddress1.setCountry("Polska");
-        testAddress1.setHouseNumber("66");
-        testAddress1.setStreet("Krzywa");
-        addressEntityManager.add(testAddress1);
-        testAddresses.add(testAddress1);
-
-        Client client1 = new Client();
-        client1.setName("ABC SA");
-        client1.setAddress(testAddresses.get(0));
-        client1.setNIP("1234567890");
-        client1.setBankAccountNumber("14532534634632");
-        testClients.add(client1);
-
-        Client client2 = new Client();
-        client2.setName("XYZ sp. z. o o.");
-        client2.setAddress(testAddresses.get(0));
-        client2.setNIP("1234567490");
-        client2.setBankAccountNumber("145325312334632");
-        testClients.add(client2);
+        testAddresses.add(addressEntityManager.add(TestModelsFactory.createTestAddress1()));
+        testClients.add(TestModelsFactory.createTestClient1(testAddresses.get(0)));
+        testClients.add(TestModelsFactory.createTestClient2(testAddresses.get(0)));
     }
 
     @After

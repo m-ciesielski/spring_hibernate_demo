@@ -6,8 +6,8 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import utils.TestModelsFactory;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 
 /**
@@ -26,33 +26,9 @@ public class DriverEntityManagerTest {
     @Before
     public void setUp() throws Exception {
 
-        Address testAddress1 = new Address();
-        testAddress1.setTown("Gniezno");
-        testAddress1.setCode("56-763");
-        testAddress1.setCountry("Polska");
-        testAddress1.setHouseNumber("66");
-        testAddress1.setStreet("Krzywa");
-        addressEntityManager.add(testAddress1);
-        testAddresses.add(testAddress1);
-
-        Driver driver1 = new Driver();
-        driver1.setAddress(testAddresses.get(0));
-        driver1.setFirstName("Jerzy");
-        driver1.setLastName("Banan");
-        driver1.setPESEL("12345678910");
-        driver1.setAvailable(true);
-        driver1.setDeleted(false);
-        testDrivers.add(driver1);
-
-        Driver driver2 = new Driver();
-        driver2.setAddress(testAddresses.get(0));
-        driver2.setFirstName("Tadeusz");
-        driver2.setLastName("Czapla");
-        driver2.setSalary(new BigDecimal(3200).setScale(2, BigDecimal.ROUND_CEILING));
-        driver2.setPESEL("12345678911");
-        driver2.setAvailable(true);
-        driver2.setDeleted(false);
-        testDrivers.add(driver2);
+        testAddresses.add(addressEntityManager.add(TestModelsFactory.createTestAddress1()));
+        testDrivers.add(TestModelsFactory.createTestDriver1(testAddresses.get(0)));
+        testDrivers.add(TestModelsFactory.createTestDriver2(testAddresses.get(0)));
     }
 
     @After
