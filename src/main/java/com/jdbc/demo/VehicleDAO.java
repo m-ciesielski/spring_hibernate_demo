@@ -1,5 +1,6 @@
 package com.jdbc.demo;
 
+import com.jdbc.demo.domain.FreightTransport;
 import com.jdbc.demo.domain.Vehicle;
 
 import java.util.List;
@@ -13,4 +14,5 @@ public interface VehicleDAO {
     Vehicle get(int id);
     void update(Vehicle vehicle);
     void delete(Vehicle vehicle);
+    List<FreightTransport> getTransports(int id, FreightTransportDAO freightTransportDAO);
 }

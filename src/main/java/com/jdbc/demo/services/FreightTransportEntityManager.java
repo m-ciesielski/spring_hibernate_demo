@@ -75,8 +75,7 @@ public class FreightTransportEntityManager extends EntityManager implements Frei
     public ArrayList<FreightTransport> getAll() {
         ArrayList<FreightTransport> freightTransports = new ArrayList<FreightTransport>();
 
-        try {
-            ResultSet rs = getAllStatement.executeQuery();
+        try (ResultSet rs = getAllStatement.executeQuery()){
 
             while (rs.next()) {
                 FreightTransport freightTransport = new FreightTransport();
@@ -105,7 +104,6 @@ public class FreightTransportEntityManager extends EntityManager implements Frei
     public FreightTransport add(FreightTransport freightTransport) {
 
         try {
-
             createStatement.setInt(1, freightTransport.getLoadAddress().getId());
             createStatement.setInt(2, freightTransport.getUnloadAddress().getId());
             createStatement.setInt(3, freightTransport.getClient().getId());
@@ -117,10 +115,11 @@ public class FreightTransportEntityManager extends EntityManager implements Frei
 
             createStatement.executeUpdate();
 
-            ResultSet generatedKeys = createStatement.getGeneratedKeys();
-            generatedKeys.next();
+            try(ResultSet generatedKeys = createStatement.getGeneratedKeys()){
+                generatedKeys.next();
+                freightTransport.setId(generatedKeys.getInt(1));
+            }
 
-            freightTransport.setId(generatedKeys.getInt(1));
 
             //Add FreightTransportDrivers and FreightTransportVehicles keys
             for (Vehicle vehicle: freightTransport.getVehicles()){
@@ -190,20 +189,20 @@ public class FreightTransportEntityManager extends EntityManager implements Frei
 
         try {
             getStatement.setInt(1, id);
-            ResultSet rs = getStatement.executeQuery();
-            rs.next();
-
-            freightTransport.setId(rs.getInt("id_FreightTransport"));
-            freightTransport.setClient(clientEntityManager.get(rs.getInt("id_Client")));
-            freightTransport.setLoadAddress(addressEntityManager.get(rs.getInt("id_load_Address")));
-            freightTransport.setUnloadAddress(addressEntityManager.get(rs.getInt("id_unload_Address")));
-            freightTransport.setDistance(rs.getInt("distance"));
-            freightTransport.setValue(rs.getBigDecimal("value"));
-            freightTransport.setLoadDate(rs.getDate("load_date"));
-            freightTransport.setUnloadDate(rs.getDate("unload_date"));
-            freightTransport.setFinished(rs.getBoolean("finished"));
-            freightTransport.setDrivers(getDrivers(rs.getInt("id_FreightTransport")));
-            freightTransport.setVehicles(getVehicles(rs.getInt("id_FreightTransport")));
+            try(ResultSet rs = getStatement.executeQuery()){
+                rs.next();
+                freightTransport.setId(rs.getInt("id_FreightTransport"));
+                freightTransport.setClient(clientEntityManager.get(rs.getInt("id_Client")));
+                freightTransport.setLoadAddress(addressEntityManager.get(rs.getInt("id_load_Address")));
+                freightTransport.setUnloadAddress(addressEntityManager.get(rs.getInt("id_unload_Address")));
+                freightTransport.setDistance(rs.getInt("distance"));
+                freightTransport.setValue(rs.getBigDecimal("value"));
+                freightTransport.setLoadDate(rs.getDate("load_date"));
+                freightTransport.setUnloadDate(rs.getDate("unload_date"));
+                freightTransport.setFinished(rs.getBoolean("finished"));
+                freightTransport.setDrivers(getDrivers(rs.getInt("id_FreightTransport")));
+                freightTransport.setVehicles(getVehicles(rs.getInt("id_FreightTransport")));
+            }
 
         } catch (SQLException sqlE) {
             sqlE.printStackTrace();
@@ -219,10 +218,10 @@ public class FreightTransportEntityManager extends EntityManager implements Frei
 
         try{
             getDriversStatement.setInt(1, id);
-            ResultSet rs = getDriversStatement.executeQuery();
-
-            while(rs.next()){
-                drivers.add(driverEntityManager.get(rs.getInt("id_Driver")));
+            try(ResultSet rs = getDriversStatement.executeQuery()){
+                while(rs.next()){
+                    drivers.add(driverEntityManager.get(rs.getInt("id_Driver")));
+                }
             }
         }
         catch (SQLException e){
@@ -239,11 +238,12 @@ public class FreightTransportEntityManager extends EntityManager implements Frei
 
         try{
             getVehiclesStatement.setInt(1, id);
-            ResultSet rs = getVehiclesStatement.executeQuery();
-
-            while(rs.next()){
-                vehicles.add(vehicleEntityManager.get(rs.getInt("id_Vehicle")));
+            try(ResultSet rs = getVehiclesStatement.executeQuery()){
+                while(rs.next()){
+                    vehicles.add(vehicleEntityManager.get(rs.getInt("id_Vehicle")));
+                }
             }
+
         }
         catch (SQLException e){
             e.printStackTrace();

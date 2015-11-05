@@ -5,5 +5,5 @@ package com.jdbc.demo.services;
  */
 public abstract class EntityManager {
     protected static String connectionString =
-            "jdbc:sqlserver://eos.inf.ug.edu.pl;databaseName=mciesielski;user=mciesielski;password=224626";
+            "jdbc:sqlserver://localhost;databaseName=mciesielski;user=test_user;password=test";
 }

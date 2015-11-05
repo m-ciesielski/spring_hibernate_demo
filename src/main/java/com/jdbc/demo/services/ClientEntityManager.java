@@ -58,9 +58,7 @@ public class ClientEntityManager extends EntityManager implements ClientDAO {
     public List<Client> getAll() {
         ArrayList<Client> clients = new ArrayList<Client>();
 
-        try {
-            ResultSet rs = getAllStatement.executeQuery();
-
+        try (ResultSet rs = getAllStatement.executeQuery()){
             while (rs.next()) {
                 Client client = new Client();
                 client.setId(rs.getInt("id_Client"));
@@ -81,7 +79,6 @@ public class ClientEntityManager extends EntityManager implements ClientDAO {
 
     public Client add(Client client) {
         try {
-
             createStatement.setInt(1, client.getAddress().getId());
             createStatement.setString(2, client.getName());
             createStatement.setString(3, client.getNIP());
@@ -89,10 +86,10 @@ public class ClientEntityManager extends EntityManager implements ClientDAO {
 
             createStatement.executeUpdate();
 
-            ResultSet generatedKeys = createStatement.getGeneratedKeys();
-            generatedKeys.next();
-
-            client.setId(generatedKeys.getInt(1));
+            try(ResultSet generatedKeys = createStatement.getGeneratedKeys()){
+                generatedKeys.next();
+                client.setId(generatedKeys.getInt(1));
+            }
 
         } catch (SQLException sqlE) {
             sqlE.printStackTrace();
@@ -109,17 +106,17 @@ public class ClientEntityManager extends EntityManager implements ClientDAO {
         try {
 
             getStatement.setInt(1, id);
-            ResultSet rs = getStatement.executeQuery();
+            try(ResultSet rs = getStatement.executeQuery()){
+                while (rs.next()) {
+                    client.setId(rs.getInt("id_Client"));
+                    client.setAddress(addressEntityManager.get(rs.getInt("id_Address")));
+                    client.setName(rs.getString("name"));
+                    client.setNIP(rs.getString("NIP"));
+                    client.setBankAccountNumber(rs.getString("account_number"));
 
-            while (rs.next()) {
-
-                client.setId(rs.getInt("id_Client"));
-                client.setAddress(addressEntityManager.get(rs.getInt("id_Address")));
-                client.setName(rs.getString("name"));
-                client.setNIP(rs.getString("NIP"));
-                client.setBankAccountNumber(rs.getString("account_number"));
-
+                }
             }
+
         } catch (SQLException sqlE) {
             sqlE.printStackTrace();
             client = null;
@@ -132,19 +129,19 @@ public class ClientEntityManager extends EntityManager implements ClientDAO {
         Client client = new Client();
 
         try {
-
             getByNameStatement.setString(1, name);
-            ResultSet rs = getByNameStatement.executeQuery();
+            try(ResultSet rs = getByNameStatement.executeQuery()){
+                while (rs.next()) {
+                    client.setId(rs.getInt("id_Client"));
+                    client.setAddress(addressEntityManager.get(rs.getInt("id_Address")));
+                    client.setName(rs.getString("name"));
+                    client.setNIP(rs.getString("NIP"));
+                    client.setBankAccountNumber(rs.getString("account_number"));
 
-            while (rs.next()) {
-
-                client.setId(rs.getInt("id_Client"));
-                client.setAddress(addressEntityManager.get(rs.getInt("id_Address")));
-                client.setName(rs.getString("name"));
-                client.setNIP(rs.getString("NIP"));
-                client.setBankAccountNumber(rs.getString("account_number"));
+                }
 
             }
+
         } catch (SQLException sqlE) {
             sqlE.printStackTrace();
             client = null;
@@ -155,7 +152,6 @@ public class ClientEntityManager extends EntityManager implements ClientDAO {
 
     public void update(Client client) {
         try {
-
             updateStatement.setInt(1, client.getAddress().getId());
             updateStatement.setString(2, client.getName());
             updateStatement.setString(3, client.getNIP());

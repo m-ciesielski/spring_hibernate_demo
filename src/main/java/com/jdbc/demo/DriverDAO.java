@@ -11,5 +11,5 @@ public interface DriverDAO {
     Driver get(int id);
     void update(Driver driver);
     void delete(int id);
-    List<FreightTransport> getTransports(int id);
+    List<FreightTransport> getTransports(int id, FreightTransportDAO freightTransportDAO);
 }

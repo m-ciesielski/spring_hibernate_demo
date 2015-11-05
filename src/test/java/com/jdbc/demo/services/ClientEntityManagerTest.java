@@ -68,11 +68,11 @@ public class ClientEntityManagerTest {
 
     @Test
     public void testGetByName() throws Exception {
-        Client client1 = clientEntityManager.add(testClients.get(0));;
+        Client client1 = clientEntityManager.add(testClients.get(0));
 
         Client foundClient1 = clientEntityManager.get(client1.getName());
 
-        Assert.assertEquals(foundClient1, client1);
+        Assert.assertEquals(client1, foundClient1);
     }
 
     @Test

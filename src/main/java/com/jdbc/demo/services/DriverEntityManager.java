@@ -1,12 +1,12 @@
 package com.jdbc.demo.services;
 
 import com.jdbc.demo.DriverDAO;
+import com.jdbc.demo.FreightTransportDAO;
 import com.jdbc.demo.domain.Driver;
 import com.jdbc.demo.domain.FreightTransport;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Mateusz on 22-Oct-15.
@@ -27,6 +27,8 @@ public class DriverEntityManager extends EntityManager implements DriverDAO {
 
         try {
             addressEntityManager = new AddressEntityManager();
+            //freightTransportEntityManager = new FreightTransportEntityManager();
+
             Connection connection = DriverManager.getConnection(connectionString);
             ResultSet rs = connection.getMetaData().getTables(null, null, null,
                     null);
@@ -59,9 +61,7 @@ public class DriverEntityManager extends EntityManager implements DriverDAO {
     public ArrayList<Driver> getAll() {
         ArrayList<Driver> drivers = new ArrayList<Driver>();
 
-        try {
-            ResultSet rs = getAllStatement.executeQuery();
-
+        try (ResultSet rs = getAllStatement.executeQuery()){
             while (rs.next()) {
                 Driver driver = new Driver();
                 driver.setId(rs.getInt("id_Driver"));
@@ -76,6 +76,7 @@ public class DriverEntityManager extends EntityManager implements DriverDAO {
 
                 drivers.add(driver);
             }
+
         } catch (SQLException sqlE) {
             sqlE.printStackTrace();
             drivers = null;
@@ -98,10 +99,11 @@ public class DriverEntityManager extends EntityManager implements DriverDAO {
 
             createStatement.executeUpdate();
 
-            ResultSet generatedKeys = createStatement.getGeneratedKeys();
-            generatedKeys.next();
-
-            driver.setId(generatedKeys.getInt(1));
+            try(ResultSet generatedKeys = createStatement.getGeneratedKeys()){
+                generatedKeys.next();
+                driver.setId(generatedKeys.getInt(1));
+                generatedKeys.close();
+            }
 
         } catch (SQLException sqlE) {
             sqlE.printStackTrace();
@@ -117,17 +119,19 @@ public class DriverEntityManager extends EntityManager implements DriverDAO {
 
         try {
             getStatement.setInt(1, id);
-            ResultSet rs = getStatement.executeQuery();
-            rs.next();
-            driver.setId(rs.getInt("id_Driver"));
-            driver.setAddress(addressEntityManager.get(rs.getInt("id_Address")));
-            driver.setFirstName(rs.getString("first_name"));
-            driver.setLastName(rs.getString("last_name"));
-            driver.setPESEL(rs.getString("pesel"));
-            driver.setSalary(rs.getBigDecimal("salary"));
-            driver.setSalaryBonus(rs.getBigDecimal("salary_bonus"));
-            driver.setAvailable(rs.getBoolean("available"));
-            driver.setDeleted(rs.getBoolean("deleted"));
+            try(ResultSet rs = getStatement.executeQuery()){
+                rs.next();
+                driver.setId(rs.getInt("id_Driver"));
+                driver.setAddress(addressEntityManager.get(rs.getInt("id_Address")));
+                driver.setFirstName(rs.getString("first_name"));
+                driver.setLastName(rs.getString("last_name"));
+                driver.setPESEL(rs.getString("pesel"));
+                driver.setSalary(rs.getBigDecimal("salary"));
+                driver.setSalaryBonus(rs.getBigDecimal("salary_bonus"));
+                driver.setAvailable(rs.getBoolean("available"));
+                driver.setDeleted(rs.getBoolean("deleted"));
+            }
+
         } catch (SQLException sqlE) {
             sqlE.printStackTrace();
             driver = null;
@@ -165,17 +169,18 @@ public class DriverEntityManager extends EntityManager implements DriverDAO {
         }
     }
 
-    public List<FreightTransport> getTransports(int id) {
+    public ArrayList<FreightTransport> getTransports(int id, FreightTransportDAO freightTransportEntityManager) {
 
         ArrayList<FreightTransport> transports = new ArrayList<FreightTransport>();
 
         try{
             getTransportsStatement.setInt(1, id);
 
-            ResultSet rs = getTransportsStatement.executeQuery();
-            rs.next();
-
-
+            try(ResultSet rs = getTransportsStatement.executeQuery()){
+                while(rs.next()){
+                    transports.add(freightTransportEntityManager.get(rs.getInt("id_FreightTransport")));
+                }
+            }
         }
         catch (SQLException e){
             e.printStackTrace();

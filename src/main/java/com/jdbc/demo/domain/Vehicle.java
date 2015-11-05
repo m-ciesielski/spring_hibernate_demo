@@ -2,6 +2,7 @@ package com.jdbc.demo.domain;
 
 
 import java.sql.Date;
+import java.util.ArrayList;
 
 public class Vehicle {
 
@@ -14,6 +15,7 @@ public class Vehicle {
     private String VIN;
     private Date productionDate;
     private Boolean available;
+    private ArrayList<FreightTransport> transports;
 
     public Vehicle() {
 
@@ -33,8 +35,8 @@ public class Vehicle {
         if (!type.equals(vehicle.type)) return false;
         if (!brand.equals(vehicle.brand)) return false;
         if (!VIN.equals(vehicle.VIN)) return false;
-        //if (!productionDate.equals(vehicle.productionDate)) return false;
-        return !(available != null ? !available.equals(vehicle.available) : vehicle.available != null);
+        if (available != null ? !available.equals(vehicle.available) : vehicle.available != null) return false;
+        return ((transports == null || vehicle.transports == null) || (transports.size() == vehicle.transports.size() && vehicle.transports.containsAll(transports)));
 
     }
 
@@ -137,5 +139,13 @@ public class Vehicle {
 
     public void setMileage(int mileage) {
         this.mileage = mileage;
+    }
+
+    public ArrayList<FreightTransport> getTransports() {
+        return transports;
+    }
+
+    public void setTransports(ArrayList<FreightTransport> transports) {
+        this.transports = transports;
     }
 }

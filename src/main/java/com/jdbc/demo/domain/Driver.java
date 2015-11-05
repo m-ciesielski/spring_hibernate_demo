@@ -53,6 +53,7 @@ public class Driver {
         if (salary != null ? !salary.equals(driver.salary) : driver.salary != null) return false;
         if (salaryBonus != null ? !salaryBonus.equals(driver.salaryBonus) : driver.salaryBonus != null) return false;
         if (available != null ? !available.equals(driver.available) : driver.available != null) return false;
+        if (!((transports == null || driver.transports == null) || (transports.size() == driver.transports.size() && driver.transports.containsAll(transports))));
         return !(deleted != null ? !deleted.equals(driver.deleted) : driver.deleted != null);
 
     }

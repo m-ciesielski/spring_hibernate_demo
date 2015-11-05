@@ -52,9 +52,7 @@ public class AddressEntityManager extends EntityManager implements AddressDAO {
     public ArrayList<Address> getAll() {
         ArrayList<Address> addresses = new ArrayList<Address>();
 
-        try {
-            ResultSet rs = getAllStatement.executeQuery();
-
+        try (ResultSet rs = getAllStatement.executeQuery()){
             while (rs.next()) {
                 Address address = new Address();
                 address.setId(rs.getInt("id_Address"));
@@ -75,6 +73,7 @@ public class AddressEntityManager extends EntityManager implements AddressDAO {
     }
 
     public Address add(Address address) {
+
         try {
             createStatement.setString(1, address.getHouseNumber());
             createStatement.setString(2, address.getStreet());
@@ -84,11 +83,10 @@ public class AddressEntityManager extends EntityManager implements AddressDAO {
 
             createStatement.executeUpdate();
 
-            ResultSet generatedKeys = createStatement.getGeneratedKeys();
-            generatedKeys.next();
-
-            address.setId(generatedKeys.getInt(1));
-
+            try(ResultSet generatedKeys = createStatement.getGeneratedKeys()){
+                generatedKeys.next();
+                address.setId(generatedKeys.getInt(1));
+            }
         } catch (SQLException sqlE) {
             sqlE.printStackTrace();
             return null;
@@ -103,14 +101,17 @@ public class AddressEntityManager extends EntityManager implements AddressDAO {
 
         try {
             getStatement.setInt(1, id);
-            ResultSet rs = getStatement.executeQuery();
-            rs.next();
-            address.setId(rs.getInt("id_Address"));
-            address.setStreet(rs.getString("street"));
-            address.setHouseNumber(rs.getString("house_number"));
-            address.setCountry(rs.getString("country"));
-            address.setCode(rs.getString("code"));
-            address.setTown(rs.getString("town"));
+
+            try(ResultSet rs = getStatement.executeQuery()){
+                while (rs.next()){
+                    address.setId(rs.getInt("id_Address"));
+                    address.setStreet(rs.getString("street"));
+                    address.setHouseNumber(rs.getString("house_number"));
+                    address.setCountry(rs.getString("country"));
+                    address.setCode(rs.getString("code"));
+                    address.setTown(rs.getString("town"));
+                }
+            }
         } catch (SQLException sqlE) {
             sqlE.printStackTrace();
             address = null;
@@ -140,14 +141,6 @@ public class AddressEntityManager extends EntityManager implements AddressDAO {
 
             updateStatement.setInt(6, address.getId());
             updateStatement.executeUpdate();
-        } catch (SQLException sqlE) {
-            sqlE.printStackTrace();
-        }
-    }
-
-    public void clear() {
-        try {
-            clearStatement.executeUpdate();
         } catch (SQLException sqlE) {
             sqlE.printStackTrace();
         }

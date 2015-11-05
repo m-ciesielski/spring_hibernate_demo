@@ -22,7 +22,6 @@ public class DriverEntityManagerTest {
     private ArrayList<Driver> testDrivers = new ArrayList<Driver>();
     private ArrayList<Address> testAddresses = new ArrayList<Address>();
 
-
     @Before
     public void setUp() throws Exception {
 

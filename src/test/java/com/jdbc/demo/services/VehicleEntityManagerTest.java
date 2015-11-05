@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by mciesielski on 2015-10-23.
@@ -77,7 +78,7 @@ public class VehicleEntityManagerTest {
     public void getByIdTest() throws Exception {
 
         Vehicle vehicle = vehicleEntityManager.add(testVehicles.get(0));
-
+        List<Vehicle> all = vehicleEntityManager.getAll();
         Assert.assertTrue(vehicleEntityManager.getAll().contains(vehicle));
 
         Vehicle foundVehicle = vehicleEntityManager.get(vehicle.getId());

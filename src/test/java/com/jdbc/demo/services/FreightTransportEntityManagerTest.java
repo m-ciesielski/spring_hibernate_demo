@@ -45,9 +45,6 @@ public class FreightTransportEntityManagerTest {
         testFreightTransports.add(TestModelsFactory.createTestFreightTransport1(testClients.get(0), testDrivers, testVehicles,
                 testAddresses.get(0), testAddresses.get(1)));
 
-        testFreightTransports.add(TestModelsFactory.createTestFreightTransport1(testClients.get(1), testDrivers, testVehicles,
-                testAddresses.get(1), testAddresses.get(0)));
-        
     }
 
     @After
@@ -71,6 +68,9 @@ public class FreightTransportEntityManagerTest {
 
     @Test
     public void testGetAll() throws Exception {
+        testFreightTransports.add(TestModelsFactory.createTestFreightTransport1(testClients.get(1), testDrivers, testVehicles,
+                testAddresses.get(1), testAddresses.get(0)));
+
         FreightTransport freightTransport1 = freightTransportEntityManager.add(testFreightTransports.get(0));
         FreightTransport freightTransport2 = freightTransportEntityManager.add(testFreightTransports.get(1));
 
@@ -130,5 +130,25 @@ public class FreightTransportEntityManagerTest {
 
         Assert.assertEquals(freightTransport1.getVehicles(),
                 freightTransportEntityManager.getVehicles(freightTransport1.getId()));
+    }
+
+    //Moved here from VehiclesEntityManagerTest to reduce setUp time overhead
+    @Test
+    public void testGetVehiclesTransports() throws Exception {
+        FreightTransport freightTransport1 = freightTransportEntityManager.add(testFreightTransports.get(0));
+        Vehicle vehicle = testVehicles.get(0);
+        vehicle.setTransports(vehicleEntityManager.getTransports(vehicle.getId(), freightTransportEntityManager));
+        Assert.assertEquals(vehicle.getTransports(),
+                vehicleEntityManager.getTransports(vehicle.getId(), freightTransportEntityManager));
+    }
+
+    //Moved here from DriversEntityManagerTest to reduce setUp time overhead
+    @Test
+    public void testGetDriversTransports() throws Exception {
+        FreightTransport freightTransport1 = freightTransportEntityManager.add(testFreightTransports.get(0));
+        Driver driver = testDrivers.get(0);
+        driver.setTransports(driverEntityManager.getTransports(driver.getId(), freightTransportEntityManager));
+        Assert.assertEquals(driver.getTransports(),
+                driverEntityManager.getTransports(driver.getId(), freightTransportEntityManager));
     }
 }
