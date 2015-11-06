@@ -99,13 +99,18 @@ public class FreightTransportEntityManagerTest {
 
     @Test
     public void testDelete() throws Exception {
+        testFreightTransports.add(TestModelsFactory.createTestFreightTransport1(testClients.get(1), testDrivers, testVehicles,
+                testAddresses.get(1), testAddresses.get(0)));
+
         FreightTransport freightTransport1 = freightTransportEntityManager.add(testFreightTransports.get(0));
+        FreightTransport freightTransport2 = freightTransportEntityManager.add(testFreightTransports.get(1));
 
         Assert.assertTrue(freightTransportEntityManager.getAll().contains(freightTransport1));
 
         freightTransportEntityManager.delete(freightTransport1.getId());
 
         Assert.assertFalse(freightTransportEntityManager.getAll().contains(freightTransport1));
+        Assert.assertTrue(freightTransportEntityManager.getAll().contains(freightTransport2));
     }
 
     @Test

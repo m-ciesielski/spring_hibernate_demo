@@ -90,11 +90,12 @@ public class ClientEntityManagerTest {
     @Test
     public void testDelete() throws Exception {
         Client client1 = clientEntityManager.add(testClients.get(0));
-
+        Client client2 = clientEntityManager.add(testClients.get(1));
         Assert.assertTrue(clientEntityManager.getAll().contains(client1));
 
         clientEntityManager.delete(client1.getId());
 
         Assert.assertFalse(clientEntityManager.getAll().contains(client1));
+        Assert.assertTrue(clientEntityManager.getAll().contains(client2));
     }
 }

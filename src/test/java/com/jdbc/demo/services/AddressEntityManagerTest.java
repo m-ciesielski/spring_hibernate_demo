@@ -20,13 +20,6 @@ public class AddressEntityManagerTest {
     @Before
     public void setUp() throws Exception {
         testAddresses.add(TestModelsFactory.createTestAddress1());
-
-        Address testAddress2 = new Address();
-        testAddress2.setTown("Sosnowiec");
-        testAddress2.setCode("11-700");
-        testAddress2.setCountry("Polska");
-        testAddress2.setHouseNumber("3/4");
-        testAddress2.setStreet("Agrarna");
         testAddresses.add(TestModelsFactory.createTestAddress2());
     }
 
@@ -64,9 +57,11 @@ public class AddressEntityManagerTest {
     @Test
     public void testDelete() throws Exception {
         Address address = addressEntityManager.add(testAddresses.get(0));
+        Address address2 = addressEntityManager.add(testAddresses.get(1));
         addressEntityManager.delete(address.getId());
 
         Assert.assertFalse(addressEntityManager.getAll().contains(address));
+        Assert.assertTrue(addressEntityManager.getAll().contains(address2));
     }
 
     @Test

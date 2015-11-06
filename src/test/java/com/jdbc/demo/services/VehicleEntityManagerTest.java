@@ -59,12 +59,14 @@ public class VehicleEntityManagerTest {
     @Test
     public void deleteTest() throws Exception {
         Vehicle vehicle1 = vehicleEntityManager.add(testVehicles.get(0));
+        Vehicle vehicle2 = vehicleEntityManager.add(testVehicles.get(1));
 
         Assert.assertTrue(vehicleEntityManager.getAll().contains(vehicle1));
 
         vehicleEntityManager.delete(testVehicles.get(0));
 
         Assert.assertFalse(vehicleEntityManager.getAll().contains(vehicle1));
+        Assert.assertTrue(vehicleEntityManager.getAll().contains(vehicle2));
     }
 
     @Test

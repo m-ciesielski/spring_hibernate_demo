@@ -59,8 +59,10 @@ public class DriverEntityManagerTest {
     @Test
     public void deleteTest  () throws Exception {
         Driver driver1 = driverEntityManager.add(testDrivers.get(0));
+        Driver driver2 = driverEntityManager.add(testDrivers.get(1));
         driverEntityManager.delete(driver1.getId());
         Assert.assertFalse(driverEntityManager.getAll().contains(driver1));
+        Assert.assertTrue(driverEntityManager.getAll().contains(driver2));
     }
 
     @Test
