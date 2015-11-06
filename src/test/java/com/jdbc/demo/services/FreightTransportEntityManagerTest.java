@@ -137,7 +137,7 @@ public class FreightTransportEntityManagerTest {
     public void testGetVehiclesTransports() throws Exception {
         FreightTransport freightTransport1 = freightTransportEntityManager.add(testFreightTransports.get(0));
         Vehicle vehicle = testVehicles.get(0);
-        vehicle.setTransports(vehicleEntityManager.getTransports(vehicle.getId(), freightTransportEntityManager));
+        vehicle.setTransports(testFreightTransports);
         Assert.assertEquals(vehicle.getTransports(),
                 vehicleEntityManager.getTransports(vehicle.getId(), freightTransportEntityManager));
     }
@@ -147,7 +147,7 @@ public class FreightTransportEntityManagerTest {
     public void testGetDriversTransports() throws Exception {
         FreightTransport freightTransport1 = freightTransportEntityManager.add(testFreightTransports.get(0));
         Driver driver = testDrivers.get(0);
-        driver.setTransports(driverEntityManager.getTransports(driver.getId(), freightTransportEntityManager));
+        driver.setTransports(testFreightTransports);
         Assert.assertEquals(driver.getTransports(),
                 driverEntityManager.getTransports(driver.getId(), freightTransportEntityManager));
     }
