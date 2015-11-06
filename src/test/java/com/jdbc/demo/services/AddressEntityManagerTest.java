@@ -42,9 +42,11 @@ public class AddressEntityManagerTest {
 
     @Test
     public void testAdd() throws Exception {
+        int sizeBeforeAddition = addressEntityManager.getAll().size();
         addressEntityManager.add(testAddresses.get(0));
 
         Assert.assertTrue(addressEntityManager.getAll().contains(testAddresses.get(0)));
+        Assert.assertEquals(sizeBeforeAddition+1, addressEntityManager.getAll().size());
     }
 
     @Test

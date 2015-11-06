@@ -42,9 +42,11 @@ public class DriverEntityManagerTest {
 
     @Test
     public void addTest  () throws Exception {
+        int sizeBeforeAddition = driverEntityManager.getAll().size();
         Driver driver = driverEntityManager.add(testDrivers.get(0));
 
         Assert.assertTrue(driverEntityManager.getAll().contains(driver));
+        Assert.assertEquals(sizeBeforeAddition+1, driverEntityManager.getAll().size());
     }
 
     @Test

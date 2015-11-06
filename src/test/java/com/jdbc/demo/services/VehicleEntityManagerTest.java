@@ -71,9 +71,10 @@ public class VehicleEntityManagerTest {
 
     @Test
     public void addTest() throws Exception {
-
+        int sizeBeforeAddition = vehicleEntityManager.getAll().size();
         Vehicle vehicle = vehicleEntityManager.add(testVehicles.get(0));
         Assert.assertTrue(vehicleEntityManager.getAll().contains(vehicle));
+        Assert.assertEquals(sizeBeforeAddition+1, vehicleEntityManager.getAll().size());
     }
 
     @Test

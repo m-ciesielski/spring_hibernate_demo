@@ -52,9 +52,11 @@ public class ClientEntityManagerTest {
 
     @Test
     public void testAdd() throws Exception {
+        int sizeBeforeAddition = clientEntityManager.getAll().size();
         Client client1 = clientEntityManager.add(testClients.get(0));
 
         Assert.assertTrue(clientEntityManager.getAll().contains(client1));
+        Assert.assertEquals(sizeBeforeAddition + 1, clientEntityManager.getAll().size());
     }
 
     @Test

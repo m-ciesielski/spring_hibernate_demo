@@ -81,9 +81,11 @@ public class FreightTransportEntityManagerTest {
 
     @Test
     public void testAdd() throws Exception {
+        int sizeBeforeAddition = freightTransportEntityManager.getAll().size();
         FreightTransport freightTransport1 = freightTransportEntityManager.add(testFreightTransports.get(0));
 
         Assert.assertTrue(freightTransportEntityManager.getAll().contains(freightTransport1));
+        Assert.assertEquals(sizeBeforeAddition+1, freightTransportEntityManager.getAll().size());
     }
 
     @Test
