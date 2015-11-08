@@ -1,5 +1,6 @@
 package com.jdbc.demo.web;
 
+import com.jdbc.demo.domain.Address;
 import com.jdbc.demo.domain.Driver;
 import com.jdbc.demo.services.DriverEntityManager;
 import org.slf4j.Logger;
@@ -46,7 +47,12 @@ public class DriverServlet extends HttpServlet {
                 driver.setFirstName(request.getParameter("first-name"));
                 driver.setLastName(request.getParameter("last-name"));
                 driver.setPESEL(request.getParameter("pesel"));
-                driver.setAddress(driverEntityManager.addressEntityManager.get(Integer.parseInt(request.getParameter("address-id").trim())));
+                Address address = new Address();
+                address.setId(Integer.parseInt(request.getParameter("address-id").trim()));
+                // TODO: get available/deleted state from form
+                driver.setAvailable(true);
+                driver.setDeleted(false);
+                driver.setAddress(address);
                 LOGGER.info("Adding driver:" + driver.toString());
                 driverEntityManager.add(driver);
             }

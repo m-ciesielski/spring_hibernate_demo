@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by Mateusz on 22-Oct-15.
@@ -111,7 +112,7 @@ public class DriverEntityManager extends EntityManager implements DriverDAO {
             LOGGER.error(String.format("SQL Exception has been thrown while adding Driver %s ", driver), sqlE);
             return null;
         }
-
+        LOGGER.info(String.format("Successfully added Driver:\n %s.", driver));
         return driver;
     }
 
@@ -137,8 +138,9 @@ public class DriverEntityManager extends EntityManager implements DriverDAO {
         } catch (SQLException sqlE) {
             LOGGER.error(String.format("SQL Exception has been thrown while fetching Driver %s ", driver), sqlE);
             driver = null;
+            LOGGER.error(String.format("Failed to get Driver with id: %d. SQLException: %s",id ,sqlE.getMessage()));
         }
-
+        LOGGER.info(String.format("Query for Driver with id: %d returned:\n %s.",id, driver));
         return driver;
     }
 
@@ -150,6 +152,7 @@ public class DriverEntityManager extends EntityManager implements DriverDAO {
         } catch (SQLException sqlE) {
             LOGGER.error(String.format("SQL Exception has been thrown while deleting Driver with id %d ", id), sqlE);
         }
+        LOGGER.info(String.format("Successfully deleted Driver with id: %d.", id));
     }
 
     public void update(Driver driver) {
@@ -169,6 +172,7 @@ public class DriverEntityManager extends EntityManager implements DriverDAO {
         } catch (SQLException sqlE) {
             LOGGER.error(String.format("SQL Exception has been thrown while updating Driver %s ", driver), sqlE);
         }
+        LOGGER.info(String.format("Successfully updated Driver:\n %s.", driver));
     }
 
     public ArrayList<FreightTransport> getTransports(int id, FreightTransportDAO freightTransportEntityManager) {
@@ -188,7 +192,7 @@ public class DriverEntityManager extends EntityManager implements DriverDAO {
             LOGGER.error(String.format("SQL Exception has been thrown while getting transports for Driver with id: %d .", id), e);
             transports = null;
         }
-
+        LOGGER.info(String.format("Successfully fetched transports for Driver with id: %d.", id));
         return transports;
     }
 }

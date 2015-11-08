@@ -16,9 +16,9 @@ import="com.jdbc.demo.domain.Address"
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
 
 <SCRIPT LANGUAGE="JavaScript">
-<!-- 
+<!--
 
-// Generated at http://www.csgnetwork.com/puhtmlwincodegen.html 
+// Generated at http://www.csgnetwork.com/puhtmlwincodegen.html
 function popUp(URL) {
 day = new Date();
 id = day.getTime();
@@ -59,42 +59,7 @@ eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,lo
           </div><!--/.container-fluid -->
         </nav>
 
-  <table class="table table-hover">
-  <thead>
-      <tr>
-           <td>ID</td>
-           <td>Imie</td>
-           <td>Nazwisko</td>
-           <td>PESEL</td>
-           <td>Pensja</td>
-           <td>Premia</td>
-           <td>Adres</td>
-      </tr>
-  </thead>
-
-  <c:forEach var="driver" items="${drivers.all}">
-          <tr>
-              <td>${driver.id}</td>
-              <td>${driver.firstName}</td>
-              <td>${driver.lastName}</td>
-              <td>${driver.PESEL}</td>
-              <td>${driver.salary}</td>
-              <td>${driver.salaryBonus}</td>
-              <td>${driver.address.street} ${driver.address.houseNumber}, ${driver.address.town}, ${driver.address.country}</td>
-
-              <form name="edit_driver_form" action="driver_edit" method="post">
-                <input type="hidden" class="form-control" name="id" id="id" value="${driver.id}">
-                <td><button type=submit method=post class="btn btn-primary">Edytuj</button></td>
-              </form>
-              <form name="delete_driver_form" action="driver" method="post">
-                <input type="hidden" class="form-control" name="id" id="id" value="${driver.id}">
-                <td><button type=submit method=post name="delete" value="true" class="btn btn-danger">Usuń</button></td>
-              </form>
-          </tr>
-  </c:forEach>
-  </table>
-
-  <form name="add_driver_form" action="driver" method="post" role="form">
+  <form name="edit_driver_form" action="driver" method="post" role="form">
       <div class="form-group">
         <label for="first-name">Imie:</label>
         <input type="text" class="form-control" name="first-name" id="first-name">
@@ -118,11 +83,11 @@ eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,lo
       <div class="checkbox">
         <label><input type="checkbox" checked="true" id="available" name="available">Dostepny</label>
       </div>
-      
+
         <button type="submit" class="btn btn-default">Submit</button>
   </form>
 
-  
+
 <!-- Use the following button code for the new window -->
 
 <form>
