@@ -4,6 +4,8 @@ import com.jdbc.demo.DriverDAO;
 import com.jdbc.demo.FreightTransportDAO;
 import com.jdbc.demo.domain.Driver;
 import com.jdbc.demo.domain.FreightTransport;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -13,10 +15,11 @@ import java.util.ArrayList;
  */
 public class DriverEntityManager extends EntityManager implements DriverDAO {
 
+    private final static Logger LOGGER = LoggerFactory.getLogger(DriverEntityManager.class);
+
     private PreparedStatement updateStatement;
     private PreparedStatement createStatement;
     private PreparedStatement deleteStatement;
-    private PreparedStatement clearStatement;
     private PreparedStatement getStatement;
     private PreparedStatement getAllStatement;
     private PreparedStatement getTransportsStatement;
@@ -47,14 +50,13 @@ public class DriverEntityManager extends EntityManager implements DriverDAO {
             createStatement = connection.prepareStatement("INSERT INTO Driver(id_Address, first_name, last_name," +
                     " pesel, salary, salary_bonus, available, deleted) VALUES (?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             deleteStatement = connection.prepareStatement("Delete FROM Driver WHERE id_Driver = ?");
-            clearStatement = connection.prepareStatement("Delete FROM Driver");
             getAllStatement = connection.prepareStatement("SELECT * FROM Driver");
             getStatement = connection.prepareStatement("SELECT * FROM Driver WHERE id_Driver = ?");
             getTransportsStatement = connection.prepareStatement("SELECT * FROM FreightTransportDrivers WHERE id_Driver = ?");
             updateStatement = connection.prepareStatement("UPDATE Driver SET id_Address = ?, first_name = ?," +
                     " last_name = ?, pesel = ?, salary = ?, salary_bonus = ?, available = ?, deleted = ? WHERE id_Driver = ?");
         } catch (SQLException sqlE) {
-            sqlE.printStackTrace();
+            LOGGER.error("SQL Exception has been thrown during DriverEntityManager set up...", sqlE);
         }
     }
 
@@ -78,7 +80,7 @@ public class DriverEntityManager extends EntityManager implements DriverDAO {
             }
 
         } catch (SQLException sqlE) {
-            sqlE.printStackTrace();
+            LOGGER.error("SQL Exception has been thrown during query for Drivers...", sqlE);
             drivers = null;
         }
 
@@ -106,7 +108,7 @@ public class DriverEntityManager extends EntityManager implements DriverDAO {
             }
 
         } catch (SQLException sqlE) {
-            sqlE.printStackTrace();
+            LOGGER.error(String.format("SQL Exception has been thrown while adding Driver %s ", driver), sqlE);
             return null;
         }
 
@@ -133,7 +135,7 @@ public class DriverEntityManager extends EntityManager implements DriverDAO {
             }
 
         } catch (SQLException sqlE) {
-            sqlE.printStackTrace();
+            LOGGER.error(String.format("SQL Exception has been thrown while fetching Driver %s ", driver), sqlE);
             driver = null;
         }
 
@@ -146,7 +148,7 @@ public class DriverEntityManager extends EntityManager implements DriverDAO {
             deleteStatement.setInt(1, id);
             deleteStatement.executeUpdate();
         } catch (SQLException sqlE) {
-            sqlE.printStackTrace();
+            LOGGER.error(String.format("SQL Exception has been thrown while deleting Driver with id %d ", id), sqlE);
         }
     }
 
@@ -165,7 +167,7 @@ public class DriverEntityManager extends EntityManager implements DriverDAO {
 
             updateStatement.executeUpdate();
         } catch (SQLException sqlE) {
-            sqlE.printStackTrace();
+            LOGGER.error(String.format("SQL Exception has been thrown while updating Driver %s ", driver), sqlE);
         }
     }
 
@@ -183,7 +185,7 @@ public class DriverEntityManager extends EntityManager implements DriverDAO {
             }
         }
         catch (SQLException e){
-            e.printStackTrace();
+            LOGGER.error(String.format("SQL Exception has been thrown while getting transports for Driver with id: %d .", id), e);
             transports = null;
         }
 

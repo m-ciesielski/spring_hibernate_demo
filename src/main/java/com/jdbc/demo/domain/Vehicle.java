@@ -3,6 +3,7 @@ package com.jdbc.demo.domain;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Vehicle {
 
@@ -141,11 +142,11 @@ public class Vehicle {
         this.mileage = mileage;
     }
 
-    public ArrayList<FreightTransport> getTransports() {
+    public List<FreightTransport> getTransports() {
         return transports;
     }
 
-    public void setTransports(ArrayList<FreightTransport> transports) {
-        this.transports = transports;
+    public void setTransports(List<FreightTransport> transports) {
+        this.transports = (ArrayList<FreightTransport>)transports;
     }
 }

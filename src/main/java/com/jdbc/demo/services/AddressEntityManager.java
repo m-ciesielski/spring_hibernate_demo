@@ -2,6 +2,8 @@ package com.jdbc.demo.services;
 
 import com.jdbc.demo.AddressDAO;
 import com.jdbc.demo.domain.Address;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -10,6 +12,8 @@ import java.util.ArrayList;
  * Created by Mateusz on 31-Oct-15.
  */
 public class AddressEntityManager extends EntityManager implements AddressDAO {
+
+    private final static Logger LOGGER = LoggerFactory.getLogger(AddressEntityManager.class);
 
     private PreparedStatement updateStatement;
     private PreparedStatement createStatement;
@@ -45,7 +49,7 @@ public class AddressEntityManager extends EntityManager implements AddressDAO {
             updateStatement = connection.prepareStatement("UPDATE Address SET house_number = ?," +
                     " street = ?, town = ?, code = ?, country = ? WHERE id_Address = ?");
         } catch (SQLException sqlE) {
-            sqlE.printStackTrace();
+            LOGGER.error("SQL Exception has been thrown during AddressEntityManager set up...", sqlE);
         }
     }
 
@@ -65,7 +69,7 @@ public class AddressEntityManager extends EntityManager implements AddressDAO {
                 addresses.add(address);
             }
         } catch (SQLException sqlE) {
-            sqlE.printStackTrace();
+            LOGGER.error("SQL Exception has been thrown during query for Addresses...", sqlE);
             addresses = null;
         }
 
@@ -88,7 +92,7 @@ public class AddressEntityManager extends EntityManager implements AddressDAO {
                 address.setId(generatedKeys.getInt(1));
             }
         } catch (SQLException sqlE) {
-            sqlE.printStackTrace();
+            LOGGER.error(String.format("SQL Exception has been thrown while adding Address %s ", address), sqlE);
             return null;
         }
 
@@ -113,7 +117,7 @@ public class AddressEntityManager extends EntityManager implements AddressDAO {
                 }
             }
         } catch (SQLException sqlE) {
-            sqlE.printStackTrace();
+            LOGGER.error(String.format("SQL Exception has been thrown while fetching Address %s ", address), sqlE);
             address = null;
         }
 
@@ -126,7 +130,7 @@ public class AddressEntityManager extends EntityManager implements AddressDAO {
             deleteStatement.setInt(1, id);
             deleteStatement.executeUpdate();
         } catch (SQLException sqlE) {
-            sqlE.printStackTrace();
+            LOGGER.error(String.format("SQL Exception has been thrown while deleting Address with id %d ", id), sqlE);
         }
     }
 
@@ -142,7 +146,7 @@ public class AddressEntityManager extends EntityManager implements AddressDAO {
             updateStatement.setInt(6, address.getId());
             updateStatement.executeUpdate();
         } catch (SQLException sqlE) {
-            sqlE.printStackTrace();
+            LOGGER.error(String.format("SQL Exception has been thrown while updating Address %s ", address), sqlE);
         }
     }
 }

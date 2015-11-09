@@ -3,6 +3,8 @@ package com.jdbc.demo.services;
 import com.jdbc.demo.FreightTransportDAO;
 import com.jdbc.demo.domain.*;
 import com.jdbc.demo.domain.Driver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -17,6 +19,8 @@ public class FreightTransportEntityManager extends EntityManager implements Frei
     public DriverEntityManager driverEntityManager;
     public VehicleEntityManager vehicleEntityManager;
     public AddressEntityManager addressEntityManager;
+
+    private final static Logger LOGGER = LoggerFactory.getLogger(FreightTransportEntityManager.class);
 
     private PreparedStatement updateStatement;
     private PreparedStatement createStatement;
@@ -68,7 +72,7 @@ public class FreightTransportEntityManager extends EntityManager implements Frei
             deleteVehiclesStatement = connection.prepareStatement("DELETE FROM FreightTransportVehicles WHERE id_FreightTransport = ?");
             deleteDriversStatement = connection.prepareStatement("DELETE FROM FreightTransportDrivers WHERE id_FreightTransport = ?");
         } catch (SQLException sqlE) {
-            sqlE.printStackTrace();
+            LOGGER.error("SQL Exception has been thrown during FreightTransportEntityManager set up...", sqlE);
         }
     }
 
@@ -94,7 +98,7 @@ public class FreightTransportEntityManager extends EntityManager implements Frei
                 freightTransports.add(freightTransport);
             }
         } catch (SQLException sqlE) {
-            sqlE.printStackTrace();
+            LOGGER.error("SQL Exception has been thrown during query for FreightTransports...", sqlE);
             freightTransports = null;
         }
 
@@ -136,8 +140,7 @@ public class FreightTransportEntityManager extends EntityManager implements Frei
             }
 
         } catch (SQLException sqlE) {
-            sqlE.printStackTrace();
-            System.out.println("Client id:"+freightTransport.getClient().getId());
+            LOGGER.error(String.format("SQL Exception has been thrown while adding FreightTransport %s ", freightTransport), sqlE);
             return null;
         }
 
@@ -161,7 +164,7 @@ public class FreightTransportEntityManager extends EntityManager implements Frei
             updateStatement.executeUpdate();
 
         } catch (SQLException sqlE) {
-            sqlE.printStackTrace();
+            LOGGER.error(String.format("SQL Exception has been thrown while updating FreightTransport %s ", freightTransport), sqlE);
         }
 
     }
@@ -179,7 +182,7 @@ public class FreightTransportEntityManager extends EntityManager implements Frei
             deleteStatement.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error(String.format("SQL Exception has been thrown while deleting FreightTransport with id %d ", id), e);
         }
     }
 
@@ -205,7 +208,7 @@ public class FreightTransportEntityManager extends EntityManager implements Frei
             }
 
         } catch (SQLException sqlE) {
-            sqlE.printStackTrace();
+            LOGGER.error(String.format("SQL Exception has been thrown while fetching FreightTransport %s ", freightTransport), sqlE);
             freightTransport = null;
         }
 
@@ -225,7 +228,7 @@ public class FreightTransportEntityManager extends EntityManager implements Frei
             }
         }
         catch (SQLException e){
-            e.printStackTrace();
+            LOGGER.error(String.format("SQL Exception has been thrown while getting Drivers for FreightTransport %d ", id), e);
             drivers = null;
         }
 
@@ -246,7 +249,7 @@ public class FreightTransportEntityManager extends EntityManager implements Frei
 
         }
         catch (SQLException e){
-            e.printStackTrace();
+            LOGGER.error(String.format("SQL Exception has been thrown while getting Vehicles for FreightTransport %d ", id), e);
             vehicles = null;
         }
 

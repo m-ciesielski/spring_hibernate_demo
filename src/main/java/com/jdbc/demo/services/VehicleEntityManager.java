@@ -4,6 +4,8 @@ import com.jdbc.demo.FreightTransportDAO;
 import com.jdbc.demo.VehicleDAO;
 import com.jdbc.demo.domain.FreightTransport;
 import com.jdbc.demo.domain.Vehicle;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -13,6 +15,8 @@ import java.util.List;
  * Created by mciesielski on 2015-10-23.
  */
 public class VehicleEntityManager extends EntityManager implements VehicleDAO {
+
+    private final static Logger LOGGER = LoggerFactory.getLogger(VehicleEntityManager.class);
 
     private PreparedStatement updateStatement;
     private PreparedStatement createStatement;
@@ -48,7 +52,7 @@ public class VehicleEntityManager extends EntityManager implements VehicleDAO {
                     " mileage = ?, engine = ?, production_date = ?, VIN = ?, horsepower = ? WHERE id_Vehicle = ?");
             getTransportsStatement = connection.prepareStatement("SELECT * FROM FreightTransportVehicles WHERE id_Vehicle = ?");
         } catch (SQLException sqlE) {
-            sqlE.printStackTrace();
+            LOGGER.error("SQL Exception has been thrown during Vehicle set up...", sqlE);
         }
     }
 
@@ -70,7 +74,7 @@ public class VehicleEntityManager extends EntityManager implements VehicleDAO {
                 vehicles.add(vehicle);
             }
         } catch (SQLException sqlE) {
-            sqlE.printStackTrace();
+            LOGGER.error("SQL Exception has been thrown during query for Vehicles...", sqlE);
             vehicles = null;
         }
 
@@ -92,7 +96,7 @@ public class VehicleEntityManager extends EntityManager implements VehicleDAO {
             updateStatement.executeUpdate();
         }
         catch (SQLException e){
-            e.printStackTrace();
+            LOGGER.error(String.format("SQL Exception has been thrown while updating Vehicle %s ", vehicle), e);
         }
     }
 
@@ -114,7 +118,7 @@ public class VehicleEntityManager extends EntityManager implements VehicleDAO {
                 vehicle.setHorsepower(rs.getInt("horsepower"));
             }
         } catch (SQLException sqlE) {
-            sqlE.printStackTrace();
+            LOGGER.error(String.format("SQL Exception has been thrown while fetching Vehicle %s ", vehicle), sqlE);
             vehicle = null;
         }
 
@@ -140,7 +144,7 @@ public class VehicleEntityManager extends EntityManager implements VehicleDAO {
             }
 
         } catch (SQLException sqlE) {
-            sqlE.printStackTrace();
+            LOGGER.error(String.format("SQL Exception has been thrown while adding Vehicle %s ", vehicle), sqlE);
             vehicle = null;
         }
 
@@ -152,7 +156,7 @@ public class VehicleEntityManager extends EntityManager implements VehicleDAO {
             deleteStatement.setInt(1, vehicle.getId());
             deleteStatement.executeUpdate();
         } catch (SQLException sqlE) {
-            sqlE.printStackTrace();
+            LOGGER.error(String.format("SQL Exception has been thrown while deleting Vehicle %s ", vehicle), sqlE);
         }
     }
 
@@ -170,7 +174,7 @@ public class VehicleEntityManager extends EntityManager implements VehicleDAO {
             }
         }
         catch (SQLException e){
-            e.printStackTrace();
+            LOGGER.error(String.format("SQL Exception has been thrown while fetching Transports for Vehicle with id %d ", id), e);
             transports = null;
         }
 

@@ -2,6 +2,7 @@ package com.jdbc.demo.domain;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Mateusz on 22-Oct-15.
@@ -159,11 +160,11 @@ public class Driver {
         this.deleted = deleted;
     }
 
-    public ArrayList<FreightTransport> getTransports() {
+    public List<FreightTransport> getTransports() {
         return transports;
     }
 
-    public void setTransports(ArrayList<FreightTransport> transports) {
-        this.transports = transports;
+    public void setTransports(List<FreightTransport> transports) {
+        this.transports = (ArrayList<FreightTransport>) transports;
     }
 }

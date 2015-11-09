@@ -14,11 +14,10 @@ public class Address {
     private String country;
 
     public Address(){
-
+        
     }
 
     public Address(int id, String town, String street, String code, String houseNumber, String country) {
-        super();
         this.id = id;
         this.town = town;
         this.street = street;

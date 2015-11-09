@@ -2,6 +2,8 @@ package com.jdbc.demo.services;
 
 import com.jdbc.demo.ClientDAO;
 import com.jdbc.demo.domain.Client;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -12,12 +14,12 @@ import java.util.List;
  */
 public class ClientEntityManager extends EntityManager implements ClientDAO {
 
-    public AddressEntityManager addressEntityManager;
+    private final static Logger LOGGER = LoggerFactory.getLogger(ClientEntityManager.class);
 
+    private AddressEntityManager addressEntityManager;
     private PreparedStatement updateStatement;
     private PreparedStatement createStatement;
     private PreparedStatement deleteStatement;
-    private PreparedStatement clearStatement;
     private PreparedStatement getStatement;
     private PreparedStatement getAllStatement;
     private PreparedStatement getByNameStatement;
@@ -44,14 +46,13 @@ public class ClientEntityManager extends EntityManager implements ClientDAO {
             createStatement = connection.prepareStatement("INSERT INTO Client(id_Address, name, NIP," +
                     " account_number) VALUES (?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             deleteStatement = connection.prepareStatement("Delete FROM Client WHERE id_Client = ?");
-            clearStatement = connection.prepareStatement("Delete FROM Client");
             getAllStatement = connection.prepareStatement("SELECT * FROM Client");
             getStatement = connection.prepareStatement("SELECT * FROM Client WHERE id_Client = ?");
             getByNameStatement = connection.prepareStatement("SELECT * FROM Client WHERE name = ?");
             updateStatement = connection.prepareStatement("UPDATE Client SET id_Address = ?, name = ?," +
                     " NIP = ?, account_number = ? WHERE id_Client = ?");
         } catch (SQLException sqlE) {
-            sqlE.printStackTrace();
+            LOGGER.error("SQL Exception has been thrown during ClientEntityManager set up...", sqlE);
         }
     }
 
@@ -70,7 +71,7 @@ public class ClientEntityManager extends EntityManager implements ClientDAO {
                 clients.add(client);
             }
         } catch (SQLException sqlE) {
-            sqlE.printStackTrace();
+            LOGGER.error("SQL Exception has been thrown during query for Clients...", sqlE);
             clients = null;
         }
 
@@ -92,7 +93,7 @@ public class ClientEntityManager extends EntityManager implements ClientDAO {
             }
 
         } catch (SQLException sqlE) {
-            sqlE.printStackTrace();
+            LOGGER.error(String.format("SQL Exception has been thrown while adding Client %s ", client), sqlE);
             return null;
         }
 
@@ -118,7 +119,7 @@ public class ClientEntityManager extends EntityManager implements ClientDAO {
             }
 
         } catch (SQLException sqlE) {
-            sqlE.printStackTrace();
+            LOGGER.error(String.format("SQL Exception has been thrown while fetching Client %s by id.", client), sqlE);
             client = null;
         }
 
@@ -143,7 +144,7 @@ public class ClientEntityManager extends EntityManager implements ClientDAO {
             }
 
         } catch (SQLException sqlE) {
-            sqlE.printStackTrace();
+            LOGGER.error(String.format("SQL Exception has been thrown while fetching Client %s by name.", client), sqlE);
             client = null;
         }
 
@@ -162,7 +163,7 @@ public class ClientEntityManager extends EntityManager implements ClientDAO {
             updateStatement.executeUpdate();
 
         } catch (SQLException sqlE) {
-            sqlE.printStackTrace();
+            LOGGER.error(String.format("SQL Exception has been thrown while updating Client %s ", client), sqlE);
         }
 
     }
@@ -172,7 +173,7 @@ public class ClientEntityManager extends EntityManager implements ClientDAO {
             deleteStatement.setInt(1, id);
             deleteStatement.executeUpdate();
         } catch (SQLException sqlE) {
-            sqlE.printStackTrace();
+            LOGGER.error(String.format("SQL Exception has been thrown while deleting Client with id %d ", id), sqlE);
         }
     }
 }
