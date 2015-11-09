@@ -1,7 +1,7 @@
 package com.jdbc.demo.web;
 
-import com.jdbc.demo.domain.Address;
 import com.jdbc.demo.domain.Driver;
+import com.jdbc.demo.services.AddressEntityManager;
 import com.jdbc.demo.services.DriverEntityManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,36 +28,40 @@ public class DriverServlet extends HttpServlet {
 
         response.setContentType("text/html");
 
-        boolean delete = true;
-        if (request.getParameter("delete") == null)
-            delete = false;
+        boolean delete = (request.getParameter("delete") != null);
+        boolean update = (request.getParameter("id") != null);
+
+        Driver driver = new Driver();
 
         try {
 
             DriverEntityManager driverEntityManager = new DriverEntityManager();
-            //AddressEntityManager addressEntityManager = (AddressEntityManager) getServletContext().getAttribute("addresses");
-
+            AddressEntityManager addressEntityManager = new AddressEntityManager();
 
             if (delete) {
                 int id = Integer.parseInt(request.getParameter("id").trim());
                 LOGGER.info("Deleting driver:" + driverEntityManager.get(id));
                 driverEntityManager.delete(id);
-            } else {
-                Driver driver = new Driver();
+            }
+            else{
                 driver.setFirstName(request.getParameter("first-name"));
                 driver.setLastName(request.getParameter("last-name"));
                 driver.setPESEL(request.getParameter("pesel"));
-                Address address = new Address();
-                address.setId(Integer.parseInt(request.getParameter("address-id").trim()));
-                // TODO: get available/deleted state from form
-                driver.setAvailable(true);
+                driver.setAvailable(Boolean.parseBoolean(request.getParameter("available")));
                 driver.setDeleted(false);
-                driver.setAddress(address);
-                LOGGER.info("Adding driver:" + driver.toString());
-                driverEntityManager.add(driver);
+                driver.setAddress(addressEntityManager.get(Integer.parseInt(request.getParameter("address-id").trim())));
+                if (update){
+                    driver.setId(Integer.parseInt(request.getParameter("id").trim()));
+                    LOGGER.info("Updating driver:" + driver.toString());
+                    driverEntityManager.update(driver);
+                }else {
+                    LOGGER.info("Adding driver:" + driver.toString());
+                    driverEntityManager.add(driver);
+                }
             }
-
         } catch (Exception e) {
+            driver = null;
+
             if (delete)
                 response.sendError(500, String.format("Internal Server Error: Deleting Driver failed. Exception: %s \n Cause: %s \n Stacktrace: %s", e.getMessage(),e.getCause(), Arrays.toString(e.getStackTrace())));
             else
@@ -77,9 +81,7 @@ public class DriverServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         response.setContentType("text/html");
-        boolean getAll = false;
-        if (request.getParameter("id") == null)
-            getAll = true;
+        boolean getAll = (request.getParameter("id") == null);
 
         try {
             DriverEntityManager driverEntityManager = (DriverEntityManager) getServletContext().getAttribute("drivers");

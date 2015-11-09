@@ -11,21 +11,31 @@ import="com.jdbc.demo.domain.Address"
 <head>
 <title>Drivers</title>
 <html>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
 
+
 <SCRIPT LANGUAGE="JavaScript">
-<!-- 
+$(document).ready(function () {
+    $(".edit_button").on("click", function () {
+        //get row id
+        var $this = $(this).closest('tr').children();
+        
+        var rowid = $this.eq(0).text();
+        $("#editRow").text(rowid);
+        console.log(rowid)
 
-// Generated at http://www.csgnetwork.com/puhtmlwincodegen.html 
-function popUp(URL) {
-day = new Date();
-id = day.getTime();
-eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=0,width=300,height=200,left = 533,top = 284');");
-}
+        $("#popupEdit").alert("open");
+    });
 
-// -->
+    $(".popupbutton").on("click", function () {
+        $("#popupEdit").alert("close");
+    });
+
+});
 </script>
 
 </head>
@@ -33,6 +43,26 @@ eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,lo
 <body>
 <jsp:useBean id="drivers" class="com.jdbc.demo.services.DriverEntityManager" scope="application" />
 <jsp:useBean id="addresses" class="com.jdbc.demo.services.AddressEntityManager" scope="application" />
+
+ <div data-role="popup" id="popupEdit" data-theme="a" class="ui-corner-all" data-dismissible="false">
+        <div class="ui-content">
+            <p>You are editing the row with ID: <strong id="editRow"></strong>
+            </p>
+            <hr />
+            <label for="txtID">ID:</label>
+            <input type="text" name="txtID" id="txtID" value="" />
+            <label for="txtName">Name:</label>
+            <input type="text" name="txtName" id="txtName" value="" />
+            <fieldset class="ui-grid-a">
+                <div class="ui-block-a">
+                    <input type="button" value="OK" data-theme="b" class="popupbutton" />
+                </div>
+                <div class="ui-block-b">
+                    <input type="button" value="Cancel" data-theme="a" class="popupbutton" />
+                </div>
+            </fieldset>
+        </div>
+  </div>
 
 <!-- Static navbar -->
         <nav class="navbar navbar-default">
@@ -59,7 +89,7 @@ eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,lo
           </div><!--/.container-fluid -->
         </nav>
 
-  <table class="table table-hover">
+  <table class="table table-hover" id="drivers_table">
   <thead>
       <tr>
            <td>ID</td>
@@ -82,10 +112,7 @@ eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,lo
               <td>${driver.salaryBonus}</td>
               <td>${driver.address.street} ${driver.address.houseNumber}, ${driver.address.town}, ${driver.address.country}</td>
 
-              <form name="edit_driver_form" action="driver_edit" method="post">
-                <input type="hidden" class="form-control" name="id" id="id" value="${driver.id}">
-                <td><button type=submit method=post class="btn btn-primary">Edytuj</button></td>
-              </form>
+                <td><button class="btn btn-primary edit_button">Edytuj</button></td>
               <form name="delete_driver_form" action="driver" method="post">
                 <input type="hidden" class="form-control" name="id" id="id" value="${driver.id}">
                 <td><button type=submit method=post name="delete" value="true" class="btn btn-danger">Usuń</button></td>

@@ -10,8 +10,13 @@
     <display-name>Archetype Created Web Application</display-name>
 
     <context-param>
-        <param-name>driverEM</param-name>
+        <param-name>drivers</param-name>
         <param-value>com.jdbc.demo.services.DriverEntityManager</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>addresses</param-name>
+        <param-value>com.jdbc.demo.services.AddressEntityManager</param-value>
     </context-param>
 
     <servlet>

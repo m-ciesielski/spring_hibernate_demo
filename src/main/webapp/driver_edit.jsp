@@ -15,19 +15,6 @@ import="com.jdbc.demo.domain.Address"
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
 
-<SCRIPT LANGUAGE="JavaScript">
-<!--
-
-// Generated at http://www.csgnetwork.com/puhtmlwincodegen.html
-function popUp(URL) {
-day = new Date();
-id = day.getTime();
-eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=0,width=300,height=200,left = 533,top = 284');");
-}
-
-// -->
-</script>
-
 </head>
 
 <body>
@@ -87,13 +74,5 @@ eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,lo
         <button type="submit" class="btn btn-default">Submit</button>
   </form>
 
-
-<!-- Use the following button code for the new window -->
-
-<form>
-<input type=button value="Open the Popup Window" onClick="javascript:popUp('testfile.html')">
-</form>
-
-<!-- Generated at http://www.csgnetwork.com/puhtmlwincodegen.html -->
 </body>
 </html>
