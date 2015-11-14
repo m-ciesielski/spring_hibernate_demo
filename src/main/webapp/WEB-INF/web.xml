@@ -20,12 +20,21 @@
     </context-param>
 
     <servlet>
-        <servlet-name>DriverServlet</servlet-name>
-        <servlet-class>com.jdbc.demo.web.DriverServlet</servlet-class>
-    </servlet>
+    <servlet-name>DriverServlet</servlet-name>
+    <servlet-class>com.jdbc.demo.web.DriverServlet</servlet-class>
+</servlet>
     <servlet-mapping>
         <servlet-name>DriverServlet</servlet-name>
         <url-pattern>/driver</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>VehicleServlet</servlet-name>
+        <servlet-class>com.jdbc.demo.web.VehicleServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>VehicleServlet</servlet-name>
+        <url-pattern>/vehicles</url-pattern>
     </servlet-mapping>
 
 </web-app>

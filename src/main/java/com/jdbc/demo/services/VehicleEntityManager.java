@@ -160,6 +160,15 @@ public class VehicleEntityManager extends EntityManager implements VehicleDAO {
         }
     }
 
+    public void delete(int id) {
+        try {
+            deleteStatement.setInt(1, id);
+            deleteStatement.executeUpdate();
+        } catch (SQLException sqlE) {
+            sqlE.printStackTrace();
+        }
+    }
+
     public ArrayList<FreightTransport> getTransports(int id, FreightTransportDAO freightTransportDAO) {
 
         ArrayList<FreightTransport> transports = new ArrayList<FreightTransport>();
