@@ -4,37 +4,121 @@ pageEncoding="UTF-8"
 import="com.jdbc.demo.domain.Vehicle"
 %>
 
-
+<!DOCTYPE html>
 <html>
 
 <head>
-<title>Drivers</title>
-<html>
+<meta charset="UTF-8">
+<title>Pojazdy</title>
 
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" crossorigin="anonymous">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" crossorigin="anonymous"></script>
 
 
-<SCRIPT LANGUAGE="JavaScript">
-$(document).ready(function () {
-    $(".edit_button").on("click", function () {
-        //get row id
+<script>
+$(function() {
+    var dialog, form,
+
+      brand = $( "#vehicle-brand" ),
+      type = $( "#vehicle-type" ),
+      engine = $( "#vehicle-engine" ),
+      VIN = $( "#vehicle-VIN" ),
+      mileage = $( "#vehicle-mileage" ),
+      horsepower = $( "#vehicle-horsepower" ),
+      allFields = $( [] ).add( brand ).add( type ).add( engine ).add( VIN ).add( mileage ),
+      tips = $( ".validateTips" );
+ 
+ 
+    function checkLength( o, n, min, max ) {
+      if ( o.val().length > max || o.val().length < min ) {
+        o.addClass( "ui-state-error" );
+        updateTips( "Length of " + n + " must be between " +
+          min + " and " + max + "." );
+        return false;
+      } else {
+        return true;
+      }
+    }
+ 
+    function editVehicle() {
+      var valid = true;
+      allFields.removeClass( "ui-state-error" );
+  /*
+      valid = valid && checkLength( $( "#brand" ), "First Name", 3, 16 );
+      valid = valid && checkLength( type, "Last Name", 6, 80 );
+      valid = valid && checkLength( engine, "PESEL", 11, 11 );
+
+      valid = valid && checkRegexp( VIN, /^([0-9])+$/, "Salary field must contain only digits." );
+      valid = valid && checkRegexp( mileage, /^([0-9])+$/, "Salary bonus field must contain only digits." );
+ */
+      if ( valid ) {
+        // dispatch AJAX POST request to vehicle servlet
+        /*
+        $( "#users tbody" ).append( "<tr>" +
+          "<td>" + name.val() + "</td>" +
+          "<td>" + email.val() + "</td>" +
+          "<td>" + password.val() + "</td>" +
+        "</tr>" );
+        dialog.dialog( "close" );
+        */
+        $( "#dialog-form" ).submit();
+        dialog.dialog( "close" );
+      }
+      console.log("POST vehicle");
+      return valid;
+    }
+ 
+    dialog = $( "#dialog-div" ).dialog({
+      autoOpen: false,
+      height: 600,
+      width: 650,
+      modal: true,
+      buttons: {
+        "Edytuj": editVehicle,
+        Cancel: function() {
+          dialog.dialog( "close" );
+        }
+      },
+      close: function() {
+        //form[ 0 ].reset();
+        allFields.removeClass( "ui-state-error" );
+      }
+    });
+ /*
+    form = dialog.find( "form" ).on( "submit", function( event ) {
+      event.preventDefault();
+      addUser();
+    });
+ */
+    $( ".edit-vehicle-button" ).button().on( "click", function() {
         var $this = $(this).closest('tr').children();
-
-        var rowid = $this.eq(0).text();
-        $("#editRow").text(rowid);
-        console.log(rowid)
-
-        $("#popupEdit").alert("open");
+        var vehicleId = $this.eq(0).text();
+        var vehicleBrand = $this.eq(1).text();
+        var vehicleType = $this.eq(2).text();
+        var vehicleEngine = $this.eq(3).text();
+        var vehicleVin = $this.eq(4).text();
+        var vehicleHorsepower = $this.eq(5).text();
+        var vehicleMileage = $this.eq(6).text();
+        console.log(vehicleId);
+        console.log(vehicleBrand);
+        console.log(vehicleType);
+        console.log(vehicleEngine);
+        console.log(vehicleVin);
+        $( "#vehicle-id" ).val(vehicleId);
+        $( "#vehicle-brand" ).val(vehicleBrand);
+        $( "#vehicle-type" ).val(vehicleType);
+        $( "#vehicle-mileage" ).val(vehicleMileage);
+        $( "#vehicle-engine" ).val(vehicleEngine);
+        $( "#vehicle-VIN" ).val(vehicleVin);
+        $( "#vehicle-horsepower" ).val(vehicleHorsepower);
+        dialog.dialog( "open" );
+        
     });
-
-    $(".popupbutton").on("click", function () {
-        $("#popupEdit").alert("close");
-    });
-
-});
+  });
 </script>
 
 </head>
@@ -42,25 +126,41 @@ $(document).ready(function () {
 <body>
 <jsp:useBean id="vehicles" class="com.jdbc.demo.services.VehicleEntityManager" scope="application" />
 
- <div data-role="popup" id="popupEdit" data-theme="a" class="ui-corner-all" data-dismissible="false">
-        <div class="ui-content">
-            <p>You are editing the row with ID: <strong id="editRow"></strong>
-            </p>
-            <hr />
-            <label for="txtID">ID:</label>
-            <input type="text" name="txtID" id="txtID" value="" />
-            <label for="txtName">Name:</label>
-            <input type="text" name="txtName" id="txtName" value="" />
-            <fieldset class="ui-grid-a">
-                <div class="ui-block-a">
-                    <input type="button" value="OK" data-theme="b" class="popupbutton" />
-                </div>
-                <div class="ui-block-b">
-                    <input type="button" value="Cancel" data-theme="a" class="popupbutton" />
-                </div>
-            </fieldset>
-        </div>
-  </div>
+<div id="dialog-div" title="Edytuj kierowcę" class="modal-fade">
+ 
+  <form id="dialog-form" action="vehicles" method="post">
+    <fieldset>
+      <input type="text" name="id" id="vehicle-id">
+      <div class="form-group">
+        <label for="vehicle-brand">Marka</label>
+        <input type="text" name="brand" id="vehicle-brand" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="vehicle-type">Typ</label>
+        <input type="text" name="type" id="vehicle-type" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="vehicle-engine">Silnik</label>
+        <input type="text" name="engine" id="vehicle-engine" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="vehicle-VIN">VIN</label>
+        <input type="text" name="VIN" id="vehicle-VIN" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="vehicle-horsepower">KM</label>
+        <input type="text" name="horsepower" id="vehicle-horsepower" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="vehicle-mileage">Przebieg</label>
+        <input type="text" name="mileage" id="vehicle-mileage" class="form-control">
+      </div>
+      <!-- Allow form submission with keyboard without duplicating the dialog button -->
+      <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+    </fieldset>
+  </form>
+</div>
+
 
 <!-- Static navbar -->
         <nav class="navbar navbar-default">
@@ -72,16 +172,12 @@ $(document).ready(function () {
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              <a class="navbar-brand" href="#">JEE Servlet Demo</a>
+              <a class="navbar-brand" href="/jdbc_demo">JEE Servlet Demo</a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
               <ul class="nav navbar-nav">
-                <li class="active"><a href="vehicles.jsp">Drivers</a></li>
-              </ul>
-              <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a href="./">Default <span class="sr-only">(current)</span></a></li>
-                <li><a href="../navbar-static-top/">Static top</a></li>
-                <li><a href="../navbar-fixed-top/">Fixed top</a></li>
+                <li class="inactive"><a href="drivers.jsp">Kierowcy</a></li>
+                <li class="active"><a href="vehicles.jsp">Pojazdy</a></li>
               </ul>
             </div><!--/.nav-collapse -->
           </div><!--/.container-fluid -->
@@ -97,6 +193,8 @@ $(document).ready(function () {
            <td>VIN</td>
            <td>KM</td>
            <td>Przebieg</td>
+           <td>Edycja</td>
+           <td>Usuwanie</td>
       </tr>
   </thead>
 
@@ -108,44 +206,46 @@ $(document).ready(function () {
               <td>${vehicle.engine}</td>
               <td>${vehicle.VIN}</td>
               <td>${vehicle.horsepower}</td>
-              <td>${vehicle.horsepower}</td>
+              <td>${vehicle.mileage}</td>
 
-                <td><button class="btn btn-primary edit_button">Edytuj</button></td>
+                <td><button class="btn btn-primary edit-vehicle-button">Edytuj</button></td>
+              <td>
               <form name="delete_vehicle_form" action="vehicles" method="post">
-                <input type="hidden" class="form-control" name="id" id="id" value="${vehicle.id}">
-                <td><button type=submit method=post name="delete" value="true" class="btn btn-danger">Usu�</button></td>
+                <input type="hidden" class="form-control" name="id" value="${vehicle.id}">
+                <button type=submit name="delete" value="true" class="btn btn-danger">Usuń</button>
               </form>
+            </td>
           </tr>
   </c:forEach>
   </table>
 
-  <form name="add_vehicle_form" action="vehicles" method="post" role="form">
+  <form name="add_vehicle_form" action="vehicles" method="post">
       <div class="form-group">
-        <label for="first-name">Marka:</label>
+        <label for="brand">Marka:</label>
         <input type="text" class="form-control" name="brand" id="brand">
       </div>
       <div class="form-group">
-        <label for="last-name">Typ:</label>
+        <label for="type">Typ:</label>
         <input type="text" class="form-control" id="type" name="type">
       </div>
       <div class="form-group">
-        <label for="pesel">Silnik:</label>
+        <label for="engine">Silnik:</label>
         <input type="text" class="form-control" id="engine" name="engine">
       </div>
+      <div class="form-group">
+        <label for="horsepower">KM:</label>
+        <input type="text" class="form-control" id="horsepower" name="horsepower">
+      </div>
+      <div class="form-group">
+        <label for="VIN">VIN:</label>
+        <input type="text" class="form-control" id="VIN" name="VIN">
+      </div>
       <div class="checkbox">
-        <label><input type="checkbox" checked="true" id="available" name="available">Dostepny</label>
+        <label><input type="checkbox" checked="checked" id="available" name="available">Dostepny</label>
       </div>
 
         <button type="submit" class="btn btn-default">Submit</button>
   </form>
 
-
-<!-- Use the following button code for the new window -->
-
-<form>
-<input type=button value="Open the Popup Window" onClick="javascript:popUp('testfile.html')">
-</form>
-
-<!-- Generated at http://www.csgnetwork.com/puhtmlwincodegen.html -->
 </body>
 </html>

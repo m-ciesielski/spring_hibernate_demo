@@ -5,37 +5,120 @@ import="com.jdbc.demo.domain.Driver"
 import="com.jdbc.demo.domain.Address"
 %>
 
-
+<!DOCTYPE html>
 <html>
 
 <head>
-<title>Drivers</title>
-<html>
+<meta charset="UTF-8">
+<title>Kierowcy</title>
 
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" crossorigin="anonymous">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" crossorigin="anonymous"></script>
 
 
-<SCRIPT LANGUAGE="JavaScript">
-$(document).ready(function () {
-    $(".edit_button").on("click", function () {
-        //get row id
+<script>
+$(function() {
+    var dialog, form,
+
+      firstName = $( "#driver-first-name" ),
+      lastName = $( "#druver-last-name" ),
+      pesel = $( "#driver-pesel" ),
+      salary = $( "#driver-salary" ),
+      salaryBonus = $( "#driver-salary-bonus" ),
+      allFields = $( [] ).add( firstName ).add( lastName ).add( pesel ).add( salary ).add( salaryBonus ),
+      tips = $( ".validateTips" );
+ 
+ 
+    function checkLength( o, n, min, max ) {
+      if ( o.val().length > max || o.val().length < min ) {
+        o.addClass( "ui-state-error" );
+        updateTips( "Length of " + n + " must be between " +
+          min + " and " + max + "." );
+        return false;
+      } else {
+        return true;
+      }
+    }
+ 
+    function addDriver() {
+      var valid = true;
+      allFields.removeClass( "ui-state-error" );
+  /*
+      valid = valid && checkLength( $( "#firstName" ), "First Name", 3, 16 );
+      valid = valid && checkLength( lastName, "Last Name", 6, 80 );
+      valid = valid && checkLength( pesel, "PESEL", 11, 11 );
+
+      valid = valid && checkRegexp( salary, /^([0-9])+$/, "Salary field must contain only digits." );
+      valid = valid && checkRegexp( salaryBonus, /^([0-9])+$/, "Salary bonus field must contain only digits." );
+ */
+      if ( valid ) {
+        // dispatch AJAX POST request to driver servlet
+        /*
+        $( "#users tbody" ).append( "<tr>" +
+          "<td>" + name.val() + "</td>" +
+          "<td>" + email.val() + "</td>" +
+          "<td>" + password.val() + "</td>" +
+        "</tr>" );
+        dialog.dialog( "close" );
+        */
+        $( "#dialog-form" ).submit();
+        dialog.dialog( "close" );
+      }
+      console.log("POST driver");
+      return valid;
+    }
+ 
+    dialog = $( "#dialog-div" ).dialog({
+      autoOpen: false,
+      height: 600,
+      width: 650,
+      modal: true,
+      buttons: {
+        "Edytuj": addDriver,
+        Cancel: function() {
+          dialog.dialog( "close" );
+        }
+      },
+      close: function() {
+        //form[ 0 ].reset();
+        allFields.removeClass( "ui-state-error" );
+      }
+    });
+ /*
+    form = dialog.find( "form" ).on( "submit", function( event ) {
+      event.preventDefault();
+      addUser();
+    });
+ */
+    $( ".edit-driver-button" ).button().on( "click", function() {
         var $this = $(this).closest('tr').children();
+        var driverId = $this.eq(0).text();
+        var driverFirstName = $this.eq(1).text();
+        var driverLastName = $this.eq(2).text();
+        var driverPesel = $this.eq(3).text();
+        var driverSalary = $this.eq(4).text();
+        var driverSalaryBonus = $this.eq(5).text();
+        var driverAddressId = $this.eq(6).text();
+        console.log(driverId);
+        console.log(driverFirstName);
+        console.log(driverLastName);
+        console.log(driverPesel);
+        console.log(driverAddressId);
+        $( "#driver-id" ).val(driverId);
+        $( "#driver-first-name" ).val(driverFirstName);
+        $( "#driver-last-name" ).val(driverLastName);
+        $( "#driver-pesel" ).val(driverPesel);
+        $( "#driver-salary" ).val(driverSalary);
+        $( "#driver-salary-bonus" ).val(driverSalaryBonus);
+        $( "#driver-address-id" ).val(driverAddressId);
+        dialog.dialog( "open" );
         
-        var rowid = $this.eq(0).text();
-        $("#editRow").text(rowid);
-        console.log(rowid)
-
-        $("#popupEdit").alert("open");
     });
-
-    $(".popupbutton").on("click", function () {
-        $("#popupEdit").alert("close");
-    });
-
-});
+  });
 </script>
 
 </head>
@@ -44,25 +127,44 @@ $(document).ready(function () {
 <jsp:useBean id="drivers" class="com.jdbc.demo.services.DriverEntityManager" scope="application" />
 <jsp:useBean id="addresses" class="com.jdbc.demo.services.AddressEntityManager" scope="application" />
 
- <div data-role="popup" id="popupEdit" data-theme="a" class="ui-corner-all" data-dismissible="false">
-        <div class="ui-content">
-            <p>You are editing the row with ID: <strong id="editRow"></strong>
-            </p>
-            <hr />
-            <label for="txtID">ID:</label>
-            <input type="text" name="txtID" id="txtID" value="" />
-            <label for="txtName">Name:</label>
-            <input type="text" name="txtName" id="txtName" value="" />
-            <fieldset class="ui-grid-a">
-                <div class="ui-block-a">
-                    <input type="button" value="OK" data-theme="b" class="popupbutton" />
-                </div>
-                <div class="ui-block-b">
-                    <input type="button" value="Cancel" data-theme="a" class="popupbutton" />
-                </div>
-            </fieldset>
-        </div>
-  </div>
+ <div id="dialog-div" title="Edytuj kierowcę" class="modal-fade">
+ 
+  <form id="dialog-form" data-toggle="validator" action="driver" method="post">
+    <fieldset>
+      <input type="text" name="id" id="driver-id">
+      <div class="form-group">
+        <label for="driver-first-name">Imię</label>
+        <input type="text" name="first-name" id="driver-first-name" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="driver-last-name">Nazwisko</label>
+        <input type="text" name="last-name" id="driver-last-name" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="driver-pesel">PESEL</label>
+        <input type="text" name="pesel" id="driver-pesel" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="driver-salary">Pensja</label>
+        <input type="number" name="salary" id="driver-salary" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="driver-salary-bonus">Premia</label>
+        <input type="number" name="salary-bonus" id="driver-salary-bonus" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="driver-address-id">Adres</label>
+        <select name="address-id" id="driver-address-id" class="form-control">
+          <c:forEach var="address" items="${addresses.all}">
+              <option value=${address.id}>${address.street} ${address.houseNumber}, ${address.town}, ${address.country}</option>
+          </c:forEach>
+        </select>
+      </div>
+      <!-- Allow form submission with keyboard without duplicating the dialog button -->
+      <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+    </fieldset>
+  </form>
+</div>
 
 <!-- Static navbar -->
         <nav class="navbar navbar-default">
@@ -74,16 +176,12 @@ $(document).ready(function () {
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              <a class="navbar-brand" href="#">JEE Servlet Demo</a>
+              <a class="navbar-brand" href="/jdbc_demo">JEE Servlet Demo</a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
               <ul class="nav navbar-nav">
-                <li class="active"><a href="drivers.jsp">Drivers</a></li>
-              </ul>
-              <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a href="./">Default <span class="sr-only">(current)</span></a></li>
-                <li><a href="../navbar-static-top/">Static top</a></li>
-                <li><a href="../navbar-fixed-top/">Fixed top</a></li>
+                <li class="active"><a href="drivers.jsp">Kierowcy</a></li>
+                <li class="inactive"><a href="vehicles.jsp">Pojazdy</a></li>
               </ul>
             </div><!--/.nav-collapse -->
           </div><!--/.container-fluid -->
@@ -99,6 +197,8 @@ $(document).ready(function () {
            <td>Pensja</td>
            <td>Premia</td>
            <td>Adres</td>
+           <td>Edycja</td>
+           <td>Usuwanie</td>
       </tr>
   </thead>
 
@@ -110,52 +210,46 @@ $(document).ready(function () {
               <td>${driver.PESEL}</td>
               <td>${driver.salary}</td>
               <td>${driver.salaryBonus}</td>
+              <td style="display:none;">${driver.address.id}</td>
               <td>${driver.address.street} ${driver.address.houseNumber}, ${driver.address.town}, ${driver.address.country}</td>
 
-                <td><button class="btn btn-primary edit_button">Edytuj</button></td>
-              <form name="delete_driver_form" action="driver" method="post">
-                <input type="hidden" class="form-control" name="id" id="id" value="${driver.id}">
-                <td><button type=submit method=post name="delete" value="true" class="btn btn-danger">Usuń</button></td>
-              </form>
+                <td><button class="btn btn-primary edit-driver-button">Edytuj</button></td>
+              <td>
+                <form name="delete_driver_form" action="driver" method="post">
+                  <input type="hidden" class="form-control" name="id" value="${driver.id}">
+                  <button type=submit name="delete" value="true" class="btn btn-danger">Usuń</button>
+                </form>
+              </td>
           </tr>
   </c:forEach>
   </table>
 
-  <form name="add_driver_form" action="driver" method="post" role="form">
+  <form name="add_driver_form" data-toggle="validator" action="driver" method="post">
       <div class="form-group">
         <label for="first-name">Imie:</label>
-        <input type="text" class="form-control" name="first-name" id="first-name">
+        <input type="text" class="form-control" name="first-name" id="first-name" required>
       </div>
       <div class="form-group">
         <label for="last-name">Nazwisko:</label>
-        <input type="text" class="form-control" id="last-name" name="last-name">
+        <input type="text" class="form-control" id="last-name" name="last-name" required>
       </div>
       <div class="form-group">
         <label for="pesel">Pesel:</label>
-        <input type="text" class="form-control" id="pesel" name="pesel">
+        <input type="text" class="form-control" id="pesel" data-minlength="11" data-error="PESEL musi miec dokładnie 11 znaków." data-maxlength="11" name="pesel" required>
       </div>
       <div class="form-group">
         <label for="address-id">Adres:</label>
-        <select name="address-id">
+        <select name="address-id" id="address-id" class="form-control">
           <c:forEach var="address" items="${addresses.all}">
               <option value=${address.id}>${address.street} ${address.houseNumber}, ${address.town}, ${address.country}</option>
           </c:forEach>
         </select>
       </div>
       <div class="checkbox">
-        <label><input type="checkbox" checked="true" id="available" name="available">Dostepny</label>
+        <label><input type="checkbox" checked="checked" id="available" name="available">Dostepny</label>
       </div>
       
         <button type="submit" class="btn btn-default">Submit</button>
   </form>
-
-  
-<!-- Use the following button code for the new window -->
-
-<form>
-<input type=button value="Open the Popup Window" onClick="javascript:popUp('testfile.html')">
-</form>
-
-<!-- Generated at http://www.csgnetwork.com/puhtmlwincodegen.html -->
 </body>
 </html>

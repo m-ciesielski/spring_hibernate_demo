@@ -1,6 +1,8 @@
+<!DOCTYPE html>
 <html>
 <head>
-<title>Super Simple JSP Index</title>
+<meta charset="UTF-8">
+<title>JEE Demo</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
@@ -20,13 +22,8 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse">
               <ul class="nav navbar-nav">
-                <li class="active"><a href="drivers.jsp">Drivers</a></li>
-                <li class="active"><a href="vehicles.jsp">Vehicles</a></li>
-              </ul>
-              <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a href="./">Default <span class="sr-only">(current)</span></a></li>
-                <li><a href="../navbar-static-top/">Static top</a></li>
-                <li><a href="../navbar-fixed-top/">Fixed top</a></li>
+                <li class="inactive"><a href="drivers.jsp">Kierowcy</a></li>
+                <li class="inactive"><a href="vehicles.jsp">Pojazdy</a></li>
               </ul>
             </div><!--/.nav-collapse -->
           </div><!--/.container-fluid -->
