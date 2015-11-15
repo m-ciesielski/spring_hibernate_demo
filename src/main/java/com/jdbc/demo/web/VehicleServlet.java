@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Date;
-import java.util.Arrays;
 
 /**
  * Created by Mateusz on 14-Nov-15.
@@ -25,8 +24,6 @@ public class VehicleServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        LOGGER.info(request.toString());
 
         response.setContentType("text/html");
 
@@ -41,34 +38,41 @@ public class VehicleServlet extends HttpServlet {
 
             if (delete) {
                 int id = Integer.parseInt(request.getParameter("id").trim());
-                LOGGER.info("Deleting vehicle:" + vehicleEntityManager.get(id));
                 vehicleEntityManager.delete(id);
-            }
-            else{
+                LOGGER.info(String.format("Successfully deleted vehicle with ID: %d", id));
+            } else {
                 vehicle.setBrand(request.getParameter("brand"));
                 vehicle.setEngine(Integer.parseInt(request.getParameter("engine").trim()));
                 vehicle.setHorsepower(Integer.parseInt(request.getParameter("horsepower").trim()));
+                vehicle.setMileage(Integer.parseInt(request.getParameter("mileage").trim()));
                 vehicle.setType(request.getParameter("type"));
                 vehicle.setVIN(request.getParameter("VIN"));
                 vehicle.setProductionDate(new Date(System.currentTimeMillis()));
                 vehicle.setAvailable(Boolean.parseBoolean(request.getParameter("available")));
-                if (update){
+                if (update) {
                     vehicle.setId(Integer.parseInt(request.getParameter("id").trim()));
                     LOGGER.info("Updating vehicle:" + vehicle.toString());
                     vehicleEntityManager.update(vehicle);
-                }else {
+                    LOGGER.info(String.format("Successfully updated vehicle: %s", vehicle));
+                } else {
                     LOGGER.info("Adding vehicle:" + vehicle.toString());
                     vehicleEntityManager.add(vehicle);
+                    LOGGER.info(String.format("Successfully added vehicle: %s", vehicle));
                 }
             }
         } catch (Exception e) {
+            LOGGER.error(String.format("Failed to handle request: %s", request));
+            if (delete) {
+                LOGGER.error(String.format("Exception thrown while deleting Vehicle: %s", vehicle), e);
+                response.sendError(500, String.format("Internal Server Error: Deleting Vehicle %s failed. \n", vehicle));
+            } else if (update) {
+                LOGGER.error(String.format("Exception thrown while updating Vehicle: %s", vehicle), e);
+                response.sendError(500, String.format("Internal Server Error: Updating Vehicle %s failed. \n", vehicle));
+            } else {
+                LOGGER.error(String.format("Exception thrown while adding Vehicle: %s", vehicle), e);
+                response.sendError(500, String.format("Internal Server Error: Adding Vehicle %s failed. \n", vehicle));
+            }
             vehicle = null;
-
-            if (delete)
-                response.sendError(500, String.format("Internal Server Error: Deleting Vehicle failed. Exception: %s \n Cause: %s \n Stacktrace: %s", e.getMessage(),e.getCause(), Arrays.toString(e.getStackTrace())));
-            else
-                response.sendError(500, String.format("Internal Server Error: Adding Vehicle failed. Exception: %s \n Cause: %s \n Stacktrace: %s",e.getMessage(), e.getCause(), Arrays.toString(e.getStackTrace())));
-            LOGGER.error(Arrays.toString(e.getStackTrace()));
         }
 
         response.setStatus(200);
@@ -86,24 +90,28 @@ public class VehicleServlet extends HttpServlet {
         boolean getAll = (request.getParameter("id") == null);
 
         try {
-            VehicleEntityManager vehicleEntityManager = (VehicleEntityManager) getServletContext().getAttribute("vehicles");
+            VehicleEntityManager vehicleEntityManager = new VehicleEntityManager();
             if (getAll) {
-                for (Vehicle vehicle: vehicleEntityManager.getAll())
+                for (Vehicle vehicle : vehicleEntityManager.getAll())
                     response.getWriter().write(vehicle.toString() + '\n');
+
+                LOGGER.info("Successfully fetched Vehicles list.");
             } else {
-                int id = Integer.parseInt(request.getParameter("id"));
+                int id = Integer.parseInt(request.getParameter("id").trim());
                 Vehicle vehicle = vehicleEntityManager.get(id);
                 response.getWriter().write(vehicle.toString());
+                LOGGER.info(String.format("Successfully fetched Vehicle with id: %d.", id));
             }
 
         } catch (Exception e) {
-            if (!getAll)
-                response.sendError(500, "Internal Server Error: Cannot get vehicle with id: " + request.getParameter("id") + "\n"
-                        + Arrays.toString(e.getStackTrace()));
-            else
-                response.sendError(500, "Internal Server Error: Cannot get vehicles list\n"
-                        + Arrays.toString(e.getStackTrace()));
-            return;
+            LOGGER.error(String.format("Failed to handle request: %s", request));
+            if (getAll) {
+                LOGGER.error("Exception thrown while getting Vehicles list: %s", e);
+                response.sendError(500, "Internal Server Error: Getting Vehicles list failed. \n");
+            } else {
+                LOGGER.error(String.format("Exception thrown while getting Vehicle with ID: %s", request.getParameter("id")), e);
+                response.sendError(500, String.format("Internal Server Error: Fetching Vehicle with id: %s failed. \n", request.getParameter("id")));
+            }
         }
 
         response.setStatus(200);
