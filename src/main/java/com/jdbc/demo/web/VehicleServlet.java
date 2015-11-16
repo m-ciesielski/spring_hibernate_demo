@@ -43,8 +43,10 @@ public class VehicleServlet extends HttpServlet {
             } else {
                 vehicle.setBrand(request.getParameter("brand"));
                 vehicle.setEngine(Integer.parseInt(request.getParameter("engine").trim()));
-                vehicle.setHorsepower(Integer.parseInt(request.getParameter("horsepower").trim()));
-                vehicle.setMileage(Integer.parseInt(request.getParameter("mileage").trim()));
+                if (request.getParameter("horsepower") != null && request.getParameter("horsepower").length()>0)
+                    vehicle.setHorsepower(Integer.parseInt(request.getParameter("horsepower").trim()));
+                if (request.getParameter("mileage") != null && request.getParameter("mileage").length()>0)
+                    vehicle.setMileage(Integer.parseInt(request.getParameter("mileage").trim()));
                 vehicle.setType(request.getParameter("type"));
                 vehicle.setVIN(request.getParameter("VIN"));
                 vehicle.setProductionDate(new Date(System.currentTimeMillis()));

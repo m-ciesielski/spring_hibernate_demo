@@ -130,7 +130,7 @@ $(function() {
  
   <form id="dialog-form" action="vehicles" method="post">
     <fieldset>
-      <input type="text" name="id" id="vehicle-id">
+      <input type="hidden" name="id" id="vehicle-id">
       <div class="form-group">
         <label for="vehicle-brand">Marka</label>
         <input type="text" name="brand" id="vehicle-brand" class="form-control">
@@ -244,7 +244,7 @@ $(function() {
         <label><input type="checkbox" checked="checked" id="available" name="available">Dostepny</label>
       </div>
 
-        <button type="submit" class="btn btn-default">Submit</button>
+        <button type="submit" class="btn btn-default">Dodaj</button>
   </form>
 
 </body>

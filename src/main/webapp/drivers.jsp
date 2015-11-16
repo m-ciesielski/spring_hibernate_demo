@@ -131,7 +131,7 @@ $(function() {
  
   <form id="dialog-form" data-toggle="validator" action="driver" method="post">
     <fieldset>
-      <input type="text" name="id" id="driver-id">
+      <input type="hidden" name="id" id="driver-id">
       <div class="form-group">
         <label for="driver-first-name">Imię</label>
         <input type="text" name="first-name" id="driver-first-name" class="form-control">
@@ -249,7 +249,7 @@ $(function() {
         <label><input type="checkbox" checked="checked" id="available" name="available">Dostepny</label>
       </div>
       
-        <button type="submit" class="btn btn-default">Submit</button>
+        <button type="submit" class="btn btn-default">Dodaj</button>
   </form>
 </body>
 </html>
