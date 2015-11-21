@@ -1,5 +1,6 @@
 package com.jdbc.demo.domain;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,16 +8,33 @@ import java.util.List;
 /**
  * Created by Mateusz on 22-Oct-15.
  */
+@Entity
+@NamedNativeQueries({
+        @NamedNativeQuery(name = "driver.all", query = "Select * from Driver", resultClass = Driver.class),
+})
 public class Driver {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id_Driver")
+    private long id;
 
-    private int id;
+    @ManyToOne
+    @JoinColumn(name="id_Address")
     private Address address;
+
+    @Column(name = "first_name")
     private String firstName;
+
+    @Column(name = "last_name")
     private String lastName;
+
     private String PESEL;
     private BigDecimal salary;
+
+    @Column(name = "salary_bonus")
     private BigDecimal salaryBonus;
+
     private Boolean available;
     private Boolean deleted;
     private ArrayList<FreightTransport> transports;
@@ -25,7 +43,7 @@ public class Driver {
 
     }
 
-    public Driver(int id, Address address, String firstName, String lastName, String PESEL, BigDecimal salary,
+    public Driver(long id, Address address, String firstName, String lastName, String PESEL, BigDecimal salary,
                   BigDecimal salaryBonus, Boolean available, Boolean deleted) {
         super();
         this.id = id;
@@ -61,7 +79,7 @@ public class Driver {
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = (int)id;
         result = 31 * result + address.hashCode();
         result = 31 * result + firstName.hashCode();
         result = 31 * result + lastName.hashCode();
@@ -88,14 +106,15 @@ public class Driver {
                 '}';
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "Address", cascade = CascadeType.ALL)
     public Address getAddress() {
         return address;
     }
@@ -104,6 +123,7 @@ public class Driver {
         this.address = idAddress;
     }
 
+    @Column(nullable = false)
     public String getFirstName() {
         return firstName;
     }
@@ -112,6 +132,7 @@ public class Driver {
         this.firstName = firstName;
     }
 
+    @Column(nullable = false)
     public String getLastName() {
         return lastName;
     }
@@ -120,6 +141,7 @@ public class Driver {
         this.lastName = lastName;
     }
 
+    @Column(nullable = false)
     public String getPESEL() {
         return PESEL;
     }

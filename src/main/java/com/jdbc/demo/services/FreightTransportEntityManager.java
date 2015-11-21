@@ -108,8 +108,8 @@ public class FreightTransportEntityManager extends EntityManager implements Frei
     public FreightTransport add(FreightTransport freightTransport) {
 
         try {
-            createStatement.setInt(1, freightTransport.getLoadAddress().getId());
-            createStatement.setInt(2, freightTransport.getUnloadAddress().getId());
+            createStatement.setLong(1, freightTransport.getLoadAddress().getId());
+            createStatement.setLong(2, freightTransport.getUnloadAddress().getId());
             createStatement.setInt(3, freightTransport.getClient().getId());
             createStatement.setBigDecimal(4, freightTransport.getValue());
             createStatement.setInt(5, freightTransport.getDistance());
@@ -134,7 +134,7 @@ public class FreightTransportEntityManager extends EntityManager implements Frei
             }
             for (Driver driver: freightTransport.getDrivers()){
                 addDriversStatement.setInt(1, freightTransport.getId());
-                addDriversStatement.setInt(2, driver.getId());
+                addDriversStatement.setLong(2, driver.getId());
 
                 addDriversStatement.executeUpdate();
             }
@@ -150,8 +150,8 @@ public class FreightTransportEntityManager extends EntityManager implements Frei
     public void update(FreightTransport freightTransport) {
         try {
 
-            updateStatement.setInt(1, freightTransport.getLoadAddress().getId());
-            updateStatement.setInt(2, freightTransport.getUnloadAddress().getId());
+            updateStatement.setLong(1, (freightTransport.getLoadAddress().getId()));
+            updateStatement.setLong(2, freightTransport.getUnloadAddress().getId());
             updateStatement.setInt(3, freightTransport.getClient().getId());
             updateStatement.setBigDecimal(4, freightTransport.getValue());
             updateStatement.setInt(5, freightTransport.getDistance());

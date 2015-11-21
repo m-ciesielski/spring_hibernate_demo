@@ -80,7 +80,7 @@ public class ClientEntityManager extends EntityManager implements ClientDAO {
 
     public Client add(Client client) {
         try {
-            createStatement.setInt(1, client.getAddress().getId());
+            createStatement.setLong(1, client.getAddress().getId());
             createStatement.setString(2, client.getName());
             createStatement.setString(3, client.getNIP());
             createStatement.setString(4, client.getBankAccountNumber());
@@ -153,7 +153,7 @@ public class ClientEntityManager extends EntityManager implements ClientDAO {
 
     public void update(Client client) {
         try {
-            updateStatement.setInt(1, client.getAddress().getId());
+            updateStatement.setLong(1, client.getAddress().getId());
             updateStatement.setString(2, client.getName());
             updateStatement.setString(3, client.getNIP());
             updateStatement.setString(4, client.getBankAccountNumber());

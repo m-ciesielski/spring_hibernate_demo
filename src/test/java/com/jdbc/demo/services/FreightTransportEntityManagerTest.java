@@ -156,6 +156,6 @@ public class FreightTransportEntityManagerTest {
         Driver driver = testDrivers.get(0);
         driver.setTransports(testFreightTransports);
         Assert.assertEquals(driver.getTransports(),
-                driverEntityManager.getTransports(driver.getId(), freightTransportEntityManager));
+                driverEntityManager.getTransports((int)driver.getId(), freightTransportEntityManager));
     }
 }
