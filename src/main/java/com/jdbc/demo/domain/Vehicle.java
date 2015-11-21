@@ -2,8 +2,8 @@ package com.jdbc.demo.domain;
 
 
 import javax.persistence.*;
-import java.util.Date;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -29,7 +29,11 @@ public class Vehicle {
     private Date productionDate;
 
     private Boolean available;
-    private ArrayList<FreightTransport> transports;
+
+    @ManyToMany
+    @JoinTable(name="FreightTransportVehicles", joinColumns = { @JoinColumn(name="id_Vehicle") },
+            inverseJoinColumns = { @JoinColumn(name="id_FreightTransport") })
+    private List<FreightTransport> transports = new ArrayList<>();
 
     public Vehicle() {
 
@@ -50,7 +54,7 @@ public class Vehicle {
         if (!brand.equals(vehicle.brand)) return false;
         if (!VIN.equals(vehicle.VIN)) return false;
         if (available != null ? !available.equals(vehicle.available) : vehicle.available != null) return false;
-        return ((transports == null || vehicle.transports == null) || (transports.size() == vehicle.transports.size() && vehicle.transports.containsAll(transports)));
+        return ((transports == null || vehicle.transports == null) || (transports == vehicle.transports));
 
     }
 
@@ -166,6 +170,6 @@ public class Vehicle {
     }
 
     public void setTransports(List<FreightTransport> transports) {
-        this.transports = (ArrayList<FreightTransport>)transports;
+        this.transports = transports;
     }
 }

@@ -72,9 +72,4 @@ public class VehicleEntityManager implements VehicleDAO {
         session.delete(vehicleToDelete);
         session.flush();
     }
-
-    public ArrayList<FreightTransport> getTransports(int id, FreightTransportDAO freightTransportDAO) {
-        //TODO: implement relational get
-        return null;
-    }
 }

@@ -37,7 +37,11 @@ public class Driver {
 
     private Boolean available;
     private Boolean deleted;
-    private ArrayList<FreightTransport> transports;
+
+    @ManyToMany
+    @JoinTable(name="FreightTransportDrivers", joinColumns = { @JoinColumn(name="id_Driver") },
+            inverseJoinColumns = { @JoinColumn(name="id_FreightTransport") })
+    private List<FreightTransport> transports = new ArrayList<>();
 
     public Driver(){
 
@@ -72,7 +76,7 @@ public class Driver {
         if (salary != null ? !salary.equals(driver.salary) : driver.salary != null) return false;
         if (salaryBonus != null ? !salaryBonus.equals(driver.salaryBonus) : driver.salaryBonus != null) return false;
         if (available != null ? !available.equals(driver.available) : driver.available != null) return false;
-        if (!((transports == null || driver.transports == null) || (transports.size() == driver.transports.size() && driver.transports.containsAll(transports))));
+        if (!((transports == null || driver.transports == null) || (transports == driver.transports)));
         return !(deleted != null ? !deleted.equals(driver.deleted) : driver.deleted != null);
 
     }
@@ -187,6 +191,6 @@ public class Driver {
     }
 
     public void setTransports(List<FreightTransport> transports) {
-        this.transports = (ArrayList<FreightTransport>) transports;
+        this.transports = transports;
     }
 }

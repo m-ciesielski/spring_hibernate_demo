@@ -74,9 +74,4 @@ public class DriverEntityManager implements DriverDAO {
         session.delete(driverToDelete);
         session.flush();
     }
-
-    public ArrayList<FreightTransport> getTransports(int id, FreightTransportDAO freightTransportDAO) {
-        //TODO: implement relational get
-        return null;
-    }
 }

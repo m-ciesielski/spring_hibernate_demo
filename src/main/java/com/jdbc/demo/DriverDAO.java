@@ -1,7 +1,6 @@
 package com.jdbc.demo;
 
 import com.jdbc.demo.domain.Driver;
-import com.jdbc.demo.domain.FreightTransport;
 
 import java.util.List;
 
@@ -12,5 +11,4 @@ public interface DriverDAO {
     void update(Driver driver);
     void delete(long id);
     void delete(Driver driver);
-    List<FreightTransport> getTransports(int id, FreightTransportDAO freightTransportDAO);
 }
