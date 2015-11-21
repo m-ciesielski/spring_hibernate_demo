@@ -110,7 +110,7 @@ public class FreightTransportEntityManager extends EntityManager implements Frei
         try {
             createStatement.setLong(1, freightTransport.getLoadAddress().getId());
             createStatement.setLong(2, freightTransport.getUnloadAddress().getId());
-            createStatement.setInt(3, freightTransport.getClient().getId());
+            createStatement.setLong(3, freightTransport.getClient().getId());
             createStatement.setBigDecimal(4, freightTransport.getValue());
             createStatement.setInt(5, freightTransport.getDistance());
             createStatement.setDate(6, freightTransport.getLoadDate());
@@ -152,7 +152,7 @@ public class FreightTransportEntityManager extends EntityManager implements Frei
 
             updateStatement.setLong(1, (freightTransport.getLoadAddress().getId()));
             updateStatement.setLong(2, freightTransport.getUnloadAddress().getId());
-            updateStatement.setInt(3, freightTransport.getClient().getId());
+            updateStatement.setLong(3, freightTransport.getClient().getId());
             updateStatement.setBigDecimal(4, freightTransport.getValue());
             updateStatement.setInt(5, freightTransport.getDistance());
             updateStatement.setDate(6, freightTransport.getLoadDate());
