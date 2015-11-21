@@ -128,7 +128,7 @@ public class FreightTransportEntityManager extends EntityManager implements Frei
             //Add FreightTransportDrivers and FreightTransportVehicles keys
             for (Vehicle vehicle: freightTransport.getVehicles()){
                 addVehiclesStatement.setInt(1, freightTransport.getId());
-                addVehiclesStatement.setInt(2, vehicle.getId());
+                addVehiclesStatement.setLong(2, vehicle.getId());
 
                 addVehiclesStatement.executeUpdate();
             }

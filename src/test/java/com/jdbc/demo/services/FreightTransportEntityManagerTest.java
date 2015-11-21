@@ -146,7 +146,7 @@ public class FreightTransportEntityManagerTest {
         Vehicle vehicle = testVehicles.get(0);
         vehicle.setTransports(testFreightTransports);
         Assert.assertEquals(vehicle.getTransports(),
-                vehicleEntityManager.getTransports(vehicle.getId(), freightTransportEntityManager));
+                vehicleEntityManager.getTransports((int)vehicle.getId(), freightTransportEntityManager));
     }
 
     //Moved here from DriversEntityManagerTest to reduce setUp time overhead
