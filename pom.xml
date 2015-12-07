@@ -112,12 +112,6 @@
                 <version>4.11</version>
         </dependency>
 
-        <!-- During migration to JTDS driver -->
-        <dependency>
-            <groupId>com.microsoft.sqlserver</groupId>
-            <artifactId>sqljdbc4</artifactId>
-            <version>4.2</version>
-        </dependency>
         <dependency>
             <groupId>net.sourceforge.jtds</groupId>
             <artifactId>jtds</artifactId>
@@ -151,7 +145,6 @@
             <groupId>jboss</groupId>
             <artifactId>javassist</artifactId>
             <version>3.7.ga</version>
-            <model>jar</model>
             <scope>compile</scope>
         </dependency>
         <!-- AOP dependency -->

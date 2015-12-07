@@ -12,7 +12,8 @@ import java.util.List;
 
 @Entity
 @NamedNativeQueries({
-        @NamedNativeQuery(name = "freightTransport.all", query = "Select * from FreightTransport", resultClass = FreightTransport.class),
+        @NamedNativeQuery(name = "freightTransport.all", query = "Select * from FreightTransport",
+                resultClass = FreightTransport.class),
 })
 public class FreightTransport {
 
