@@ -29,7 +29,9 @@ public class Driver {
     @Column(name = "last_name")
     private String lastName;
 
+    @Column(name = "pesel")
     private String PESEL;
+
     private BigDecimal salary;
 
     @Column(name = "salary_bonus")
