@@ -1,9 +1,7 @@
 package com.jdbc.demo.services;
 
 import com.jdbc.demo.DriverDAO;
-import com.jdbc.demo.FreightTransportDAO;
 import com.jdbc.demo.domain.Driver;
-import com.jdbc.demo.domain.FreightTransport;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
@@ -12,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -46,8 +43,9 @@ public class DriverEntityManager implements DriverDAO {
     }
 
     @Override
-    public void update(Driver driver) {
+    public Driver update(Driver driver) {
         sessionFactory.getCurrentSession().update(driver);
+        return (Driver) sessionFactory.getCurrentSession().get(Driver.class, driver.getId());
     }
 
     @Override

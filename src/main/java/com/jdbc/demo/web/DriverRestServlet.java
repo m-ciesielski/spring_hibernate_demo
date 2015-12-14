@@ -4,10 +4,7 @@ import com.jdbc.demo.DriverDAO;
 import com.jdbc.demo.domain.Driver;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 
 /**
  * Created by Mateusz on 07-Dec-15.
@@ -29,10 +26,33 @@ public class DriverRestServlet {
         return str.toString();
     }
 
+
+    @POST
+    @Produces("application/json")
+    @Consumes("application/json")
+    public Driver addDriver(Driver driver){
+        return driverManager.add(driver);
+    }
+
     @GET
     @Path("{id}")
-    @Produces("text/plain")
-    public String getDriver(@PathParam("id")long id){
-        return driverManager.get(id).toString();
+    @Produces("application/json")
+    public Driver getDriver(@PathParam("id")long id){
+        return driverManager.get(id);
+    }
+
+    @POST
+    @Path("{id}")
+    @Produces("application/json")
+    @Consumes("application/json")
+    public Driver updateDriver(Driver driver){
+        return driverManager.update(driver);
+    }
+
+    @DELETE
+    @Path("{id}")
+    @Consumes("application/json")
+    public void deleteDriver(Driver driver){
+        driverManager.delete(driver);
     }
 }

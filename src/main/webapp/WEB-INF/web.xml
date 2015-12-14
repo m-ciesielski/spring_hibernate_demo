@@ -76,6 +76,15 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>DriverRestServlet</servlet-name>
+        <servlet-class>com.jdbc.demo.web.DriverRestServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DriverRestServlet</servlet-name>
+        <url-pattern>/api/drivers</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>VehicleServlet</servlet-name>
         <servlet-class>com.jdbc.demo.web.VehicleServlet</servlet-class>
     </servlet>
