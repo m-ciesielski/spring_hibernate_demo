@@ -84,26 +84,25 @@ public class VehicleEntityManagerTest {
 
     @Test
     public void addTest() throws Exception {
-        int sizeBeforeAddition = vehicleManager.getAll().size();
+        List<Vehicle> vehiclesBeforeAddition = vehicleManager.getAll();
         Vehicle vehicle = vehicleManager.add(testVehicles.get(0));
         Assert.assertTrue(vehicleManager.getAll().contains(vehicle));
-        Assert.assertEquals(sizeBeforeAddition+1, vehicleManager.getAll().size());
+        Assert.assertTrue(vehicleManager.getAll().containsAll(vehiclesBeforeAddition));
     }
 
     @Test
     public void getByIdTest() throws Exception {
 
         Vehicle vehicle = vehicleManager.add(testVehicles.get(0));
-        List<Vehicle> all = vehicleManager.getAll();
         Assert.assertTrue(vehicleManager.getAll().contains(vehicle));
-
         Vehicle foundVehicle = vehicleManager.get((int)vehicle.getId());
-
         Assert.assertEquals(vehicle, foundVehicle);
     }
 
     @Test
     public void testUpdate() throws Exception {
+
+        List<Vehicle> vehiclesBeforeUpdate = vehicleManager.getAll();
         Vehicle vehicle1 = vehicleManager.add(testVehicles.get(0));
 
         Assert.assertTrue(vehicleManager.getAll().contains(vehicle1));
@@ -113,6 +112,7 @@ public class VehicleEntityManagerTest {
         Vehicle updatedVehicle1 = vehicleManager.get(vehicle1.getId());
 
         Assert.assertEquals(vehicle1, updatedVehicle1);
+        Assert.assertTrue(vehicleManager.getAll().containsAll(vehiclesBeforeUpdate));
 
     }
 }

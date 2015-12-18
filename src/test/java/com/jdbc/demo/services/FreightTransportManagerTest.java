@@ -81,15 +81,16 @@ public class FreightTransportManagerTest {
 
     @Test
     public void testAdd() throws Exception {
-        int sizeBeforeAddition = freightTransportManager.getAll().size();
+        List<FreightTransport> transportsBeforeAddition = freightTransportManager.getAll();
         FreightTransport freightTransport1 = freightTransportManager.add(testFreightTransports.get(0));
 
         Assert.assertTrue(freightTransportManager.getAll().contains(freightTransport1));
-        Assert.assertEquals(sizeBeforeAddition+1, freightTransportManager.getAll().size());
+        Assert.assertTrue(freightTransportManager.getAll().containsAll(transportsBeforeAddition));
     }
 
     @Test
     public void testUpdate() throws Exception {
+        List<FreightTransport> transportsBeforeUpdate = freightTransportManager.getAll();
         FreightTransport freightTransport1 = freightTransportManager.add(testFreightTransports.get(0));
         freightTransport1.setDistance(1789);
         freightTransportManager.update(freightTransport1);
@@ -97,6 +98,7 @@ public class FreightTransportManagerTest {
         FreightTransport updatedFreightTransport1 = freightTransportManager.get(freightTransport1.getId());
 
         Assert.assertEquals(freightTransport1, updatedFreightTransport1);
+        Assert.assertTrue(freightTransportManager.getAll().containsAll(transportsBeforeUpdate));
     }
 
     @Test

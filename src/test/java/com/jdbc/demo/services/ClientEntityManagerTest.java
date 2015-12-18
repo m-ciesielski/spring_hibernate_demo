@@ -60,13 +60,13 @@ public class ClientEntityManagerTest {
 
     @Test
     public void testAdd() throws Exception {
-        int sizeBeforeAddition = clientManager.getAll().size();
+        List<Client> clientsBeforeAddition = clientManager.getAll();
         Client client1 = clientManager.add(testClients.get(0));
 
         List<Client> clients = clientManager.getAll();
 
         Assert.assertTrue(clients.contains(client1));
-        Assert.assertEquals(sizeBeforeAddition + 1, clients.size());
+        Assert.assertTrue(clients.containsAll(clientsBeforeAddition));
     }
 
     @Test
@@ -80,6 +80,7 @@ public class ClientEntityManagerTest {
 
     @Test
     public void testUpdate() throws Exception {
+        List<Client> clientsBeforeUpdate = clientManager.getAll();
         Client client1 = clientManager.add(testClients.get(0));
 
         client1.setName("DEF SA");
@@ -88,6 +89,7 @@ public class ClientEntityManagerTest {
         Client updatedClient = clientManager.get(client1.getId());
 
         Assert.assertEquals(client1, updatedClient);
+        Assert.assertTrue(clientManager.getAll().containsAll(clientsBeforeUpdate));
     }
 
     @Test

@@ -47,11 +47,11 @@ public class DriverEntityManagerTest {
 
     @Test
     public void addTest  () throws Exception {
-        int sizeBeforeAddition = driverManager.getAll().size();
+        List<Driver> driversBeforeAddition = driverManager.getAll();
         Driver driver = driverManager.add(testDrivers.get(0));
         List<Driver> drivers = driverManager.getAll();
         Assert.assertTrue(drivers.contains(driver));
-        Assert.assertEquals(sizeBeforeAddition+1, drivers.size());
+        Assert.assertTrue(drivers.containsAll(driversBeforeAddition));
     }
 
     @Test
@@ -85,8 +85,9 @@ public class DriverEntityManagerTest {
 
     @Test
     public void testUpdate() throws Exception {
-        Driver driver1 = driverManager.add(testDrivers.get(0));
 
+        List<Driver> driversBeforeUpdate = driverManager.getAll();
+        Driver driver1 = driverManager.add(testDrivers.get(0));
         Assert.assertTrue(driverManager.getAll().contains(driver1));
 
         driver1.setFirstName("Stefan");
@@ -95,6 +96,7 @@ public class DriverEntityManagerTest {
         Driver updatedDriver = driverManager.get(driver1.getId());
 
         Assert.assertEquals(driver1, updatedDriver);
+        Assert.assertTrue(driverManager.getAll().containsAll(driversBeforeUpdate));
 
     }
 }

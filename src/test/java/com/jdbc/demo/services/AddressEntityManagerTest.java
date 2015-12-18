@@ -50,11 +50,11 @@ public class AddressEntityManagerTest {
 
     @Test
     public void testAdd() throws Exception {
-        int sizeBeforeAddition = addressManager.getAll().size();
+        List<Address> addressesBeforeAddition = addressManager.getAll();
         addressManager.add(testAddresses.get(0));
         List<Address> addresses = addressManager.getAll();
         Assert.assertTrue(addresses.contains(testAddresses.get(0)));
-        Assert.assertEquals(sizeBeforeAddition+1, addresses.size());
+        Assert.assertTrue(addresses.containsAll(addressesBeforeAddition));
     }
 
     @Test
@@ -78,9 +78,11 @@ public class AddressEntityManagerTest {
 
     @Test
     public void testUpdate() throws Exception {
+        List<Address> addressedBeforeUpdate = addressManager.getAll();
         Address address = addressManager.add(testAddresses.get(0));
         address.setTown("Kielce");
         addressManager.update(address);
         Assert.assertEquals(address, addressManager.get(address.getId()));
+        Assert.assertTrue(addressManager.getAll().containsAll(addressedBeforeUpdate));
     }
 }
