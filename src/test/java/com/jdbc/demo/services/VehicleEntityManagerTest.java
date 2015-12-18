@@ -72,15 +72,14 @@ public class VehicleEntityManagerTest {
 
     @Test
     public void deleteTest() throws Exception {
+
+        List<Vehicle> vehiclesBeforeDeletion = vehicleManager.getAll();
         Vehicle vehicle1 = vehicleManager.add(testVehicles.get(0));
-        Vehicle vehicle2 = vehicleManager.add(testVehicles.get(1));
-
         Assert.assertTrue(vehicleManager.getAll().contains(vehicle1));
-
         vehicleManager.delete(testVehicles.get(0));
 
         Assert.assertFalse(vehicleManager.getAll().contains(vehicle1));
-        Assert.assertTrue(vehicleManager.getAll().contains(vehicle2));
+        Assert.assertTrue(vehicleManager.getAll().containsAll(vehiclesBeforeDeletion));
     }
 
     @Test

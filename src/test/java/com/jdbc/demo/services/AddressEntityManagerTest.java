@@ -66,12 +66,14 @@ public class AddressEntityManagerTest {
 
     @Test
     public void testDelete() throws Exception {
+        List<Address> addressesBeforeDelete = addressManager.getAll();
         Address address = addressManager.add(testAddresses.get(0));
-        Address address2 = addressManager.add(testAddresses.get(1));
+        Assert.assertTrue(addressManager.getAll().contains(address));
         addressManager.delete(address.getId());
+
         List<Address> addresses = addressManager.getAll();
         Assert.assertFalse(addresses.contains(address));
-        Assert.assertTrue(addresses.contains(address2));
+        Assert.assertTrue(addresses.containsAll(addressesBeforeDelete));
     }
 
     @Test

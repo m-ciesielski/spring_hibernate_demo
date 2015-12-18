@@ -92,15 +92,13 @@ public class ClientEntityManagerTest {
 
     @Test
     public void testDelete() throws Exception {
+        List<Client> clientsBeforeDelete = clientManager.getAll();
         Client client1 = clientManager.add(testClients.get(0));
-        Client client2 = clientManager.add(testClients.get(1));
         Assert.assertTrue(clientManager.getAll().contains(client1));
-
         clientManager.delete(client1.getId());
 
         List<Client> clients = clientManager.getAll();
-
         Assert.assertFalse(clients.contains(client1));
-        Assert.assertTrue(clients.contains(client2));
+        Assert.assertTrue(clients.containsAll(clientsBeforeDelete));
     }
 }

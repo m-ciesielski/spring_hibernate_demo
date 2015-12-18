@@ -65,12 +65,14 @@ public class DriverEntityManagerTest {
 
     @Test
     public void deleteTest  () throws Exception {
+        List<Driver> driversBeforeDelete = driverManager.getAll();
         Driver driver1 = driverManager.add(testDrivers.get(0));
-        Driver driver2 = driverManager.add(testDrivers.get(1));
+        Assert.assertTrue(driverManager.getAll().contains(driver1));
         driverManager.delete(driver1.getId());
+
         List<Driver> drivers = driverManager.getAll();
         Assert.assertFalse(drivers.contains(driver1));
-        Assert.assertTrue(drivers.contains(driver2));
+        Assert.assertTrue(drivers.containsAll(driversBeforeDelete));
     }
 
     @Test

@@ -104,15 +104,14 @@ public class FreightTransportManagerTest {
         testFreightTransports.add(TestModelsFactory.createTestFreightTransport1(testClients.get(1), testDrivers, testVehicles,
                 testAddresses.get(1), testAddresses.get(0)));
 
+        List<FreightTransport> transportsBeforeDelete = freightTransportManager.getAll();
         FreightTransport freightTransport1 = freightTransportManager.add(testFreightTransports.get(0));
-        FreightTransport freightTransport2 = freightTransportManager.add(testFreightTransports.get(1));
-
         Assert.assertTrue(freightTransportManager.getAll().contains(freightTransport1));
-
         freightTransportManager.delete(freightTransport1.getId());
 
-        Assert.assertFalse(freightTransportManager.getAll().contains(freightTransport1));
-        Assert.assertTrue(freightTransportManager.getAll().contains(freightTransport2));
+        List<FreightTransport> transports = freightTransportManager.getAll();
+        Assert.assertFalse(transports.contains(freightTransport1));
+        Assert.assertTrue(freightTransportManager.getAll().containsAll(transportsBeforeDelete));
     }
 
     @Test
