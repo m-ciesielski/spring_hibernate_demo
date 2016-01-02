@@ -26,7 +26,7 @@ import java.util.List;
 @ContextConfiguration(locations = { "classpath:/beans.xml" })
 @TransactionConfiguration(transactionManager = "txManager", defaultRollback = true)
 @Transactional
-public class ClientEntityManagerTest {
+public class ClientManagerTest {
     
     @Autowired
     private ClientDAO clientManager;

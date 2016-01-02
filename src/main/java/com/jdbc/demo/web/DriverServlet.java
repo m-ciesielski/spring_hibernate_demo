@@ -1,8 +1,8 @@
 package com.jdbc.demo.web;
 
 import com.jdbc.demo.domain.Driver;
-import com.jdbc.demo.services.AddressEntityManager;
-import com.jdbc.demo.services.DriverEntityManager;
+import com.jdbc.demo.services.AddressManager;
+import com.jdbc.demo.services.DriverManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,8 +31,8 @@ public class DriverServlet extends HttpServlet {
 
         try {
 
-            DriverEntityManager driverEntityManager = new DriverEntityManager();
-            AddressEntityManager addressEntityManager = new AddressEntityManager();
+            DriverManager driverEntityManager = new DriverManager();
+            AddressManager addressEntityManager = new AddressManager();
 
             if (delete) {
                 int id = Integer.parseInt(request.getParameter("id").trim());
@@ -92,7 +92,7 @@ public class DriverServlet extends HttpServlet {
         boolean getAll = (request.getParameter("id") == null);
 
         try {
-            DriverEntityManager driverEntityManager = (DriverEntityManager) getServletContext().getAttribute("drivers");
+            DriverManager driverEntityManager = (DriverManager) getServletContext().getAttribute("drivers");
             if (getAll) {
                 for (Driver driver : driverEntityManager.getAll())
                     response.getWriter().write(driver.toString() + '\n');

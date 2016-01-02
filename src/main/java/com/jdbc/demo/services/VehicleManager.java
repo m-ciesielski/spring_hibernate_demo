@@ -1,7 +1,7 @@
 package com.jdbc.demo.services;
 
-import com.jdbc.demo.AddressDAO;
-import com.jdbc.demo.domain.Address;
+import com.jdbc.demo.VehicleDAO;
+import com.jdbc.demo.domain.Vehicle;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
@@ -13,19 +13,17 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 /**
- * Created by Mateusz on 31-Oct-15.
+ * Created by mciesielski on 2015-10-23.
  */
 
 @Component
 @Transactional
-public class AddressEntityManager implements AddressDAO {
+public class VehicleManager implements VehicleDAO {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(AddressEntityManager.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(VehicleManager.class);
 
     @Autowired
     private SessionFactory sessionFactory;
-
-    private AddressEntityManager addressEntityManager;
 
     public SessionFactory getSessionFactory() {
         return sessionFactory;
@@ -37,38 +35,38 @@ public class AddressEntityManager implements AddressDAO {
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<Address> getAll() {
-        return sessionFactory.getCurrentSession().getNamedQuery("address.all")
+    public List<Vehicle> getAll() {
+        return sessionFactory.getCurrentSession().getNamedQuery("vehicle.all")
                 .list();
     }
 
     @Override
-    public void update(Address address) {
-        sessionFactory.getCurrentSession().update(address);
+    public void update(Vehicle vehicle) {
+        sessionFactory.getCurrentSession().update(vehicle);
     }
 
     @Override
-    public Address get(long id) {
-        return (Address) sessionFactory.getCurrentSession().get(Address.class, id);
+    public Vehicle get(long id) {
+        return (Vehicle) sessionFactory.getCurrentSession().get(Vehicle.class, id);
     }
 
     @Override
-    public Address add(Address address) {
+    public Vehicle add(Vehicle vehicle) {
         Session session = sessionFactory.getCurrentSession();
-        Long id = (Long) session.save(address);
-        return (Address) session.get(Address.class, id);
+        Long id = (Long) session.save(vehicle);
+        return (Vehicle) session.get(Vehicle.class, id);
     }
 
     @Override
-    public void delete(Address address) {
-        sessionFactory.getCurrentSession().delete(address);
+    public void delete(Vehicle vehicle) {
+        sessionFactory.getCurrentSession().delete(vehicle);
     }
 
     @Override
     public void delete(long id) {
         Session session = sessionFactory.getCurrentSession();
-        Address addressToDelete = (Address) session.load(Address.class, id);
-        session.delete(addressToDelete);
+        Vehicle vehicleToDelete = (Vehicle) session.load(Vehicle.class, id);
+        session.delete(vehicleToDelete);
         session.flush();
     }
 }

@@ -24,7 +24,7 @@ import java.util.List;
 @ContextConfiguration(locations = { "classpath:/beans.xml" })
 @TransactionConfiguration(transactionManager = "txManager", defaultRollback = true)
 @Transactional
-public class AddressEntityManagerTest {
+public class AddressManagerTest {
 
     @Autowired
     private AddressDAO addressManager;

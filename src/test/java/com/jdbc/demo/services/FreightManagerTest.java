@@ -23,7 +23,7 @@ import java.util.List;
 @ContextConfiguration(locations = { "classpath:/beans.xml" })
 @TransactionConfiguration(transactionManager = "txManager", defaultRollback = true)
 @Transactional
-public class FreightTransportManagerTest {
+public class FreightManagerTest {
 
     @Autowired
     private DriverDAO driverManager;

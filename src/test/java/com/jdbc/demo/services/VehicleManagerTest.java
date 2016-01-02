@@ -25,7 +25,7 @@ import java.util.List;
 @ContextConfiguration(locations = { "classpath:/beans.xml" })
 @TransactionConfiguration(transactionManager = "txManager", defaultRollback = true)
 @Transactional
-public class VehicleEntityManagerTest {
+public class VehicleManagerTest {
 
     @Autowired
     private VehicleDAO vehicleManager;

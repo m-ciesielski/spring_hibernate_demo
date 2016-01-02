@@ -26,7 +26,7 @@ import java.util.List;
 @ContextConfiguration(locations = { "classpath:/beans.xml" })
 @TransactionConfiguration(transactionManager = "txManager", defaultRollback = true)
 @Transactional
-public class DriverEntityManagerTest {
+public class DriverManagerTest {
 
     @Autowired
     private DriverDAO driverManager;

@@ -1,7 +1,7 @@
 package com.jdbc.demo.web;
 
 import com.jdbc.demo.domain.Vehicle;
-import com.jdbc.demo.services.VehicleEntityManager;
+import com.jdbc.demo.services.VehicleManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,7 +34,7 @@ public class VehicleServlet extends HttpServlet {
 
         try {
 
-            VehicleEntityManager vehicleEntityManager = new VehicleEntityManager();
+            VehicleManager vehicleEntityManager = new VehicleManager();
 
             if (delete) {
                 int id = Integer.parseInt(request.getParameter("id").trim());
@@ -92,7 +92,7 @@ public class VehicleServlet extends HttpServlet {
         boolean getAll = (request.getParameter("id") == null);
 
         try {
-            VehicleEntityManager vehicleEntityManager = new VehicleEntityManager();
+            VehicleManager vehicleEntityManager = new VehicleManager();
             if (getAll) {
                 for (Vehicle vehicle : vehicleEntityManager.getAll())
                     response.getWriter().write(vehicle.toString() + '\n');

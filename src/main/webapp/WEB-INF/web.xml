@@ -10,39 +10,34 @@
         <param-value>classpath*:beans*.xml</param-value>
     </context-param>
 
-    <listener>
-        <listener-class>
-            org.springframework.web.context.ContextLoaderListener
-        </listener-class>
-    </listener>
-
     <servlet>
-        <servlet-name>jersey-serlvet</servlet-name>
+        <servlet-name>Jersey Web Application</servlet-name>
         <servlet-class>
-            org.glassfish.jersey.servlet.ServletContainer
+            com.sun.jersey.spi.container.servlet.ServletContainer
         </servlet-class>
         <init-param>
             <param-name>
                 com.sun.jersey.config.property.packages
             </param-name>
-            <param-value>com.jdbc.demo.web</param-value>
+            <param-value>
+                com.jdbc.demo.web.rest;org.codehaus.jackson.jaxrs
+            </param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
-
     <servlet-mapping>
-        <servlet-name>jersey-serlvet</servlet-name>
-        <url-pattern>/*</url-pattern>
+        <servlet-name>Jersey Web Application</servlet-name>
+        <url-pattern>/api/*</url-pattern>
     </servlet-mapping>
 
     <context-param>
         <param-name>drivers</param-name>
-        <param-value>com.jdbc.demo.services.DriverEntityManager</param-value>
+        <param-value>com.jdbc.demo.services.DriverManager</param-value>
     </context-param>
 
     <context-param>
         <param-name>addresses</param-name>
-        <param-value>com.jdbc.demo.services.AddressEntityManager</param-value>
+        <param-value>com.jdbc.demo.services.AddressManager</param-value>
     </context-param>
 
     <filter>
@@ -73,15 +68,6 @@
     <servlet-mapping>
         <servlet-name>DriverServlet</servlet-name>
         <url-pattern>/driver</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>DriverRestServlet</servlet-name>
-        <servlet-class>com.jdbc.demo.web.DriverRestServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>DriverRestServlet</servlet-name>
-        <url-pattern>/api/drivers</url-pattern>
     </servlet-mapping>
 
     <servlet>

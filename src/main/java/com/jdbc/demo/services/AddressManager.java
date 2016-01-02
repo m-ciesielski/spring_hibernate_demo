@@ -1,7 +1,7 @@
 package com.jdbc.demo.services;
 
-import com.jdbc.demo.ClientDAO;
-import com.jdbc.demo.domain.Client;
+import com.jdbc.demo.AddressDAO;
+import com.jdbc.demo.domain.Address;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
@@ -13,18 +13,17 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 /**
- * Created by Mateusz on 02-Nov-15.
+ * Created by Mateusz on 31-Oct-15.
  */
+
 @Component
 @Transactional
-public class ClientEntityManager implements ClientDAO {
+public class AddressManager implements AddressDAO {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(ClientEntityManager.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(AddressManager.class);
 
     @Autowired
     private SessionFactory sessionFactory;
-
-    private ClientEntityManager clientEntityManager;
 
     public SessionFactory getSessionFactory() {
         return sessionFactory;
@@ -36,38 +35,38 @@ public class ClientEntityManager implements ClientDAO {
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<Client> getAll() {
-        return sessionFactory.getCurrentSession().getNamedQuery("client.all")
+    public List<Address> getAll() {
+        return sessionFactory.getCurrentSession().getNamedQuery("address.all")
                 .list();
     }
 
     @Override
-    public void update(Client client) {
-        sessionFactory.getCurrentSession().update(client);
+    public void update(Address address) {
+        sessionFactory.getCurrentSession().update(address);
     }
 
     @Override
-    public Client get(long id) {
-        return (Client) sessionFactory.getCurrentSession().get(Client.class, id);
+    public Address get(long id) {
+        return (Address) sessionFactory.getCurrentSession().get(Address.class, id);
     }
 
     @Override
-    public Client add(Client client) {
+    public Address add(Address address) {
         Session session = sessionFactory.getCurrentSession();
-        Long id = (Long) session.save(client);
-        return (Client) session.get(Client.class, id);
+        Long id = (Long) session.save(address);
+        return (Address) session.get(Address.class, id);
     }
 
     @Override
-    public void delete(Client client) {
-        sessionFactory.getCurrentSession().delete(client);
+    public void delete(Address address) {
+        sessionFactory.getCurrentSession().delete(address);
     }
 
     @Override
     public void delete(long id) {
         Session session = sessionFactory.getCurrentSession();
-        Client clientToDelete = (Client) session.load(Client.class, id);
-        session.delete(clientToDelete);
+        Address addressToDelete = (Address) session.load(Address.class, id);
+        session.delete(addressToDelete);
         session.flush();
     }
 }
