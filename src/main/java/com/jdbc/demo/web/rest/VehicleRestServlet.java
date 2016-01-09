@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.ejb.EJB;
+import javax.ejb.Stateless;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
  * Created by Mateusz on 09-Jan-16.
  */
 @Path("vehicles")
+@Stateless
 public class VehicleRestServlet {
     private final static Logger LOGGER = LoggerFactory.getLogger(VehicleRestServlet.class);
 

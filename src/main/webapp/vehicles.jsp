@@ -124,7 +124,7 @@ $(function() {
 </head>
 
 <body>
-<jsp:useBean id="vehicles" class="com.jdbc.demo.services.VehicleEntityManager" scope="application" />
+<jsp:useBean id="vehicles" class="com.jdbc.demo.services.VehicleManager" scope="application" />
 
 <div id="dialog-div" title="Edytuj kierowcę" class="modal-fade">
  

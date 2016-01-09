@@ -4,9 +4,8 @@ import com.jdbc.demo.ClientDAO;
 import com.jdbc.demo.domain.Client;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
@@ -14,8 +13,7 @@ import java.util.List;
 /**
  * Created by Mateusz on 02-Nov-15.
  */
-@Component
-@Transactional
+@Stateless
 public class ClientManager implements ClientDAO {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(ClientManager.class);

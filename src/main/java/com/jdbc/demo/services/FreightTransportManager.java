@@ -2,15 +2,10 @@ package com.jdbc.demo.services;
 
 import com.jdbc.demo.FreightTransportDAO;
 import com.jdbc.demo.domain.FreightTransport;
-import com.jdbc.demo.domain.FreightTransport;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
@@ -19,8 +14,7 @@ import java.util.List;
  * Created by Mateusz on 23-Oct-15.
  */
 
-@Component
-@Transactional
+@Stateless
 public class FreightTransportManager implements FreightTransportDAO {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(FreightTransportManager.class);

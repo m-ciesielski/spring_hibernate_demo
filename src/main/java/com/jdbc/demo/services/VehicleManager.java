@@ -4,9 +4,8 @@ import com.jdbc.demo.VehicleDAO;
 import com.jdbc.demo.domain.Vehicle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
@@ -15,8 +14,7 @@ import java.util.List;
  * Created by mciesielski on 2015-10-23.
  */
 
-@Component
-@Transactional
+@Stateless
 public class VehicleManager implements VehicleDAO {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(VehicleManager.class);
