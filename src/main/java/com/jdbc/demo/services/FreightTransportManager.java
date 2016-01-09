@@ -2,6 +2,7 @@ package com.jdbc.demo.services;
 
 import com.jdbc.demo.FreightTransportDAO;
 import com.jdbc.demo.domain.FreightTransport;
+import com.jdbc.demo.domain.FreightTransport;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
@@ -10,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 /**
@@ -22,51 +25,40 @@ public class FreightTransportManager implements FreightTransportDAO {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(FreightTransportManager.class);
 
-    @Autowired
-    private SessionFactory sessionFactory;
-
-    public SessionFactory getSessionFactory() {
-        return sessionFactory;
-    }
-
-    public void setSessionFactory(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
+    @PersistenceContext
+    EntityManager em;
 
     @Override
     @SuppressWarnings("unchecked")
     public List<FreightTransport> getAll() {
-        return sessionFactory.getCurrentSession().getNamedQuery("freightTransport.all")
-                .list();
+        return em.createNamedQuery("freightTransport.all").getResultList();
     }
 
     @Override
-    public void update(FreightTransport freightTransport) {
-        sessionFactory.getCurrentSession().update(freightTransport);
+    public FreightTransport update(FreightTransport freightTransport) {
+        em.merge(freightTransport);
+        return em.find(FreightTransport.class, freightTransport.getId());
     }
 
     @Override
     public FreightTransport get(long id) {
-        return (FreightTransport) sessionFactory.getCurrentSession().get(FreightTransport.class, id);
+        return em.find(FreightTransport.class, id);
     }
 
     @Override
     public FreightTransport add(FreightTransport freightTransport) {
-        Session session = sessionFactory.getCurrentSession();
-        Long id = (Long) session.save(freightTransport);
-        return (FreightTransport) session.get(FreightTransport.class, id);
+        em.persist(freightTransport);
+        em.flush();
+        return freightTransport;
     }
 
     @Override
     public void delete(FreightTransport freightTransport) {
-        sessionFactory.getCurrentSession().delete(freightTransport);
+        em.remove(em.getReference(FreightTransport.class, freightTransport.getId()));
     }
 
     @Override
     public void delete(long id) {
-        Session session = sessionFactory.getCurrentSession();
-        FreightTransport freightTransportToDelete = (FreightTransport) session.load(FreightTransport.class, id);
-        session.delete(freightTransportToDelete);
-        session.flush();
+        em.remove(em.getReference(FreightTransport.class, id));
     }
 }

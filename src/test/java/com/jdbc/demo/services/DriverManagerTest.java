@@ -4,17 +4,11 @@ import com.jdbc.demo.AddressDAO;
 import com.jdbc.demo.DriverDAO;
 import com.jdbc.demo.domain.Address;
 import com.jdbc.demo.domain.Driver;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.transaction.annotation.Transactional;
+import org.junit.*;
 import utils.TestModelsFactory;
 
+import javax.ejb.embeddable.EJBContainer;
+import javax.naming.Context;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,24 +16,36 @@ import java.util.List;
  * Created by Mateusz on 22-Oct-15.
  */
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:/beans.xml" })
-@TransactionConfiguration(transactionManager = "txManager", defaultRollback = true)
-@Transactional
 public class DriverManagerTest {
 
-    @Autowired
     private DriverDAO driverManager;
 
-    @Autowired
-    private AddressDAO addressManager;
+    private static EJBContainer container;
+    private static Context context;
+
+    public DriverManagerTest() {
+    }
+
+    @BeforeClass
+    public static void setUpClass() throws Exception {
+        container = EJBContainer.createEJBContainer();
+        context = container.getContext();
+        System.out.println("Opening the container");
+    }
+
+    @AfterClass
+    public static void tearDownClass() throws Exception {
+        container.close();
+        System.out.println("Closing the container");
+    }
     
     private ArrayList<Driver> testDrivers = new ArrayList<Driver>();
     private ArrayList<Address> testAddresses = new ArrayList<Address>();
 
     @Before
     public void setUp() throws Exception {
-
+        driverManager = (DriverDAO) context.lookup("java:global/classes/DriverManager");
+        AddressDAO addressManager = (AddressDAO) context.lookup("java:global/classes/AddressManager");
         testAddresses.add(addressManager.add(TestModelsFactory.createTestAddress1()));
         testDrivers.add(TestModelsFactory.createTestDriver1(testAddresses.get(0)));
         testDrivers.add(TestModelsFactory.createTestDriver2(testAddresses.get(0)));

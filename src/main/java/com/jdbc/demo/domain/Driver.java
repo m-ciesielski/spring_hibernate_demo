@@ -1,5 +1,7 @@
 package com.jdbc.demo.domain;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -15,7 +17,8 @@ import java.util.List;
 public class Driver {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(sequenceName = "DRIVER_ID_SEQ", name = "DriverIdSequence")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "DriverIdSequence")
     @Column(name = "id_Driver")
     private long id;
 
@@ -188,6 +191,7 @@ public class Driver {
         this.deleted = deleted;
     }
 
+    @JsonIgnore
     public List<FreightTransport> getTransports() {
         return transports;
     }

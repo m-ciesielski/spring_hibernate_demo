@@ -10,7 +10,7 @@ import java.util.List;
 public interface FreightTransportDAO {
     List<FreightTransport> getAll();
     FreightTransport add(FreightTransport freightTransport);
-    void update(FreightTransport freightTransport);
+    FreightTransport update(FreightTransport freightTransport);
     void delete(long id);
     void delete(FreightTransport freightTransport);
     FreightTransport get(long id);

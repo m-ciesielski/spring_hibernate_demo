@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.ejb.EJB;
+import javax.ejb.Stateless;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.List;
  */
 
 @Path("drivers")
+@Stateless
 public class DriverRestServlet {
     private final static Logger LOGGER = LoggerFactory.getLogger(DriverRestServlet.class);
 
@@ -24,6 +26,7 @@ public class DriverRestServlet {
     @GET
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     public List<Driver> getDrivers() {
+        LOGGER.info(driverManager.toString());
         return driverManager.getAll();
     }
 

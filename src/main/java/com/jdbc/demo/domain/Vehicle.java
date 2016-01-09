@@ -1,6 +1,8 @@
 package com.jdbc.demo.domain;
 
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,7 +15,8 @@ import java.util.List;
 public class Vehicle {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(sequenceName = "VEHICLE_ID_SEQ", name = "VehicleIdSequence")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "VehicleIdSequence")
     @Column(name = "id_Vehicle")
     private long id;
 
@@ -165,6 +168,7 @@ public class Vehicle {
         this.mileage = mileage;
     }
 
+    @JsonIgnore
     public List<FreightTransport> getTransports() {
         return transports;
     }

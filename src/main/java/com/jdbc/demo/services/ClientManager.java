@@ -2,14 +2,13 @@ package com.jdbc.demo.services;
 
 import com.jdbc.demo.ClientDAO;
 import com.jdbc.demo.domain.Client;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 /**
@@ -21,51 +20,40 @@ public class ClientManager implements ClientDAO {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(ClientManager.class);
 
-    @Autowired
-    private SessionFactory sessionFactory;
-
-    public SessionFactory getSessionFactory() {
-        return sessionFactory;
-    }
-
-    public void setSessionFactory(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
+    @PersistenceContext
+    EntityManager em;
 
     @Override
     @SuppressWarnings("unchecked")
     public List<Client> getAll() {
-        return sessionFactory.getCurrentSession().getNamedQuery("client.all")
-                .list();
+        return em.createNamedQuery("client.all").getResultList();
     }
 
     @Override
-    public void update(Client client) {
-        sessionFactory.getCurrentSession().update(client);
+    public Client update(Client client) {
+        em.merge(client);
+        return em.find(Client.class, client.getId());
     }
 
     @Override
     public Client get(long id) {
-        return (Client) sessionFactory.getCurrentSession().get(Client.class, id);
+        return em.find(Client.class, id);
     }
 
     @Override
     public Client add(Client client) {
-        Session session = sessionFactory.getCurrentSession();
-        Long id = (Long) session.save(client);
-        return (Client) session.get(Client.class, id);
+        em.persist(client);
+        em.flush();
+        return client;
     }
 
     @Override
     public void delete(Client client) {
-        sessionFactory.getCurrentSession().delete(client);
+        em.remove(em.getReference(Client.class, client.getId()));
     }
 
     @Override
     public void delete(long id) {
-        Session session = sessionFactory.getCurrentSession();
-        Client clientToDelete = (Client) session.load(Client.class, id);
-        session.delete(clientToDelete);
-        session.flush();
+        em.remove(em.getReference(Client.class, id));
     }
 }
