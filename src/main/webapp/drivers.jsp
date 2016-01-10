@@ -34,24 +34,8 @@
 <script type="text/javascript">
 
         $(document).ready(function(){
-            populateDriversTable();
-
-            $(".delete-driver-button").button().on(
-				"click",
-				function() {
-					var $this = $(this).closest('tr').children();
-					var driverFirstName = $this.eq(1).text();
-					var driverLastName = $this.eq(2).text();
-					var driverPesel = $this.eq(3).text();
-					driverId = $this.eq(0).text();
-					console.log("deleting");
-					bootbox.confirm("Usunąć kierowcę " + driverFirstName + " "
-							+ driverLastName + "(" + driverPesel + ")?",
-							function(result) {
-								if (result == true)
-									deleteDriver(driverId);
-							});
-				});
+        	var ctx = "${pageContext.request.contextPath}";
+            generateDriversTable(ctx);
         });
 
 
@@ -87,7 +71,7 @@
 		<!--/.container-fluid -->
 	</nav>
 
-	<a href="/drivers/add" class="btn btn-success">Dodaj kierowcę</a>
+	<a href="${pageContext.request.contextPath}/drivers/add" class="btn btn-success">Dodaj kierowcę</a>
 
 	<table class="table table-hover" id="drivers_table">
 		<thead>

@@ -60,4 +60,25 @@
         <url-pattern>/*</url-pattern>
         <dispatcher>REQUEST</dispatcher>
     </filter-mapping>
+
+    <servlet>
+    <servlet-name>DriverEditServlet</servlet-name>
+    <servlet-class>com.jdbc.demo.web.routing.DriverEditServlet</servlet-class>
+</servlet>
+
+    <servlet-mapping>
+        <servlet-name>DriverEditServlet</servlet-name>
+        <url-pattern>/drivers/edit/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>DriverAddServlet</servlet-name>
+        <servlet-class>com.jdbc.demo.web.routing.DriverAddServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>DriverAddServlet</servlet-name>
+        <url-pattern>/drivers/add</url-pattern>
+    </servlet-mapping>
+
 </web-app>
