@@ -4,6 +4,7 @@ import com.jdbc.demo.AddressDAO;
 import com.jdbc.demo.ClientDAO;
 import com.jdbc.demo.domain.Address;
 import com.jdbc.demo.domain.Client;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,6 +43,18 @@ public class ClientEntityManagerTest {
         testAddresses.add(addressManager.add(TestModelsFactory.createTestAddress1()));
         testClients.add(TestModelsFactory.createTestClient1(testAddresses.get(0)));
         testClients.add(TestModelsFactory.createTestClient2(testAddresses.get(0)));
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        for(Address address : testAddresses){
+            if(addressManager.get(address.getId()) != null)
+                addressManager.delete(address);
+        }
+        for(Client client : testClients){
+            if(clientManager.get(client.getId()) != null)
+                clientManager.delete(client);
+        }
     }
 
     @Test

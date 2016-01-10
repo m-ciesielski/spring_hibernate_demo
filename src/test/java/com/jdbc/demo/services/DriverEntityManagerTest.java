@@ -4,6 +4,7 @@ import com.jdbc.demo.AddressDAO;
 import com.jdbc.demo.DriverDAO;
 import com.jdbc.demo.domain.Address;
 import com.jdbc.demo.domain.Driver;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -43,6 +44,18 @@ public class DriverEntityManagerTest {
         testAddresses.add(addressManager.add(TestModelsFactory.createTestAddress1()));
         testDrivers.add(TestModelsFactory.createTestDriver1(testAddresses.get(0)));
         testDrivers.add(TestModelsFactory.createTestDriver2(testAddresses.get(0)));
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        for(Driver driver : testDrivers){
+            if(driverManager.get(driver.getId()) != null)
+                driverManager.delete(driver);
+        }
+        for(Address address : testAddresses){
+            if(addressManager.get(address.getId()) != null)
+                addressManager.delete(address);
+        }
     }
 
     @Test

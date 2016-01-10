@@ -2,6 +2,7 @@ package com.jdbc.demo.services;
 
 import com.jdbc.demo.AddressDAO;
 import com.jdbc.demo.domain.Address;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,6 +36,14 @@ public class AddressEntityManagerTest {
     public void setUp() throws Exception {
         testAddresses.add(TestModelsFactory.createTestAddress1());
         testAddresses.add(TestModelsFactory.createTestAddress2());
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        for(Address address : testAddresses){
+            if(addressManager.get(address.getId()) != null)
+                addressManager.delete(address);
+        }
     }
 
     @Test

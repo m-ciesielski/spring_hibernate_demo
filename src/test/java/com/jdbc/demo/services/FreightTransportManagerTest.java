@@ -2,6 +2,7 @@ package com.jdbc.demo.services;
 
 import com.jdbc.demo.*;
 import com.jdbc.demo.domain.*;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -63,6 +64,31 @@ public class FreightTransportManagerTest {
 
         testFreightTransports.add(TestModelsFactory.createTestFreightTransport1(testClients.get(0), testDrivers, testVehicles,
                 testAddresses.get(0), testAddresses.get(1)));
+
+    }
+
+    @After
+    public void tearDown() throws Exception{
+        for(FreightTransport transport : testFreightTransports){
+            if(freightTransportManager.get(transport.getId()) != null)
+                freightTransportManager.delete(transport);
+        }
+        for(Driver driver : testDrivers){
+            if(driverManager.get(driver.getId()) != null)
+                driverManager.delete(driver);
+        }
+        for(Client client : testClients){
+            if(clientManager.get(client.getId()) != null)
+                clientManager.delete(client);
+        }
+        for(Address address : testAddresses){
+            if(addressManager.get(address.getId()) != null)
+                addressManager.delete(address);
+        }
+        for (Vehicle testVehicle: testVehicles){
+            if(vehicleManager.get(testVehicle.getId()) != null)
+                vehicleManager.delete(testVehicle);
+        }
 
     }
 

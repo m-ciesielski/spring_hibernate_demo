@@ -12,8 +12,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
+import utils.TestModelsFactory;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,28 +34,14 @@ public class VehicleEntityManagerTest {
 
     @Before
     public void setUp() throws Exception {
-        Vehicle vehicle1 = new Vehicle();
-        vehicle1.setBrand("Scania");
-        vehicle1.setEngine(16);
-        vehicle1.setHorsepower(300);
-        vehicle1.setModel("ZX-83");
-        vehicle1.setVIN("1M8GDM9A_KP042777");
-        vehicle1.setProductionDate(new Date(System.currentTimeMillis()));
-        testVehicles.add(vehicle1);
-
-        Vehicle vehicle2 = new Vehicle();
-        vehicle2.setBrand("Scania");
-        vehicle2.setEngine(16);
-        vehicle2.setHorsepower(300);
-        vehicle2.setModel("ZX-83");
-        vehicle2.setVIN("1M8GDM9A_KE042777");
-        vehicle2.setProductionDate(new Date(System.currentTimeMillis()));
-        testVehicles.add(vehicle2);
+        testVehicles.add(TestModelsFactory.createTestVehicle1());
+        testVehicles.add(TestModelsFactory.createTestVehicle2());
     }
 
     @After
     public void tearDown() throws Exception {
         for (Vehicle testVehicle: testVehicles){
+            if(vehicleManager.get(testVehicle.getId()) != null)
             vehicleManager.delete(testVehicle);
         }
 
