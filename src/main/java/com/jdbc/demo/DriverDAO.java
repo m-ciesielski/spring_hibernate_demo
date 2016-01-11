@@ -11,4 +11,5 @@ public interface DriverDAO {
     void update(Driver driver);
     void delete(long id);
     void delete(Driver driver);
+    List<Driver> findByLastName(String lastName);
 }

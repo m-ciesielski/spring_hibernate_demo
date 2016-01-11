@@ -24,8 +24,6 @@ public class ClientEntityManager implements ClientDAO {
     @Autowired
     private SessionFactory sessionFactory;
 
-    private ClientEntityManager clientEntityManager;
-
     public SessionFactory getSessionFactory() {
         return sessionFactory;
     }

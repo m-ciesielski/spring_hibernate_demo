@@ -112,4 +112,10 @@ public class DriverEntityManagerTest {
         Assert.assertTrue(driverManager.getAll().containsAll(driversBeforeUpdate));
 
     }
+
+    @Test
+    public void testFindByLastName() throws Exception{
+        Driver driver1 = driverManager.add(testDrivers.get(0));
+        Assert.assertTrue(driverManager.findByLastName(driver1.getLastName().substring(0,3)).contains(driver1));
+    }
 }

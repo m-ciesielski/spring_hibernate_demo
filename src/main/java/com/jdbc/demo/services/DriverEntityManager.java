@@ -1,9 +1,7 @@
 package com.jdbc.demo.services;
 
 import com.jdbc.demo.DriverDAO;
-import com.jdbc.demo.FreightTransportDAO;
 import com.jdbc.demo.domain.Driver;
-import com.jdbc.demo.domain.FreightTransport;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
@@ -12,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,8 +24,6 @@ public class DriverEntityManager implements DriverDAO {
 
     @Autowired
     private SessionFactory sessionFactory;
-
-    private AddressEntityManager addressEntityManager;
 
     public SessionFactory getSessionFactory() {
         return sessionFactory;
@@ -73,5 +68,22 @@ public class DriverEntityManager implements DriverDAO {
         Driver driverToDelete = (Driver) session.load(Driver.class, id);
         session.delete(driverToDelete);
         session.flush();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<Driver> findByLastName(String lastName){
+        /*
+        List<Driver> foundDrivers = new ArrayList<Driver>();
+
+        for( Driver driver : getAll()){
+            if(driver.getLastName().toLowerCase().contains(lastName.toLowerCase()))
+                foundDrivers.add(driver);
+        }
+        return foundDrivers;
+        */
+        String lastNameLikeString = '%' + lastName + '%';
+        return sessionFactory.getCurrentSession().getNamedQuery("driver.findByLastName").setString("last_name", lastNameLikeString).
+                list();
     }
 }

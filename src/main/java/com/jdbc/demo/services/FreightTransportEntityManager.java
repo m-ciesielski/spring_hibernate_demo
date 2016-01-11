@@ -25,8 +25,6 @@ public class FreightTransportEntityManager implements FreightTransportDAO {
     @Autowired
     private SessionFactory sessionFactory;
 
-    private AddressEntityManager addressEntityManager;
-
     public SessionFactory getSessionFactory() {
         return sessionFactory;
     }

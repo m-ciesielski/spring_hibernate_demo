@@ -11,6 +11,8 @@ import java.util.List;
 @Entity
 @NamedNativeQueries({
         @NamedNativeQuery(name = "driver.all", query = "Select * from Driver", resultClass = Driver.class),
+        @NamedNativeQuery(name = "driver.findByLastName", query = "Select * from Driver d WHERE d.last_name LIKE :last_name",
+                resultClass = Driver.class),
 })
 public class Driver {
 

@@ -25,8 +25,6 @@ public class AddressEntityManager implements AddressDAO {
     @Autowired
     private SessionFactory sessionFactory;
 
-    private AddressEntityManager addressEntityManager;
-
     public SessionFactory getSessionFactory() {
         return sessionFactory;
     }
