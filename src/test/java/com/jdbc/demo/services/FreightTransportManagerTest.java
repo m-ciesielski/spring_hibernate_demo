@@ -41,7 +41,7 @@ public class FreightTransportManagerTest {
     @Autowired
     private FreightTransportDAO freightTransportManager;
 
-    private ArrayList<FreightTransport> testFreightTransports = new ArrayList<FreightTransport>();
+    private List<FreightTransport> testFreightTransports = new ArrayList<FreightTransport>();
 
     private List<Address> testAddresses = new ArrayList<Address>();
     private List<Client> testClients = new ArrayList<Client>();
@@ -112,6 +112,7 @@ public class FreightTransportManagerTest {
 
         Assert.assertTrue(freightTransportManager.getAll().contains(freightTransport1));
         Assert.assertTrue(freightTransportManager.getAll().containsAll(transportsBeforeAddition));
+        Assert.assertEquals(transportsBeforeAddition.size()+1, freightTransportManager.getAll().size());
     }
 
     @Test
@@ -140,6 +141,7 @@ public class FreightTransportManagerTest {
         List<FreightTransport> transports = freightTransportManager.getAll();
         Assert.assertFalse(transports.contains(freightTransport1));
         Assert.assertTrue(freightTransportManager.getAll().containsAll(transportsBeforeDelete));
+        Assert.assertEquals(transportsBeforeDelete.size(), freightTransportManager.getAll().size());
     }
 
     @Test

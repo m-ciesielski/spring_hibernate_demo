@@ -80,6 +80,7 @@ public class ClientEntityManagerTest {
 
         Assert.assertTrue(clients.contains(client1));
         Assert.assertTrue(clients.containsAll(clientsBeforeAddition));
+        Assert.assertEquals(clientsBeforeAddition.size()+1, clientManager.getAll().size());
     }
 
     @Test
@@ -115,5 +116,6 @@ public class ClientEntityManagerTest {
         List<Client> clients = clientManager.getAll();
         Assert.assertFalse(clients.contains(client1));
         Assert.assertTrue(clients.containsAll(clientsBeforeDelete));
+        Assert.assertEquals(clientsBeforeDelete.size(), clientManager.getAll().size());
     }
 }

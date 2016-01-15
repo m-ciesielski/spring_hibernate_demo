@@ -66,6 +66,7 @@ public class VehicleEntityManagerTest {
 
         Assert.assertFalse(vehicleManager.getAll().contains(vehicle1));
         Assert.assertTrue(vehicleManager.getAll().containsAll(vehiclesBeforeDeletion));
+        Assert.assertEquals(vehiclesBeforeDeletion.size(), vehicleManager.getAll().size());
     }
 
     @Test
@@ -74,6 +75,7 @@ public class VehicleEntityManagerTest {
         Vehicle vehicle = vehicleManager.add(testVehicles.get(0));
         Assert.assertTrue(vehicleManager.getAll().contains(vehicle));
         Assert.assertTrue(vehicleManager.getAll().containsAll(vehiclesBeforeAddition));
+        Assert.assertEquals(vehiclesBeforeAddition.size()+1, vehicleManager.getAll().size());
     }
 
     @Test

@@ -64,6 +64,7 @@ public class AddressEntityManagerTest {
         List<Address> addresses = addressManager.getAll();
         Assert.assertTrue(addresses.contains(testAddresses.get(0)));
         Assert.assertTrue(addresses.containsAll(addressesBeforeAddition));
+        Assert.assertEquals(addressesBeforeAddition.size()+1, addressManager.getAll().size());
     }
 
     @Test
@@ -83,6 +84,7 @@ public class AddressEntityManagerTest {
         List<Address> addresses = addressManager.getAll();
         Assert.assertFalse(addresses.contains(address));
         Assert.assertTrue(addresses.containsAll(addressesBeforeDelete));
+        Assert.assertEquals( addressesBeforeDelete.size(), addressManager.getAll().size());
     }
 
     @Test

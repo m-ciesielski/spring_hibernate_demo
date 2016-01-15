@@ -65,6 +65,7 @@ public class DriverEntityManagerTest {
         List<Driver> drivers = driverManager.getAll();
         Assert.assertTrue(drivers.contains(driver));
         Assert.assertTrue(drivers.containsAll(driversBeforeAddition));
+        Assert.assertEquals(driversBeforeAddition.size()+1, driverManager.getAll().size());
     }
 
     @Test
@@ -86,6 +87,7 @@ public class DriverEntityManagerTest {
         List<Driver> drivers = driverManager.getAll();
         Assert.assertFalse(drivers.contains(driver1));
         Assert.assertTrue(drivers.containsAll(driversBeforeDelete));
+        Assert.assertEquals(driversBeforeDelete.size(), driverManager.getAll().size());
     }
 
     @Test
