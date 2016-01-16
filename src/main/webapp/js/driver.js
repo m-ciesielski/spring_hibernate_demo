@@ -130,6 +130,7 @@ function generateDriversTable(ctx){
             row += '<td>' + drivers[i].salaryBonus + '</td>';
             address = drivers[i].address.street + ' ' + drivers[i].address.houseNumber + ',' + drivers[i].address.code + ' ' + drivers[i].address.town;
             row += '<td>' + address + '</td>';
+            row += '<td><a class="btn btn-default details-driver-button" href="drivers/'+ drivers[i].id+ '"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></button></td>';
             row += '<td><a class="btn btn-primary edit-driver-button" href="drivers/edit/'+ drivers[i].id+ '">Edytuj</a></td>';
             row += '<td><button class="btn btn-danger delete-driver-button" id="delete-button-'+ drivers[i].id+ '">Usuń</button></td>';
             row += '</tr>';

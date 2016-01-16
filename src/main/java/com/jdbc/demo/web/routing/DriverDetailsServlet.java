@@ -13,13 +13,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Created by Mateusz on 10-Jan-16.
+ * Created by Mateusz on 16-Jan-16.
  */
+@WebServlet(urlPatterns = "drivers/*")
+public class DriverDetailsServlet extends HttpServlet {
 
-@WebServlet(urlPatterns = "drivers/edit/*")
-public class DriverEditServlet extends HttpServlet {
-
-    private final static Logger LOGGER = LoggerFactory.getLogger(DriverEditServlet.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(DriverDetailsServlet.class);
 
     @EJB
     private DriverDAO driverManager;
@@ -27,7 +26,7 @@ public class DriverEditServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
 
-        LOGGER.info(String.format("Intercepted request %s",
+        LOGGER.info(String.format("Intercepted request %s.",
                 httpServletRequest.getServletPath()));
 
         long id = Long.valueOf(httpServletRequest.getPathInfo().replace("/", ""));
@@ -38,8 +37,8 @@ public class DriverEditServlet extends HttpServlet {
             return;
         }
 
-        LOGGER.info("Redirecting to edit_driver.jsp page.");
-        httpServletRequest.getRequestDispatcher("/edit_driver.jsp").forward(httpServletRequest, httpServletResponse);
+        LOGGER.info("Redirecting to driver_details.jsp page.");
+        httpServletRequest.getRequestDispatcher("/driver_details.jsp").forward(httpServletRequest, httpServletResponse);
 
     }
 }

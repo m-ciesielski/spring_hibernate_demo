@@ -26,7 +26,6 @@ public class AddressRestServlet {
     @GET
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     public List<Address> getAddresss() {
-        LOGGER.info(addressManager.toString());
         return addressManager.getAll();
     }
 

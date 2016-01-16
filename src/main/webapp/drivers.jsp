@@ -27,16 +27,16 @@
 <script
 	src="https://rawgit.com/makeusabrew/bootbox/f3a04a57877cab071738de558581fbc91812dce9/bootbox.js"></script>
 
-<script src="js/utils.js"></script>
-<script src="js/address.js"></script>
-<script src="js/driver.js"></script>
+<script src="<%= request.getContextPath() %>/js/utils.js"></script>
+<script src="<%= request.getContextPath() %>/js/address.js"></script>
+<script src="<%= request.getContextPath() %>/js/driver.js"></script>
 
 <script type="text/javascript">
 
         $(document).ready(function(){
-        	var ctx = "${pageContext.request.contextPath}";
-            generateDriversTable(ctx);
-        });
+                   	var ctx = "${pageContext.request.contextPath}";
+                       generateDriversTable(ctx);
+                   });
 
 
 </script>
@@ -46,7 +46,7 @@
 <body>
 
 	<!-- Static navbar -->
-	<nav class="navbar navbar-default">
+	<nav class="navbar navbar-inverse">
 		<div class="container-fluid">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle collapsed"
@@ -56,14 +56,13 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="/">JEE Servlet Demo</a>
+				<a class="navbar-brand" href="/">java_ee_demo</a>
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="drivers">Kierowcy</a></li>
-					<li class="inactive"><a href="vehicles">Pojazdy</a></li>
-					<li class="inactive"><a href="clients">Klienci</a></li>
-					<li class="inactive"><a href="transports">Transporty</a></li>
+					<li class="active"><a href="<%= request.getContextPath() %>/drivers.jsp">Kierowcy</a></li>
+					<li class="inactive"><a href="<%= request.getContextPath() %>/vehicles.jsp">Pojazdy</a></li>
+					<li class="inactive"><a href="<%= request.getContextPath() %>/clients.jsp">Klienci</a></li>
 				</ul>
 			</div>
 			<!--/.nav-collapse -->
@@ -83,6 +82,7 @@
 				<td>Pensja</td>
 				<td>Premia</td>
 				<td>Adres</td>
+				<td>Szczegóły</td>
 				<td>Edycja</td>
 				<td>Usuwanie</td>
 			</tr>

@@ -26,7 +26,6 @@ public class DriverRestServlet {
     @GET
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     public List<Driver> getDrivers() {
-        LOGGER.info(driverManager.toString());
         return driverManager.getAll();
     }
 

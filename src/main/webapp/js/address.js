@@ -41,7 +41,7 @@ function generateAddressSelectList(selectedId, ctx){
         console.log(selectedId);
         for (var i = 0, length = addresses.length; i < length; i++) {
             if (addresses[i].id == selectedId){
-                var option = '<option value=' + addresses[i].id + '" selected >' + addresses[i].street + ' ' + addresses[i].houseNumber + ', ' + addresses[i].town + ' ' + addresses[i].code + '</option>';
+                var option = '<option value=' + addresses[i].id + ' selected >' + addresses[i].street + ' ' + addresses[i].houseNumber + ', ' + addresses[i].town + ' ' + addresses[i].code + '</option>';
             }
             else{
                 var option = '<option value=' + addresses[i].id + '>' + addresses[i].street + ' ' + addresses[i].houseNumber + ', ' + addresses[i].town + ' ' + addresses[i].code + '</option>';

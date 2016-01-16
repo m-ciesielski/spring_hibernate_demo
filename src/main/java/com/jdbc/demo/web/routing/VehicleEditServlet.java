@@ -1,6 +1,6 @@
 package com.jdbc.demo.web.routing;
 
-import com.jdbc.demo.DriverDAO;
+import com.jdbc.demo.VehicleDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,33 +13,32 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Created by Mateusz on 10-Jan-16.
+ * Created by Mateusz on 16-Jan-16.
  */
+@WebServlet(urlPatterns = "vehicles/edit/*")
+public class VehicleEditServlet extends HttpServlet {
 
-@WebServlet(urlPatterns = "drivers/edit/*")
-public class DriverEditServlet extends HttpServlet {
-
-    private final static Logger LOGGER = LoggerFactory.getLogger(DriverEditServlet.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(VehicleEditServlet.class);
 
     @EJB
-    private DriverDAO driverManager;
+    VehicleDAO vehicleManager;
 
     @Override
     protected void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
 
-        LOGGER.info(String.format("Intercepted request %s",
+        LOGGER.info(String.format("Intercepted request %s.",
                 httpServletRequest.getServletPath()));
 
         long id = Long.valueOf(httpServletRequest.getPathInfo().replace("/", ""));
 
-        if(driverManager.get(id) == null){
+        if(vehicleManager.get(id) == null){
             LOGGER.info(String.format("Driver with id %d not found.", id));
-            httpServletResponse.sendError(404, String.format("Driver with id %d not found.", id));
+            httpServletResponse.sendError(404, String.format("Vehicle with id %d not found.", id));
             return;
         }
 
-        LOGGER.info("Redirecting to edit_driver.jsp page.");
-        httpServletRequest.getRequestDispatcher("/edit_driver.jsp").forward(httpServletRequest, httpServletResponse);
+        LOGGER.info("Redirecting to edit_vehicle.jsp page.");
+        httpServletRequest.getRequestDispatcher("/edit_vehicle.jsp").forward(httpServletRequest, httpServletResponse);
 
     }
 }

@@ -103,8 +103,6 @@ public class FreightManagerTest {
 
     @Test
     public void testDelete() throws Exception {
-        testFreightTransports.add(TestModelsFactory.createTestFreightTransport1(testClients.get(1), testDrivers, testVehicles,
-                testAddresses.get(1), testAddresses.get(0)));
 
         List<FreightTransport> transportsBeforeDelete = freightTransportManager.getAll();
         FreightTransport freightTransport1 = freightTransportManager.add(testFreightTransports.get(0));

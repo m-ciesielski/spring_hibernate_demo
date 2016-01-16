@@ -25,7 +25,6 @@ public class VehicleRestServlet {
     @GET
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     public List<Vehicle> getVehicles() {
-        LOGGER.info(vehicleManager.toString());
         return vehicleManager.getAll();
     }
 

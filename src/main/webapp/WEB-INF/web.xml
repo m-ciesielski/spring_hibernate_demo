@@ -81,4 +81,36 @@
         <url-pattern>/drivers/add</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>DriverDetailsServlet</servlet-name>
+        <servlet-class>com.jdbc.demo.web.routing.DriverDetailsServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>DriverDetailsServlet</servlet-name>
+        <url-pattern>/drivers/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>VehicleEditServlet</servlet-name>
+        <servlet-class>com.jdbc.demo.web.routing.VehicleEditServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>VehicleEditServlet</servlet-name>
+        <url-pattern>/vehicles/edit/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>VehicleAddServlet</servlet-name>
+        <servlet-class>com.jdbc.demo.web.routing.VehicleAddServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>VehicleAddServlet</servlet-name>
+        <url-pattern>/vehicles/add</url-pattern>
+    </servlet-mapping>
+
+
+
 </web-app>

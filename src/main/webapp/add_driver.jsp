@@ -32,8 +32,7 @@ pageEncoding="UTF-8"
 
 <body>
 
-<!-- Static navbar -->
-        <nav class="navbar navbar-default">
+<nav class="navbar navbar-inverse">
           <div class="container-fluid">
             <div class="navbar-header">
               <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -42,7 +41,7 @@ pageEncoding="UTF-8"
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              <a class="navbar-brand" href="/">logistics_mgmt</a>
+              <a class="navbar-brand" href="/">java_ee_demo</a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
               <ul class="nav navbar-nav">
@@ -63,17 +62,23 @@ pageEncoding="UTF-8"
         <input type="text" class="form-control" id="lastName"  path="lastName" name="lastName" required="true" />
       </div>
       <div class="form-group">
-        <label for="pesel">Pesel:</label>
-        <input type="text" class="form-control" id="pesel"  path="pesel" data-minlength="11" data-error="pesel musi miec dokładnie 11 znaków." data-maxlength="11" name="pesel" required="true" />
-      </div>
-      <div class="form-group">
-        <label for="salary">Pensja:</label>
-        <input type="text" class="form-control" id="salary" name="salary"  path="salary" />
-       </div>
-      <div class="form-group">
-        <label for="salaryBonus">Premia:</label>
-        <input type="text" class="form-control" id="salaryBonus" name="salaryBonus"  path="salaryBonus" />
-      </div>
+              <label for="pesel">Pesel:</label>
+              <input type="text" class="form-control" id="pesel"  path="pesel" pattern="\d{11}" minlength="11" maxlength="11" data-error="pesel musi miec dokładnie 11 znaków." name="pesel" required="true" />
+            </div>
+            <div class="form-group">
+              <label for="salary">Pensja:</label>
+              <div class="input-group">
+                  <span class="input-group-addon">zł</span>
+                  <input type="number" class="form-control" id="salary" name="salary"  path="salary" />
+              </div>
+             </div>
+            <div class="form-group">
+              <label for="salaryBonus">Premia:</label>
+              <div class="input-group">
+                  <span class="input-group-addon">zł</span>
+                  <input type="number" class="form-control" id="salaryBonus" name="salaryBonus"  path="salaryBonus" />
+              </div>
+            </div>
       <div class="form-group">
         <label for="addressId">Adres:</label>
         <select name="addressId" id="addressId"  path="addressId" class="form-control">
